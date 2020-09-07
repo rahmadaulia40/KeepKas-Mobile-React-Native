@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, TextInput, StyleSheet, Alert,TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons'
+import firebase from '../db/fb'
 
 export default class Login extends React.Component {
    constructor(props) {
@@ -12,7 +13,14 @@ export default class Login extends React.Component {
     }
 
     loginHandler() {
-      if (this.state.userName === '' && this.state.password === '1') {
+      const dbRef = firebase.database().ref()
+      const usersRef = dbRef.child('admin')
+      usersRef.once('child_added', snap => {
+      let data = snap.val()
+        //console.log('Nama : ' + data.username)
+        //console.log('Umur : ' + data.password)
+      
+      if (this.state.userName === data.username && this.state.password === data.password ) {
 
          console.log("login bener")
          this.props.navigation.navigate('Home', {
@@ -23,9 +31,10 @@ export default class Login extends React.Component {
          console.log("Login salah")
          Alert.alert('Login','Username / Password salah')
        }
-
-    }
+      })
+    } 
     render() {
+     
       return (
          <View style={{justifyContent: 'center', flex: 1}}>
             <Text style={styles.judul}>KeepKas</Text>
