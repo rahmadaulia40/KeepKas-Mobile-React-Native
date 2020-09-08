@@ -1,37 +1,44 @@
 import React from 'react'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import {View, Text, TouchableOpacity, StyleSheet, FlatList, Image, Alert} from 'react-native'
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
+import firebase from '../db/fb'
 
-export default class barang extends React.Component {
+export default class Home extends React.Component {
    render(){
-      const  userName = this.props.userName
-console.log(userName)
+      const {data} = this.props.route.params;
+
+      const dbRef = firebase.database().ref()
+      const usersRef = dbRef.child('kas_masuk')
+      usersRef.on('child_added', snap => {
+      let kasmasuk = snap.val()
+      var i = Number(0)
+      var j = i + Number(kasmasuk.jumlah)
+      console.log('Nama : ' + kasmasuk.nama)
+      console.log('username : ' + j)
+   })
+
    return (
       <View style={{flex:1, justifyContent: 'space-between'}}>
          <View style={styles.header}>
                <Text style={styles.titleHeader}>Keep<Text style={{fontWeight: 'normal'}}>Kas</Text></Text>
-               <View style={styles.rightH}>
-                  <Text style={styles.text}>Hai,</Text>
-                  <Icon name='account-circle' style={{color: 'white', fontSize: 24}} />
-                  <TouchableOpacity onPress ={ ( ) => this.props.navigation.openDrawer()}>
-                     <Icon name='dots-vertical' style={{color: 'white', fontSize: 24, padding: 10}}/>
-                  </TouchableOpacity>
-               </View>
+               <TouchableOpacity  style={styles.rightH} onPress={() => {this.props.navigation.navigate('Profil')}}>
+                  <Text style={styles.text}>Hai, {data}</Text>
+                  <Icon name='account-circle' style={{color: 'white', fontSize: 34, paddingRight: 24}} />
+               </TouchableOpacity>
          </View>
 
-         <ScrollView style={styles.body}>
+         <View style={styles.body}>
 
-            <TouchableOpacity style={styles.box1} onPress={() => {this.props.navigation.navigate('Jumlahanggota')}}>
+         <View style={styles.box4}>
                <View style={styles.left}>
-                  <Text style={styles.titleLeft}>Data</Text>
-                  <Text style={styles.titleLeft}>Anggota</Text>
+                  <Text style={styles.titleLeft1}>Saldo Kas</Text>
                </View>
-               <View style={styles.right}>
-                  <Text style={{color: 'white', fontSize: 50, fontWeight: 'bold'}}>8</Text>
-                  <Text style={{color: 'white', fontSize: 20, fontWeight: 'bold'}}>Anggota</Text>
+               <View style={styles.right1}>
+                  <Text style={{color: 'white', fontSize: 18, fontWeight: 'bold', paddingRight: 24}}>Rp.10.000.000</Text>
                </View>
-            </TouchableOpacity>
+            </View>
+            <ScrollView>
 
             <TouchableOpacity style={styles.box2} onPress={() => {this.props.navigation.navigate('Kasmasuk')}}>
                <View style={styles.left}>
@@ -53,13 +60,24 @@ console.log(userName)
                </View>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.box4}>
+            <TouchableOpacity style={styles.box5} onPress={() => {this.props.navigation.navigate('RincianKas')}}>
                <View style={styles.left}>
-                  <Text style={styles.titleLeft}>Saldo</Text>
-                  <Text style={styles.titleLeft}>Kas</Text>
+                  <Text style={styles.titleLeft}>Rincian</Text>
+                  <Text style={styles.titleLeft}>Kas Saya</Text>
                </View>
                <View style={styles.right1}>
-                  <Text style={{color: 'white', fontSize: 25, fontWeight: 'bold'}}>Rp.10.000.000</Text>
+                  <Text style={{color: 'white', fontSize: 25, fontWeight: 'bold'}}>Rp.12.000.000</Text>
+               </View>
+            </TouchableOpacity>
+            
+            <TouchableOpacity style={styles.box1} onPress={() => {this.props.navigation.navigate('Jumlahanggota')}}>
+               <View style={styles.left}>
+                  <Text style={styles.titleLeft}>Data</Text>
+                  <Text style={styles.titleLeft}>Anggota</Text>
+               </View>
+               <View style={styles.right}>
+                  <Text style={{color: 'white', fontSize: 50, fontWeight: 'bold'}}>8</Text>
+                  <Text style={{color: 'white', fontSize: 20, fontWeight: 'bold'}}>Anggota</Text>
                </View>
             </TouchableOpacity>
 
@@ -67,7 +85,19 @@ console.log(userName)
                <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20}}>Bayar Kas</Text>
             </TouchableOpacity>
 
-         </ScrollView>
+            <TouchableOpacity style={styles.button1} onPress={() => {this.props.navigation.navigate('Login')}}>
+               <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20}}>Keluar</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.button2} onPress={() => {this.props.navigation.navigate('Tentang')}}>
+               <Text style={{color: '#7a7676', fontWeight: 'bold', fontSize: 18}}>Tentang Aplikasi</Text>
+            </TouchableOpacity>
+
+            <View style={styles.keepKas}>
+               <Text style={styles.titleHeader}>@Keep<Text style={{fontWeight: 'normal'}}>Kas</Text></Text>
+            </View>
+            </ScrollView>
+         </View>
 
          
       </View>
@@ -95,13 +125,12 @@ const styles = StyleSheet.create({
       
    },
    text:{
-      fontSize: 14,
+      fontSize: 16,
       color: 'white',
       fontWeight: 'bold',
       padding: 10
    },
    body:{
-      margin: 2,
       flex: 1
    },
    box1:{
@@ -132,8 +161,15 @@ const styles = StyleSheet.create({
       elevation: 10
    },
    box4:{
-      height: 120,
+      height: 50,
       backgroundColor: '#D49900',
+      justifyContent: 'space-between',
+      flexDirection: 'row',
+      alignItems: 'center',
+   },
+   box5:{
+      height: 120,
+      backgroundColor: '#269cae',
       justifyContent: 'space-between',
       flexDirection: 'row',
       alignItems: 'center',
@@ -160,6 +196,12 @@ const styles = StyleSheet.create({
       alignItems: 'center'
 
    },
+   titleLeft1: {
+      fontSize: 18,
+      color: 'white',
+      fontWeight: 'bold'
+
+   },
    right1: {
       height: 120,
       justifyContent: 'center',
@@ -168,10 +210,31 @@ const styles = StyleSheet.create({
    },
    button:{
       height: 60,
-      margin: 20,
       borderRadius: 10,
       backgroundColor: '#3C6AE1',
       alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: 20,
+      marginLeft: 20,
+      marginRight: 20
+   },
+   button1:{
+      height: 60,
+      margin: 20,
+      borderRadius: 10,
+      backgroundColor: '#B90303',
+      alignItems: 'center',
       justifyContent: 'center'
+   },
+   button2:{
+      alignItems: 'center',
+      justifyContent: 'center',
+      margin: 20
+   },
+   keepKas:{
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: '#3C6AE1',
+      height: 60
    },
 })

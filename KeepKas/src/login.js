@@ -24,7 +24,7 @@ export default class Login extends React.Component {
 
          console.log("login bener")
          this.props.navigation.navigate('Home', {
-         userName : this.state.userName
+            data : data.id
           })
    
        } else {

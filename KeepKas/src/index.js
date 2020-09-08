@@ -14,33 +14,11 @@ import Profil from './profil'
 import Kasmasuk from './kasmasuk'
 import Kaskeluar from './kaskeluar'
 import Jumlahanggota from './jumlahanggota'
-
+import Tentang from './tentang'
 
 
 const Stack = createStackNavigator();
 const statusBarHeight = Constants.statusBarHeight
-const DrawerStack = createDrawerNavigator();
-
-const RincianKasScreen = () => (
-    <Stack.Navigator >
-        <Stack.Screen name='Rinciankas' component={RincianKassaya} options={{ headerShown: false}}/>
-    </Stack.Navigator>
-)
-
-const ProfilScreen = () => (
-   <Stack.Navigator >
-       <Stack.Screen name='Profil' component={Profil} options={{ headerShown: false}}/>
-   </Stack.Navigator>
-);
-
-const Home = () => (
-    <DrawerStack.Navigator drawerStyle={styles.boxDrawer} drawerPosition='right' overlayColor='transparent'>
-        <DrawerStack.Screen name='Home' component={Dashboard} options={{title: 'Home'}}/>
-        <DrawerStack.Screen name='Rinciankas' component={RincianKasScreen} options={{title: 'Rincian Kas Saya'}} />
-        <DrawerStack.Screen name='Profil' component={ProfilScreen} options={{title: 'Profil'}} />
-        <DrawerStack.Screen name='Login' component={Login} options={{title: 'Log Out'}}/>
-    </DrawerStack.Navigator>
-);
 
 export default class App extends React.Component {
   render() {
@@ -49,11 +27,14 @@ export default class App extends React.Component {
         <View style = {styles.bar}/>
         <Stack.Navigator initialRouteName="Login" screenOptions={{ headerStyle:{backgroundColor:'#3C6AE1'}, headerTintColor: 'white', headerTitleStyle :{fontWeight: 'bold', fontSize: 22} }}>
           <Stack.Screen name='Login' component={Login} options={{headerShown: false}} />
-          <Stack.Screen name='Home' component={Home} options={{ headerShown: false}} />
-          <Stack.Screen name='Jumlahanggota' component={Jumlahanggota} options={{ headerTitle: 'Data Angota'}} />
+          <Stack.Screen name='Home' component={Dashboard} options={{ headerShown: false}} />
+          <Stack.Screen name='Profil' component={Profil} options={{ headerTitle: 'Profil'}} />
           <Stack.Screen name='Kasmasuk' component={Kasmasuk} options={{ headerTitle: 'Kas Masuk'}} />
           <Stack.Screen name='Kaskeluar' component={Kaskeluar} options={{ headerTitle: 'Kas Keluar'}} />
+          <Stack.Screen name='Jumlahanggota' component={Jumlahanggota} options={{ headerTitle: 'Data Angota'}} />
+          <Stack.Screen name='RincianKas' component={RincianKassaya} options={{ headerTitle: 'Rincian Kas Saya'}} />
           <Stack.Screen name='BayarKas' component={Bayarkas} options={{ headerTitle: 'Bayar Kas'}} />
+          <Stack.Screen name='Tentang' component={Tentang} options={{ headerTitle: 'Tentang Aplikasi'}} />
         </Stack.Navigator>
       </NavigationContainer>
     );
