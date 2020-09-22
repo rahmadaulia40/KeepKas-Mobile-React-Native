@@ -1,9 +1,50 @@
 import React from 'react'
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native'
+import {View, Text, TouchableOpacity, StyleSheet, Alert} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
+import firebase from '../database/firebase'
+import FromInput from '../components/FromInput'
 
 export default class barang extends React.Component {
+   constructor() {
+      super()
+      this.state = {
+          jumlah : '',
+          isLoading : false
+      }
+    }
+    updateInputVal = (val, prop) => {
+      const state = this.state;
+      state[prop] = val;
+      this.setState(state);
+    }
+    input = () => {
+      if(this.state.jumlah === '')
+      {
+         Alert.alert('Login Error !','Data Tidak Boleh Kosong')
+      }
+      else 
+      {
+         this.setState({isLoading: true})
+         const { uid,photoURL,displayName } = this.props.route.params
+         firebase.database().ref('kas_masuk').push(
+         {
+            id_kasmasuk : uid,
+            id_user : photoURL,
+            nama : displayName,
+            jumlah : this.state.jumlah,
+            status : 'Menunggu',
+            waktu: ''
+
+         })
+         .then(()=>{
+            console.log('INSERTED !')
+            Alert.alert('Input Data', 'Berhasil !')
+            
+         }).catch((error) => {
+            console.log(error)
+           })
+      }
+    }
    render(){
 
    return (
@@ -20,10 +61,12 @@ export default class barang extends React.Component {
 
             <Text style={styles.title2}>Masukkan Jumlah</Text>
 
-            <View style={styles.boxInput}></View>
+            <FromInput onChangeText={(val) => this.updateInputVal(val, 'jumlah')}
+               labelValue={this.state.jumlah}
+            />
 
 
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={() => this.input()}>
                <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20}}>Bayar</Text>
             </TouchableOpacity>
 
@@ -42,8 +85,9 @@ const styles = StyleSheet.create({
       padding: 10
    },
    body:{
-      margin: 2,
-      flex: 1
+      flex: 1,
+      marginLeft: 20,
+      marginRight: 20
    },
    box1:{
       height: 250,

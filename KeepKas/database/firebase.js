@@ -1,6 +1,6 @@
 import firebase from 'firebase'
 
-var firebaseConfig = {
+const firebaseConfig = {
    apiKey: "AIzaSyCcf8tjg-TmWbrKg8jJVZp8S3XoAvzaptI",
    authDomain: "keepkas-f2253.firebaseapp.com",
    databaseURL: "https://keepkas-f2253.firebaseio.com",
@@ -11,5 +11,5 @@ var firebaseConfig = {
    measurementId: "G-EHZH09MKZX"
  };
  // Initialize Firebase
- export default
  firebase.initializeApp(firebaseConfig);
+ export default firebase

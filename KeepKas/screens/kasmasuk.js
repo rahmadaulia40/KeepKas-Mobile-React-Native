@@ -1,17 +1,17 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, Alert, FlatList, ScrollView } from 'react-native';
-import firebase from '../db/fb'
+import firebase from '../database/firebase'
 
 export default class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
         id_masuk : '',
-        username : '',
         nama : '',
-        waktu : '',
+        jumlah : '',
         status : '',
-        jumlah : ''
+        username : '',
+        waktu : ''
     }
   }
 
@@ -20,10 +20,10 @@ export default class App extends React.Component {
        {
          id_masuk : this.state.id,
          username : this.state.username,
+         jumlah : this.state.jumlah,
          nama : this.state.nama,
-         waktu : this.state.waktu,
          status : this.state.status,
-         jumlah : this.state.jumlah
+         waktu : this.state.waktu
          
        }
        ).then(()=>{
@@ -50,13 +50,13 @@ export default class App extends React.Component {
         <TextInput placeholder='Input nama' onChangeText={nama => this.setState({ nama })}></TextInput>
       </View>
       <View style={styles.box}>
-        <TextInput placeholder='Input waktu' onChangeText={waktu => this.setState({ waktu })}></TextInput>
+        <TextInput placeholder='Input jumlah' onChangeText={jumlah => this.setState({ jumlah })}></TextInput>
       </View>
       <View style={styles.box}>
         <TextInput placeholder='Input status' onChangeText={status => this.setState({ status })}></TextInput>
       </View>
       <View style={styles.box}>
-        <TextInput placeholder='Input jumlah' onChangeText={jumlah => this.setState({ jumlah })}></TextInput>
+        <TextInput placeholder='Input waktu' onChangeText={waktu => this.setState({ waktu })}></TextInput>
       </View>
       <TouchableOpacity style={styles.button} onPress={() => this.input()}>
         <Text style={{color: 'white', textAlign: 'center'}}>INPUT</Text>
