@@ -4,6 +4,7 @@ import firebase from '../database/firebase'
 
 import ButtonInput from '../components/ButtonInput'
 import FromInput from '../components/FromInput'
+import Loading from '../components/Loading'
 
 export default class TambahUser extends React.Component {
   constructor() {
@@ -43,12 +44,9 @@ export default class TambahUser extends React.Component {
   }
     
    render(){
-    
     if(this.state.isLoading){
       return(
-        <View style={styles.preloader}>
-          <ActivityIndicator size="large" color="#9E9E9E"/>
-        </View>
+        <Loading/>
       )
     }
   return (

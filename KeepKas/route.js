@@ -8,10 +8,13 @@ import Constants from 'expo-constants';
 import Login from './screens/login';
 import Signup from './screens/signup'
 import Dashboard from './screens/dashboarduser';
+import DashboardAdmin from './admin_screens/dashboardadmin';
 import Bayarkas from './screens/bayarkas';
 import RincianKassaya from './screens/rinciankas'
 import Profil from './screens/profil'
 import Kasmasuk from './screens/kasmasuk'
+import Kasmasukadmin from './admin_screens/kasmasukadmin'
+import DetailAdmin from './admin_screens/detailadmin'
 import Kaskeluar from './screens/kaskeluar'
 import Jumlahanggota from './screens/jumlahanggota'
 import Tentang from './screens/tentang'
@@ -30,8 +33,11 @@ export default class App extends React.Component {
           <Stack.Screen name='Login' component={Login} options={{headerShown: false}} />
           <Stack.Screen name='SignUp' component={Signup} options={{headerShown: false}} />
           <Stack.Screen name='Home' component={Dashboard} options={{ headerShown: false}} />
+          <Stack.Screen name='HomeAdmin' component={DashboardAdmin} options={{ headerShown: false}} />
           <Stack.Screen name='Profil' component={Profil} options={{ headerTitle: 'Profil'}} />
           <Stack.Screen name='Kasmasuk' component={Kasmasuk} options={{ headerTitle: 'Kas Masuk'}} />
+          <Stack.Screen name='Kasmasukadmin' component={Kasmasukadmin} options={{ headerTitle: 'Kas Masuk'}} />
+          <Stack.Screen name='DetailAdmin' component={DetailAdmin} options={{ headerTitle: 'Detail'}} />
           <Stack.Screen name='Kaskeluar' component={Kaskeluar} options={{ headerTitle: 'Kas Keluar'}} />
           <Stack.Screen name='Jumlahanggota' component={Jumlahanggota} options={{ headerTitle: 'Data Angota'}} />
           <Stack.Screen name='TambahUser' component={TambahUser} options={{ headerTitle: 'Tambah Anggota'}} />

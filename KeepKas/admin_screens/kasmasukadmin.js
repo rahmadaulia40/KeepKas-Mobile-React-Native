@@ -1,9 +1,9 @@
 import React from 'react';
-import { StyleSheet, View,FlatList} from 'react-native';
+import { StyleSheet, Text, View,FlatList} from 'react-native';
 import firebase from '../database/firebase'
-import ListRincianKas from '../screens/node_screens/ListRincianKas'
+import ListKasMasukAdmin from '../admin_screens/node_screens_admin/ListKasMasukAdmin'
 
-export default class RincianKas extends React.Component {
+export default class Kasmasuk extends React.Component {
   constructor() {
     super()
     this.state = {
@@ -16,28 +16,33 @@ export default class RincianKas extends React.Component {
   fetchData = async () => {
     const { uid } = this.props.route.params
     const db = firebase.database().ref()
-    const twoRef = db.child('kas_masuk').orderByChild('id_user').equalTo(uid)
+    const twoRef = db.child('kas_masuk').orderByChild('id_kasmasuk').equalTo(uid)
     twoRef.on('value', snap => {
-         const data = snap.val()
-         const json = data
-         this.setState({data : json})
+         const datai = snap.val()
+         this.setState({data : datai})
          
       })
   }
   Nilai(list) {
-    this.props.navigation.navigate('Details', {
+    this.props.navigation.navigate('DetailAdmin', {
     data : this.setState.data = list
     })
   }
 
+
+    
   render(){
+   
+
+  
   const nilai = Object.values(this.state.data)
+  console.log(nilai)
   return (
     <View style={styles.container}>
       <View style={styles.body}>
         <FlatList
             data={nilai}
-            renderItem={({ item }) => <ListRincianKas Nilai={this.Nilai.bind(this)} data={item} />}
+            renderItem={({ item }) => <ListKasMasukAdmin Nilai={this.Nilai.bind(this)} data={item} />}
             keyExtractor={item => item.id}
         />
       </View>

@@ -36,7 +36,7 @@ export default class Home extends React.Component {
                </View>
                <ScrollView>
 
-                  <TouchableOpacity style={styles.box2} onPress={() => {this.props.navigation.navigate('Kasmasuk', {photoURL: this.state.photoURL})}}>
+                  <TouchableOpacity style={styles.box2} onPress={() => {this.props.navigation.navigate('Kasmasukadmin', {uid: this.state.uid})}}>
                      <View style={styles.left}>
                         <Text style={styles.titleLeft}>Kas</Text>
                         <Text style={styles.titleLeft}>Masuk</Text>
@@ -77,9 +77,19 @@ export default class Home extends React.Component {
                      </View>
                   </TouchableOpacity>
 
-                  <TouchableOpacity style={styles.button} onPress={() => {this.props.navigation.navigate('BayarKas',{uid : this.state.uid, displayName: this.state.displayName, photoURL: this.state.photoURL})}}>
-                     <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20}}>Bayar Kas</Text>
+                  <TouchableOpacity style={styles.button} onPress={() => {this.props.navigation.navigate('TambahUser', {uid : this.state.uid})}}>
+                     <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20}}>Tambah User</Text>
                   </TouchableOpacity>
+
+                  <View style={{flexDirection: 'row', justifyContent: 'center', marginLeft: 20, marginRight: 20}}>
+                     <TouchableOpacity style={styles.buttonBayar} onPress={() => {this.props.navigation.navigate('BayarKas',{uid : this.state.uid, displayName: this.state.displayName, photoURL: this.state.photoURL})}}>
+                        <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20}}>Bayar Kas</Text>
+                     </TouchableOpacity>
+
+                     <TouchableOpacity style={styles.buttonPengeluaran} onPress={() => {this.props.navigation.navigate('TambahPengeluaran',{uid : this.state.uid, displayName: this.state.displayName})}}>
+                        <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20}}>Tambah Pengeluaran</Text>
+                     </TouchableOpacity>
+                  </View>
 
                   <TouchableOpacity style={styles.button1} onPress={() => this.signOut()}>
                      <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20}}>Keluar</Text>
@@ -212,9 +222,27 @@ const styles = StyleSheet.create({
       backgroundColor: '#3C6AE1',
       alignItems: 'center',
       justifyContent: 'center',
-      marginTop: 20,
-      marginLeft: 20,
-      marginRight: 20
+      margin: 20
+
+   },
+   buttonBayar:{
+      height: 60,
+      backgroundColor: '#3C6AE1',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flex:1,
+      borderTopLeftRadius: 10,
+      borderBottomLeftRadius: 10
+   },
+   buttonPengeluaran:{
+      height: 60,
+      backgroundColor: '#B90303',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flex: 1,
+      borderTopRightRadius: 10,
+      borderBottomRightRadius: 10
+      
    },
    button1:{
       height: 60,

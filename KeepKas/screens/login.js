@@ -5,6 +5,7 @@ import firebase from '../database/firebase'
 
 import FromInput from '../components/FromInput'
 import ButtonInput from '../components/ButtonInput'
+import Loading from '../components/Loading'
 
 export default class Login extends React.Component {
    constructor() {
@@ -33,11 +34,17 @@ export default class Login extends React.Component {
         firebase
         .auth()
         .signInWithEmailAndPassword(this.state.email, this.state.password)
-        .then((res) => {
-          console.log(res)
+        .then(() => {
           console.log('User logged-in successfully!')
           this.setState({isLoading: false,email: '', password: ''})
-          this.props.navigation.navigate('Home')
+          if (firebase.auth().currentUser.photoURL === null)
+          {
+            this.props.navigation.navigate('HomeAdmin')
+          }
+          else
+          {
+             this.props.navigation.navigate('Home')
+          }
         })
          .catch(error => this.setState({ errorMessage: error.message }))
       
@@ -46,10 +53,7 @@ export default class Login extends React.Component {
     render() {
       if(this.state.isLoading){
          return(
-           <View style={styles.preloader}>
-               <Image source={require('../assets/icon.png')} style={{height: 50, width: 50}} />
-               <ActivityIndicator size='large' color="#3C6AE1"/>
-           </View>
+           <Loading/>
          )
        }
       return (
@@ -126,15 +130,4 @@ const styles = StyleSheet.create({
       marginTop: 25,
       textAlign: 'center'
     },
-    preloader: {
-      left: 0,
-      right: 0,
-      top: 0,
-      bottom: 0,
-      position: 'absolute',
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: '#fff'
-    }
-
 })

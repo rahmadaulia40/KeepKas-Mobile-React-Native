@@ -3,6 +3,7 @@ import {View, Text, TouchableOpacity, StyleSheet, Alert} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import firebase from '../database/firebase'
 import FromInput from '../components/FromInput'
+import Loading from '../components/Loading'
 
 export default class barang extends React.Component {
    constructor() {
@@ -12,10 +13,18 @@ export default class barang extends React.Component {
           isLoading : false
       }
     }
+    
     updateInputVal = (val, prop) => {
       const state = this.state;
       state[prop] = val;
       this.setState(state);
+    }
+    getCurrentDate=()=>{
+
+      var date = new Date().getDate();
+      var month = new Date().getMonth() + 1;
+      var year = new Date().getFullYear();
+      return date + '-' + month + '-' + year
     }
     input = () => {
       if(this.state.jumlah === '')
@@ -24,19 +33,21 @@ export default class barang extends React.Component {
       }
       else 
       {
+         console.log(this.getCurrentDate())
          this.setState({isLoading: true})
          const { uid,photoURL,displayName } = this.props.route.params
          firebase.database().ref('kas_masuk').push(
          {
-            id_kasmasuk : uid,
-            id_user : photoURL,
+            id_kasmasuk : photoURL,
+            id_user : uid,
             nama : displayName,
             jumlah : this.state.jumlah,
-            status : 'Menunggu',
-            waktu: ''
+            status : 'Di Proses',
+            waktu : this.getCurrentDate()
 
          })
          .then(()=>{
+            this.setState({isLoading: false,jumlah: ''})
             console.log('INSERTED !')
             Alert.alert('Input Data', 'Berhasil !')
             
@@ -46,6 +57,11 @@ export default class barang extends React.Component {
       }
     }
    render(){
+      if(this.state.isLoading){
+         return(
+           <Loading/>
+         )
+       }
 
    return (
       <View style={{flex:1, justifyContent: 'space-between'}}>

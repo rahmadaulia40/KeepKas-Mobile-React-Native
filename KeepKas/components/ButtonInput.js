@@ -1,7 +1,7 @@
 import React from 'react'
 import {StyleSheet,TouchableOpacity,Text} from 'react-native'
 
-const FromInput = ({title, ...rest}) => {
+const ButtonInput = ({title, ...rest}) => {
    return (
          <TouchableOpacity 
             style={
@@ -19,4 +19,4 @@ const FromInput = ({title, ...rest}) => {
    )
 }
 
-export default FromInput
+export default ButtonInput
