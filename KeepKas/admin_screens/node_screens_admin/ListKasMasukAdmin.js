@@ -24,7 +24,7 @@ export default class ListKasMasukAdmin extends React.Component {
      {
        this.state.warna='#44BAFD'
      }
-     const Coba =()=>{
+     const Aksi =()=>{
        if (data.status === 'Di Proses')
        {
         this.state.action = this.props.Nilai(data)
@@ -35,7 +35,7 @@ export default class ListKasMasukAdmin extends React.Component {
        }
      }
      return (
-        <TouchableOpacity style={styles.box} onPress={() => Coba()}>
+        <TouchableOpacity style={styles.box} onPress={() => Aksi()}>
         <View style={{flex: 1,justifyContent: 'center'}}>
           <Text style={styles.titleHarga}>{this.currencyFormat(Number(data.jumlah))}</Text>
           <View style={{flexDirection: 'row'}}>

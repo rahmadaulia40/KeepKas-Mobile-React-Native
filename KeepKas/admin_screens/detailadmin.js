@@ -9,22 +9,15 @@ export default class Details extends React.Component {
 
     input = () => {
       const { data } = this.props.route.params
-      const nilai = data
-      firebase.database().ref('users/'+userId).set(
+      firebase.database().ref('kas_masuk/'+ data.id + '/').update(
          {
-            id_kasmasuk : nilai.id_kasmasuk,
-            id_user : nilai.id_user,
-            nama : nilai.nama,
-            jumlah : nilai.jumlah,
+            id_kasmasuk : data.id_kasmasuk,
+            id_user : data.id_user,
+            nama : data.nama,
+            jumlah : data.jumlah,
             status : 'Sukses',
-            waktu : nilai.waktu
-
-         })
-         .then(()=>{
-            this.setState({isLoading: false,jumlah: ''})
-            console.log('INSERTED !')
-            Alert.alert('Input Data', 'Berhasil !')
-            
+            waktu : data.waktu
+              
          }).catch((error) => {
             console.log(error)
            })

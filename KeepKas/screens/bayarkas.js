@@ -33,19 +33,19 @@ export default class barang extends React.Component {
       }
       else 
       {
-         console.log(this.getCurrentDate())
          this.setState({isLoading: true})
          const { uid,photoURL,displayName } = this.props.route.params
-         firebase.database().ref('kas_masuk').push(
-         {
+         var db = firebase.database().ref('kas_masuk')
+         var ref = db.push({
             id_kasmasuk : photoURL,
             id_user : uid,
             nama : displayName,
             jumlah : this.state.jumlah,
             status : 'Di Proses',
             waktu : this.getCurrentDate()
-
          })
+         var id = ref.key
+         db.child(ref.key).update({id : id})
          .then(()=>{
             this.setState({isLoading: false,jumlah: ''})
             console.log('INSERTED !')

@@ -31,11 +31,10 @@ export default class Login extends React.Component {
       else 
       {
          this.setState({isLoading: true})
-        firebase
-        .auth()
-        .signInWithEmailAndPassword(this.state.email, this.state.password)
+        firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
         .then(() => {
           console.log('User logged-in successfully!')
+          console.ignoredYellowBox = ['3298932'];
           this.setState({isLoading: false,email: '', password: ''})
           if (firebase.auth().currentUser.photoURL === null)
           {

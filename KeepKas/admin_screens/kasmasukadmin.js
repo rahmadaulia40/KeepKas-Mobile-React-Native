@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View,FlatList} from 'react-native';
+import { StyleSheet, Text, View,FlatList, Alert} from 'react-native';
 import firebase from '../database/firebase'
 import ListKasMasukAdmin from '../admin_screens/node_screens_admin/ListKasMasukAdmin'
 
@@ -28,15 +28,21 @@ export default class Kasmasuk extends React.Component {
     data : this.setState.data = list
     })
   }
+  CekData(){
+    if (this.state.data == undefined)
+    {
+      Alert.alert('Data Kas Masuk', 'Data Kosong/Tidak ditemukan')
+    }
+    else
+    {
+      return Object.values(this.state.data)
+    }
+  }
 
 
     
   render(){
-   
-
-  
-  const nilai = Object.values(this.state.data)
-  console.log(nilai)
+  const nilai = this.CekData()
   return (
     <View style={styles.container}>
       <View style={styles.body}>

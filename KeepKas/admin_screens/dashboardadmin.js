@@ -15,6 +15,16 @@ export default class Home extends React.Component {
          uid: firebase.auth().currentUser.uid,
          photoURL: firebase.auth().currentUser.photoURL
        }
+       
+      //  var db = firebase.database().ref()
+      //  var reff = db.child('kas_masuk')
+      //  //reff.once('value', snapshot => { alert('Count: ' + snapshot.numChildren()); });
+      //  reff.on('value', snap => {
+      //    const datai = snap.val()
+      //    var i = datai
+      //    console.log(i)
+         
+      //})
    return (
       <View style={{flex:1, justifyContent: 'space-between'}}>
          <View style={styles.header}>

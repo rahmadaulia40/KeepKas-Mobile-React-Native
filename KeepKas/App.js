@@ -4,6 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import Index from './route'
 
 export default function App() {
+  
   return (
     <View style={styles.container}>
       <StatusBar style='light' backgroundColor='#3C6AE1'/>
