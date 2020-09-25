@@ -24,7 +24,10 @@ export default class barang extends React.Component {
       var date = new Date().getDate();
       var month = new Date().getMonth() + 1;
       var year = new Date().getFullYear();
-      return date + '-' + month + '-' + year
+      var hours = new Date().getHours();
+      var minutes = new Date().getMinutes();
+      var second = new Date().getSeconds();
+      return hours + ':'+ minutes + ':' + second + ' ' + date + '-' + month + '-' + year
     }
     input = () => {
       if(this.state.jumlah === '')

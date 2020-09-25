@@ -5,6 +5,9 @@ import { ScrollView } from 'react-native-gesture-handler'
 import firebase from '../database/firebase'
 
 export default class Home extends React.Component {
+   currencyFormat(num) {
+      return 'Rp ' + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+    };
     signOut = () => {
       firebase.auth().signOut().then(() => {this.props.navigation.navigate('Login')})
       .catch(error => this.setState({ errorMessage: error.message }))
@@ -16,15 +19,24 @@ export default class Home extends React.Component {
          photoURL: firebase.auth().currentUser.photoURL
        }
        
-      //  var db = firebase.database().ref()
-      //  var reff = db.child('kas_masuk')
-      //  //reff.once('value', snapshot => { alert('Count: ' + snapshot.numChildren()); });
-      //  reff.on('value', snap => {
-      //    const datai = snap.val()
-      //    var i = datai
-      //    console.log(i)
-         
-      //})
+       var db = firebase.database().ref()
+       var reff = db.child('total_kas_masuk')
+       reff.once('value', snap => {
+         const datai = snap.val()
+         var count_array = Object.values(datai)
+         for(var i=0; i<count_array.length;i++) 
+         count_array[i] = +count_array[i];
+         var total = count_array.reduce(function(a, b){return a + b;});
+         if (total == NaN)
+         {
+            this.state.totalkasmasuk = 0
+         }
+         else
+         {
+         this.state.totalkasmasuk = total
+         }
+         console.log(total)
+      })
    return (
       <View style={{flex:1, justifyContent: 'space-between'}}>
          <View style={styles.header}>
@@ -52,7 +64,7 @@ export default class Home extends React.Component {
                         <Text style={styles.titleLeft}>Masuk</Text>
                      </View>
                      <View style={styles.right1}>
-                        <Text style={{color: 'white', fontSize: 25, fontWeight: 'bold'}}>Rp.</Text>
+                        <Text style={{color: 'white', fontSize: 25, fontWeight: 'bold'}}>{this.currencyFormat(Number(this.state.totalkasmasuk))}</Text>
                      </View>
                   </TouchableOpacity>
 

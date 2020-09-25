@@ -3,11 +3,9 @@ import {View, StyleSheet, Alert, TouchableOpacity,Text } from 'react-native'
 import firebase from '../database/firebase'
 
 export default class Details extends React.Component {
-   currencyFormat(num) {
-      return 'Rp ' + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-    };
 
     input = () => {
+      alert('Kas Masuk', 'Data berhasil diubah')
       const { data } = this.props.route.params
       firebase.database().ref('kas_masuk/'+ data.id + '/').update(
          {
@@ -18,15 +16,17 @@ export default class Details extends React.Component {
             status : 'Sukses',
             waktu : data.waktu
               
-         }).catch((error) => {
+         })
+         var key = data.id_user + data.waktu
+         var db = firebase.database().ref('total_kas_masuk')
+         db.update({
+            [key] : data.jumlah,
+         })
+      .catch((error) => {
             console.log(error)
            })
     }
-   render() {
-      const { data } = this.props.route.params
-      const nilai = Object.values(data)
-         console.log(data)
-      
+   render() {      
       return (
          <View style={{flex: 1}}>
             <TouchableOpacity style={styles.button} onPress={() => this.input()}>
