@@ -2,8 +2,8 @@ import React from 'react'
 import {View, Text, TouchableOpacity, StyleSheet, Alert} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import firebase from '../database/firebase'
-import FromInput from '../components/FromInput'
-import Loading from '../components/Loading'
+import FromInput from '../screen_components/FromInput'
+import Loading from '../screen_components/Loading'
 
 export default class barang extends React.Component {
    constructor() {

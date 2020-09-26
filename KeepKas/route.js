@@ -5,20 +5,20 @@ import { createStackNavigator } from "@react-navigation/stack";
 import 'react-native-gesture-handler';
 import Constants from 'expo-constants';
 
-import Login from './screens/login';
-import Signup from './screens/signup'
-import Dashboard from './screens/dashboarduser';
-import DashboardAdmin from './admin_screens/dashboardadmin';
-import Bayarkas from './screens/bayarkas';
-import RincianKassaya from './screens/rinciankas'
-import Profil from './screens/profil'
-import Kasmasuk from './screens/kasmasuk'
-import Kasmasukadmin from './admin_screens/kasmasukadmin'
-import DetailAdmin from './admin_screens/detailadmin'
-import Kaskeluar from './screens/kaskeluar'
-import Jumlahanggota from './screens/jumlahanggota'
-import Tentang from './screens/tentang'
-import TambahUser from './screens/tambahuser';
+import Login from './screen/login';
+import Signup from './screen/signup'
+import DashboardUser from './screen_user/dashboarduser';
+import DashboardAdmin from './screen_admin/dashboardadmin';
+import BayarKasUser from './screen_user/bayarkas';
+import RincianKas from './screen_user/rinciankas'
+import Profil from './screen/profil'
+import KasMasukUser from './screen_user/kasmasuk'
+import KasMasukAdmin from './screen_admin/kasmasukadmin'
+import DetailAdmin from './screen_admin/detailadmin'
+import KasKeluar from './screen/kaskeluar'
+import Jumlahanggota from './screen/jumlahanggota'
+import Tentang from './screen/tentang'
+import TambahUser from './screen_admin/tambahuser';
 
 
 const Stack = createStackNavigator();
@@ -32,17 +32,17 @@ export default class App extends React.Component {
         <Stack.Navigator initialRouteName="Login" screenOptions={{ headerStyle:{backgroundColor:'#3C6AE1'}, headerTintColor: 'white', headerTitleStyle :{fontWeight: 'bold', fontSize: 22} }}>
           <Stack.Screen name='Login' component={Login} options={{headerShown: false}} />
           <Stack.Screen name='SignUp' component={Signup} options={{headerShown: false}} />
-          <Stack.Screen name='Home' component={Dashboard} options={{ headerShown: false}} />
+          <Stack.Screen name='HomeUser' component={DashboardUser} options={{ headerShown: false}} />
           <Stack.Screen name='HomeAdmin' component={DashboardAdmin} options={{ headerShown: false}} />
           <Stack.Screen name='Profil' component={Profil} options={{ headerTitle: 'Profil'}} />
-          <Stack.Screen name='Kasmasuk' component={Kasmasuk} options={{ headerTitle: 'Kas Masuk'}} />
-          <Stack.Screen name='Kasmasukadmin' component={Kasmasukadmin} options={{ headerTitle: 'Kas Masuk'}} />
+          <Stack.Screen name='KasMasukUser' component={KasMasukUser} options={{ headerTitle: 'Kas Masuk'}} />
+          <Stack.Screen name='KasMasukAdmin' component={KasMasukAdmin} options={{ headerTitle: 'Kas Masuk'}} />
           <Stack.Screen name='DetailAdmin' component={DetailAdmin} options={{ headerTitle: 'Detail'}} />
-          <Stack.Screen name='Kaskeluar' component={Kaskeluar} options={{ headerTitle: 'Kas Keluar'}} />
+          <Stack.Screen name='Kaskeluar' component={KasKeluar} options={{ headerTitle: 'Kas Keluar'}} />
           <Stack.Screen name='Jumlahanggota' component={Jumlahanggota} options={{ headerTitle: 'Data Angota'}} />
           <Stack.Screen name='TambahUser' component={TambahUser} options={{ headerTitle: 'Tambah Anggota'}} />
-          <Stack.Screen name='RincianKas' component={RincianKassaya} options={{ headerTitle: 'Rincian Kas Saya'}} />
-          <Stack.Screen name='BayarKas' component={Bayarkas} options={{ headerTitle: 'Bayar Kas'}} />
+          <Stack.Screen name='RincianKas' component={RincianKas} options={{ headerTitle: 'Rincian Kas Saya'}} />
+          <Stack.Screen name='BayarKasUser' component={BayarKasUser} options={{ headerTitle: 'Bayar Kas'}} />
           <Stack.Screen name='Tentang' component={Tentang} options={{ headerTitle: 'Tentang Aplikasi'}} />
         </Stack.Navigator>
       </NavigationContainer>

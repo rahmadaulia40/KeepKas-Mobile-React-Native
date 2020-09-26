@@ -3,8 +3,8 @@ import {View, Text, TextInput, StyleSheet, Alert,TouchableOpacity, ActivityIndic
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import firebase from '../database/firebase'
 
-import FromInput from '../components/FromInput'
-import ButtonInput from '../components/ButtonInput'
+import FromInput from '../screen_components/FromInput'
+import ButtonInput from '../screen_components/ButtonInput'
 
 export default class SignUp extends React.Component {
    constructor() {
@@ -74,9 +74,7 @@ export default class SignUp extends React.Component {
                placeholderText= 'Password'
                />
 
-               <ButtonInput onPress={() => this.registerUser()} title='SignUp'>
-                  <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20}}>SignUp</Text>
-               </ButtonInput>
+               <ButtonInput onPress={() => this.registerUser()} title='SignUp' Color='#3C6AE1' Txt='SignUp'/>
                
                <Text style={styles.loginText}
                   onPress={() => this.props.navigation.navigate('Login')}>

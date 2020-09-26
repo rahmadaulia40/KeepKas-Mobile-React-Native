@@ -9,16 +9,10 @@ export default class Details extends React.Component {
       const { data } = this.props.route.params
       firebase.database().ref('kas_masuk/'+ data.id + '/').update(
          {
-            id_kasmasuk : data.id_kasmasuk,
-            id_user : data.id_user,
-            nama : data.nama,
-            jumlah : data.jumlah,
-            status : 'Sukses',
-            waktu : data.waktu
-              
+            status : 'Sukses', 
          })
          var key = data.id_user + data.waktu
-         var db = firebase.database().ref('total_kas_masuk')
+         var db = firebase.database().ref('total_kas_masuk/'+data.id_kasmasuk+ '/')
          db.update({
             [key] : data.jumlah,
          })

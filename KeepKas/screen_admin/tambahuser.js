@@ -2,9 +2,9 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, Alert, ActivityIndicator } from 'react-native';
 import firebase from '../database/firebase'
 
-import ButtonInput from '../components/ButtonInput'
-import FromInput from '../components/FromInput'
-import Loading from '../components/Loading'
+import ButtonInput from '../screen_components/ButtonInput'
+import FromInput from '../screen_components/FromInput'
+import Loading from '../screen_components/Loading'
 
 export default class TambahUser extends React.Component {
   constructor() {

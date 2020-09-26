@@ -1,7 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View,FlatList, Alert} from 'react-native';
+import { StyleSheet, View,FlatList, Alert} from 'react-native';
 import firebase from '../database/firebase'
-import ListKasMasukAdmin from '../admin_screens/node_screens_admin/ListKasMasukAdmin'
+import ListKasMasukAdmin from '../screen_node/ListKasMasukAdmin'
 
 export default class Kasmasuk extends React.Component {
   constructor() {

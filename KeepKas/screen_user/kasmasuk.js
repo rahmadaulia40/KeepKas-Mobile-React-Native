@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View,FlatList, Alert} from 'react-native';
 import firebase from '../database/firebase'
-import ListKasMasuk from '../screens/node_screens/ListKasMasuk'
+import ListKasMasukUser from '../screen_node/ListKasMasukUser'
 
 export default class Kasmasuk extends React.Component {
   constructor() {
@@ -18,9 +18,8 @@ export default class Kasmasuk extends React.Component {
     const db = firebase.database().ref()
     const twoRef = db.child('kas_masuk').orderByChild('id_kasmasuk').equalTo(photoURL)
     twoRef.on('value', snap => {
-         const data = snap.val()
-         const json = data
-         this.setState({data : json})
+         const datai = snap.val()
+         this.setState({data : datai})
          
       })
   }
@@ -46,7 +45,7 @@ export default class Kasmasuk extends React.Component {
       <View style={styles.body}>
         <FlatList
             data={nilai}
-            renderItem={({ item }) => <ListKasMasuk Nilai={this.Nilai.bind(this)} data={item} />}
+            renderItem={({ item }) => <ListKasMasukUser Nilai={this.Nilai.bind(this)} data={item} />}
             keyExtractor={item => item.id}
         />
       </View>

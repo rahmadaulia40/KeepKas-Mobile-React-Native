@@ -3,9 +3,9 @@ import {View, Text, TextInput, StyleSheet, Alert,TouchableOpacity, ActivityIndic
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import firebase from '../database/firebase'
 
-import FromInput from '../components/FromInput'
-import ButtonInput from '../components/ButtonInput'
-import Loading from '../components/Loading'
+import FromInput from '../screen_components/FromInput'
+import ButtonInput from '../screen_components/ButtonInput'
+import Loading from '../screen_components/Loading'
 
 export default class Login extends React.Component {
    constructor() {
@@ -34,7 +34,6 @@ export default class Login extends React.Component {
         firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
         .then(() => {
           console.log('User logged-in successfully!')
-          console.ignoredYellowBox = ['3298932'];
           this.setState({isLoading: false,email: '', password: ''})
           if (firebase.auth().currentUser.photoURL === null)
           {
@@ -42,7 +41,7 @@ export default class Login extends React.Component {
           }
           else
           {
-             this.props.navigation.navigate('Home')
+             this.props.navigation.navigate('HomeUser')
           }
         })
          .catch(error => this.setState({ errorMessage: error.message }))
@@ -75,9 +74,7 @@ export default class Login extends React.Component {
                   secureTextEntry={true}
                />
 
-               <ButtonInput onPress={() => this.userLogin()} title='Login'>
-                  <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20}}>Login</Text>
-               </ButtonInput>
+               <ButtonInput onPress={() => this.userLogin()} title='Login' Color='#3C6AE1' Txt='Login'/>
 
                <Text style={styles.loginText}
                   onPress={() => this.props.navigation.navigate('SignUp')}>

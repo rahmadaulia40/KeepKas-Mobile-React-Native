@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View,FlatList} from 'react-native';
 import firebase from '../database/firebase'
-import ListRincianKas from '../screens/node_screens/ListRincianKas'
+import ListRincianKas from '../screen_node/ListRincianKas'
 
 export default class RincianKas extends React.Component {
   constructor() {
