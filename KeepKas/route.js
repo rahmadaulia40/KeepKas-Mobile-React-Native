@@ -14,6 +14,7 @@ import RincianKas from './screen_user/rinciankas'
 import Profil from './screen/profil'
 import KasMasukUser from './screen_user/kasmasuk'
 import KasMasukAdmin from './screen_admin/kasmasukadmin'
+import TambahKasKeluarAdmin from './screen_admin/kaskeluaradmin'
 import DetailAdmin from './screen_admin/detailadmin'
 import KasKeluar from './screen/kaskeluar'
 import Jumlahanggota from './screen/jumlahanggota'
@@ -37,6 +38,7 @@ export default class App extends React.Component {
           <Stack.Screen name='Profil' component={Profil} options={{ headerTitle: 'Profil'}} />
           <Stack.Screen name='KasMasukUser' component={KasMasukUser} options={{ headerTitle: 'Kas Masuk'}} />
           <Stack.Screen name='KasMasukAdmin' component={KasMasukAdmin} options={{ headerTitle: 'Kas Masuk'}} />
+          <Stack.Screen name='TambahKasKeluarAdmin' component={TambahKasKeluarAdmin} options={{ headerTitle: 'Tambah Kas Keluar'}} />
           <Stack.Screen name='DetailAdmin' component={DetailAdmin} options={{ headerTitle: 'Detail'}} />
           <Stack.Screen name='Kaskeluar' component={KasKeluar} options={{ headerTitle: 'Kas Keluar'}} />
           <Stack.Screen name='Jumlahanggota' component={Jumlahanggota} options={{ headerTitle: 'Data Angota'}} />

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, TextInput, StyleSheet, Alert,TouchableOpacity, ActivityIndicator} from 'react-native';
+import {View, Text, StyleSheet, Alert,TouchableOpacity, ActivityIndicator} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import firebase from '../database/firebase'
 
@@ -13,9 +13,20 @@ export default class SignUp extends React.Component {
         displayName: '',
         email: '',
         password: '',
-        isLoading: false
+        isLoading: false,
+        passwordhide : true, 
+        txtpassword : 'Show Password',
       }
     }
+    PasswordOption = () =>{
+      if (this.state.passwordhide == true)
+      {
+         this.setState({passwordhide : false, txtpassword : 'Hide Password'})
+      }
+      else{
+        this.setState({passwordhide : true, txtpassword : 'Show Password'})
+      }
+   }
 
     updateInputVal = (val, prop) => {
       const state = this.state;
@@ -37,10 +48,14 @@ export default class SignUp extends React.Component {
         .then((res) => {res.user.updateProfile({displayName: this.state.displayName})
           console.log('User logged-in successfully!')
           Alert.alert('Daftar', 'Akun anda telah ditambah !')
-          this.setState({isLoading: false,displayName: '', email: '', password: ''})
           this.props.navigation.navigate('Login')
+          this.setState({isLoading: false,displayName: '', email: '', password: ''})
         })
-        .catch(error => this.setState({ errorMessage: error.message }))
+        .catch((error) => {
+         this.setState({isLoading : false})
+         Alert.alert('Login Error !','E-mail Sudah Tersedia')
+         console.log(error)
+      })
       }
     }
     render() {
@@ -72,14 +87,24 @@ export default class SignUp extends React.Component {
                <FromInput onChangeText={(val) => this.updateInputVal(val, 'password')}
                labelValue={this.state.password}
                placeholderText= 'Password'
+               maxLength={15}
+               secureTextEntry={this.state.passwordhide}
                />
+               <TouchableOpacity>
+                  <Text style={styles.ShowPassword}
+                     onPress={() => this.PasswordOption()}>
+                     {this.state.txtpassword}
+                  </Text>
+               </TouchableOpacity>
 
                <ButtonInput onPress={() => this.registerUser()} title='SignUp' Color='#3C6AE1' Txt='SignUp'/>
                
-               <Text style={styles.loginText}
-                  onPress={() => this.props.navigation.navigate('Login')}>
-                  Already Registered? Click here to login
-               </Text>
+               <TouchableOpacity>
+                  <Text style={styles.loginText}
+                     onPress={() => this.props.navigation.navigate('Login')}>
+                     Already Registered? Click here to login
+                  </Text>
+               </TouchableOpacity>
             </View>
             <View style={{alignItems: 'center', paddingTop: 70, justifyContent: 'center'}}>
             <Text style={{fontSize: 14}}>Dirancang Dengan <Icon name='attach-money' style={{fontSize: 14}}/> </Text>
@@ -117,6 +142,10 @@ const styles = StyleSheet.create({
       color: '#3740FE',
       marginTop: 25,
       textAlign: 'center'
+    },
+    ShowPassword: {
+      color: '#3740FE',
+      textAlign: 'right'
     },
 
 })

@@ -51,6 +51,7 @@ export default class Kasmasuk extends React.Component {
             renderItem={({ item }) => <ListKasMasukAdmin Nilai={this.Nilai.bind(this)} data={item} />}
             keyExtractor={item => item.id}
         />
+
       </View>
       
     </View>

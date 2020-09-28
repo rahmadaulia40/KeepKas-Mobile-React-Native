@@ -15,8 +15,9 @@ export default class Home extends React.Component {
       return 'Rp ' + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
     };
     signOut = () => {
-      firebase.auth().signOut().then(() => {this.props.navigation.navigate('Login')})
-      .catch(error => this.setState({ errorMessage: error.message }))
+      firebase.auth().signOut()
+      .then(() => {this.props.navigation.navigate('Login')})
+      .catch(error => alert(error))
     }
    render(){
       this.state = { 
@@ -69,7 +70,7 @@ export default class Home extends React.Component {
                      Txt1 = 'Kas' Txt2 = 'Masuk' Txt3 = {this.currencyFormat(Number(this.state.totalkasmasuk))} Color= '#088506'
                   />
                   <ButtonView 
-                     onPress={() => {this.props.navigation.navigate('Kaskeluar')}}
+                     onPress={() => {this.props.navigation.navigate('Kaskeluar',{uid: this.state.uid})}}
                      Txt1 = 'Kas' Txt2 = 'Keluar' Txt3 = '12.000' Color= '#B90303'
                   />
                   <ButtonView 

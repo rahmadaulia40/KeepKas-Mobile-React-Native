@@ -1,11 +1,12 @@
 import React from 'react';
-import {View, Text, TextInput, StyleSheet, Alert,TouchableOpacity, ActivityIndicator, Image} from 'react-native';
+import {View, Text, StyleSheet, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import firebase from '../database/firebase'
 
 import FromInput from '../screen_components/FromInput'
 import ButtonInput from '../screen_components/ButtonInput'
 import Loading from '../screen_components/Loading'
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default class Login extends React.Component {
    constructor() {
@@ -13,8 +14,19 @@ export default class Login extends React.Component {
       this.state = {
         email: '',
         password: '',
+        passwordhide : true, 
+        txtpassword : 'Show Password',
         isLoading: false
       }
+    }
+    PasswordOption = () =>{
+       if (this.state.passwordhide == true)
+       {
+          this.setState({passwordhide : false, txtpassword : 'Hide Password'})
+       }
+       else{
+         this.setState({passwordhide : true, txtpassword : 'Show Password'})
+       }
     }
 
     updateInputVal = (val, prop) => {
@@ -34,17 +46,23 @@ export default class Login extends React.Component {
         firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
         .then(() => {
           console.log('User logged-in successfully!')
-          this.setState({isLoading: false,email: '', password: ''})
+          this.setState({isLoading: true,email: '', password: ''})
           if (firebase.auth().currentUser.photoURL === null)
           {
             this.props.navigation.navigate('HomeAdmin')
+            this.setState({isLoading: false})
           }
           else
           {
              this.props.navigation.navigate('HomeUser')
+             this.setState({isLoading: false})
           }
         })
-         .catch(error => this.setState({ errorMessage: error.message }))
+         .catch((error) => {
+            this.setState({isLoading : false})
+            Alert.alert('Login Error !','E-mail/Password Salah')
+            console.log(error)
+         })
       
       }
     }
@@ -71,15 +89,23 @@ export default class Login extends React.Component {
                   labelValue={this.state.password}
                   placeholderText= 'Password'
                   maxLength={15}
-                  secureTextEntry={true}
+                  secureTextEntry={this.state.passwordhide}
                />
+               <TouchableOpacity>
+                  <Text style={styles.ShowPassword}
+                     onPress={() => this.PasswordOption()}>
+                     {this.state.txtpassword}
+                  </Text>
+               </TouchableOpacity>
 
                <ButtonInput onPress={() => this.userLogin()} title='Login' Color='#3C6AE1' Txt='Login'/>
 
-               <Text style={styles.loginText}
-                  onPress={() => this.props.navigation.navigate('SignUp')}>
-                  Don't have account? Click here to signup
-               </Text>
+               <TouchableOpacity>
+                  <Text style={styles.loginText}
+                     onPress={() => this.props.navigation.navigate('SignUp')}>
+                     Don't have account? Click here to signup
+                  </Text>
+               </TouchableOpacity>
             </View>
             <View style={{alignItems: 'center', paddingTop: 70, justifyContent: 'center'}}>
             <Text style={{fontSize: 14}}>Dirancang Dengan <Icon name='attach-money' style={{fontSize: 14}}/> </Text>
@@ -125,5 +151,9 @@ const styles = StyleSheet.create({
       color: '#3740FE',
       marginTop: 25,
       textAlign: 'center'
+    },
+    ShowPassword: {
+      color: '#3740FE',
+      textAlign: 'right'
     },
 })
