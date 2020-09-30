@@ -30,17 +30,31 @@ export default class TambahUser extends React.Component {
     {
        this.setState({isLoading: true})
        const { uid } = this.props.route.params;
-      firebase
-      .auth()
+      firebase.auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then((res) => {res.user.updateProfile({displayName: this.state.displayName, photoURL: uid})
+
+        var db = firebase.database().ref('users')
+        var ref = db.push({
+          uidadmin : uid,
+          email : this.state.email,
+          nama : this.state.displayName,
+          gambar : 'account-circle'
+        })
+        var id = ref.key
+        db.child(ref.key).update({id : id})
+
         console.log('User logged-in successfully!')
         Alert.alert('Data User', 'data telah ditambah !')
-        this.setState({isLoading: false,displayName: '', email: '', password: ''})
-        console.log(res)
+        this.props.navigation.navigate('Jumlahanggota')
+          this.setState({isLoading: false,displayName: '', email: '', password: ''})
       })
-      .catch(error => this.setState({ errorMessage: error.message }))
-    }
+      .catch((error) => {
+        this.setState({isLoading : false})
+        Alert.alert('Login Error !','E-mail Sudah Tersedia')
+        console.log(error)
+        })
+      }
   }
     
    render(){
@@ -69,9 +83,12 @@ export default class TambahUser extends React.Component {
         placeholderText= 'Password'
       />
 
-      <ButtonInput onPress={() => this.registerUser()}>
-      <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20}}>Input</Text>
-      </ButtonInput>
+      <ButtonInput
+        onPress={() => this.registerUser()}
+        titleButton = 'Tambah Anggota'
+        Txt = 'Tambah Anggota'
+        Color = '#3C6AE1'
+      />
       
       </View>
       

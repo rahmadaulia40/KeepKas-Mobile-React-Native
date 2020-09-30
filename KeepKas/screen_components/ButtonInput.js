@@ -1,7 +1,7 @@
 import React from 'react'
 import {StyleSheet,TouchableOpacity,Text} from 'react-native'
 
-const ButtonInput = ({titleButton,Color,Txt, ...rest}) => {
+const ButtonInput = ({titleButton,Color,Txt,MarginTop, ...rest}) => {
    return (
          <TouchableOpacity 
             style={
@@ -11,7 +11,7 @@ const ButtonInput = ({titleButton,Color,Txt, ...rest}) => {
                   backgroundColor: Color,//'#3C6AE1'
                   alignItems: 'center',
                   justifyContent: 'center',
-                  marginTop: 20,
+                  marginTop: MarginTop,
                }}
             title={titleButton}
             {...rest}

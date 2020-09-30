@@ -26,18 +26,21 @@ export default class ListKasKeluarAdmin extends React.Component {
        }
      }
      return (
+       <View>
         <TouchableOpacity style={styles.box} onPress={() => Aksi()}>
         <View style={{flex: 1,justifyContent: 'center'}}>
-          <Text style={styles.titleHarga}>{this.currencyFormat(Number(data.nominal))}</Text>
+          <Text style={styles.titleHarga} numberOfLines={1}>{this.currencyFormat(Number(data.nominal))}</Text>
           <View style={{flexDirection: 'row'}}>
-               <Text style={styles.titleNama}>{data.keterangan}</Text>
-               <Text style={styles.titleWaktu}>{data.nama}</Text>
+               <Text style={styles.titleNama} numberOfLines={1}>{data.keterangan}</Text>
             </View>
           </View>
         <View style={{justifyContent: 'center',backgroundColor: '#3C6AE1', width: 140}}>
             <Text style={styles.titleStatus}>{data.waktu}</Text>
         </View>
       </TouchableOpacity>
+      </View>
+
+      
       
      )
    }

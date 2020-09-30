@@ -86,6 +86,7 @@ export default class barang extends React.Component {
             <FromInput onChangeText={(val) => this.updateInputVal(val, 'nominal')}
                labelValue={this.state.nominal}
                placeholderText = 'Input Nominal'
+               KeyboardType= 'numeric'
             />
 
             <FromInput onChangeText={(val) => this.updateInputVal(val, 'keterangan')}

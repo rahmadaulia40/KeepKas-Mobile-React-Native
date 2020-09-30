@@ -5,6 +5,7 @@ import firebase from '../database/firebase'
 
 import FromInput from '../screen_components/FromInput'
 import ButtonInput from '../screen_components/ButtonInput'
+import Loading from '../screen_components/Loading'
 
 export default class SignUp extends React.Component {
    constructor() {
@@ -45,7 +46,7 @@ export default class SignUp extends React.Component {
         firebase
         .auth()
         .createUserWithEmailAndPassword(this.state.email, this.state.password)
-        .then((res) => {res.user.updateProfile({displayName: this.state.displayName})
+        .then((res) => {res.user.updateProfile({displayName: this.state.displayName, photoURL : 'account-circle'})
           console.log('User logged-in successfully!')
           Alert.alert('Daftar', 'Akun anda telah ditambah !')
           this.props.navigation.navigate('Login')
@@ -61,9 +62,7 @@ export default class SignUp extends React.Component {
     render() {
       if(this.state.isLoading){
          return(
-           <View style={styles.preloader}>
-             <ActivityIndicator size="large" color="#9E9E9E"/>
-           </View>
+           <Loading/>
          )
        }
       return (

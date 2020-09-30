@@ -1,8 +1,8 @@
 import React from 'react'
-import {View, StyleSheet, FlatList} from 'react-native'
+import {View, StyleSheet, FlatList, Text, Alert} from 'react-native'
 import firebase from '../database/firebase'
-import ButtonPlus from '../screen_components/ButtonPlus'
 import ListKasKeluarAdmin from '../screen_node/ListKasKeluarAdmin'
+import ButtonInput from '../screen_components/ButtonInput'
 
 export default class KasKeluar extends React.Component {
    constructor() {
@@ -60,10 +60,16 @@ export default class KasKeluar extends React.Component {
             />
          </View>
          <View style={styles.footer}>
-            <ButtonPlus 
+         <ButtonInput
+                     onPress={() => {this.props.navigation.navigate('TambahKasKeluarAdmin', {uid: this.state.uid, displayName : this.state.displayName})}}
+                     titleButton = 'Bayar Kas'
+                     Txt = 'Tambah Pengeluaran'
+                     Color = '#B90303'
+                  />
+            {/* <ButtonPlus 
                onPress={() => {this.props.navigation.navigate('TambahKasKeluarAdmin', {uid: this.state.uid, displayName : this.state.displayName})}}
-               Color = '#B90303'
-            />
+               Color = '#B90303' Size = {60}
+            /> */}
          </View>
 
          
@@ -73,14 +79,13 @@ export default class KasKeluar extends React.Component {
 
 const styles = StyleSheet.create({
    container: {
-     flex:1, 
-     justifyContent: 'space-between'
+     justifyContent: 'space-between',
+     flex: 1
    },
    body: {
-     margin: 2,
      flex: 1
    },
    footer: {
-      alignItems: 'flex-end',
+      margin: 5
    },
  });

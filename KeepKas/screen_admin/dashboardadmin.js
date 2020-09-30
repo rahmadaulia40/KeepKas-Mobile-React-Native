@@ -7,10 +7,17 @@ import firebase from '../database/firebase'
 import ButtonView from '../screen_components/ButtonView'
 import ButtonView_2 from '../screen_components/ButtonView_2'
 import ButtonInput from '../screen_components/ButtonInput'
+import Loading from '../screen_components/Loading'
 
 
 
 export default class Home extends React.Component {
+   constructor() {
+      super()
+      this.state ={
+         isLoading : false
+      }
+   }
    currencyFormat(num) {
       return 'Rp ' + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
     };
@@ -20,15 +27,19 @@ export default class Home extends React.Component {
       .catch(error => alert(error))
     }
    render(){
+      if(this.state.isLoading){
+         return(
+           <Loading/>
+         )
+       }
       this.state = { 
          displayName: firebase.auth().currentUser.displayName,
          uid: firebase.auth().currentUser.uid,
          photoURL: firebase.auth().currentUser.photoURL
        }
-       
        var db = firebase.database().ref()
-       var reff = db.child('total_kas_masuk')
-       reff.on('child_added', snap => {
+       var reff = db.child('total_kas_masuk/'+this.state.uid +'/')
+       reff.on('value', snap => {
        const datai = snap.val()
          
          if (datai == undefined)
@@ -37,13 +48,16 @@ export default class Home extends React.Component {
          }
          else
          {
+            
             var count_array = Object.values(datai)
             for(var i=0; i<count_array.length;i++) 
             count_array[i] = +count_array[i];
             var total = count_array.reduce(function(a, b){return a + b;});
             this.state.totalkasmasuk = total
+            console.log('Kas Masuk : ' +total)
+            //this.setState({isLoading: false})
          }
-         console.log('Kas Masuk : ' +this.state.totalkasmasuk)
+         
       })
    return (
       <View style={{flex:1, justifyContent: 'space-between'}}>
@@ -86,12 +100,14 @@ export default class Home extends React.Component {
                      titleButton = 'Bayar Kas'
                      Txt = 'Bayar Kas'
                      Color = '#3C6AE1'
+                     
                   />
                   <ButtonInput
                      onPress={() => this.signOut()}
                      titleButton = 'Keluar'
                      Txt = 'Keluar'
                      Color = '#B90303'
+                     MarginTop = {20}
                   />
                   <TouchableOpacity style={styles.button2} onPress={() => {this.props.navigation.navigate('Tentang')}}>
                      <Text style={{color: '#7a7676', fontWeight: 'bold', fontSize: 18}}>Tentang Aplikasi</Text>

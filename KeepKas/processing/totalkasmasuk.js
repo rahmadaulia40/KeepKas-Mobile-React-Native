@@ -12,7 +12,7 @@ export default class TotalKasMasuk extends React.Component{
       }
    }
    render(){
-         reff.on('child_added', snap => 
+         reff.on('value', snap => 
          {
             const datai = snap.val()
 

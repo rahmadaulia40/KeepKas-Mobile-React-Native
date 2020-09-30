@@ -1,14 +1,15 @@
 import React from 'react'
 import {View, TextInput, StyleSheet} from 'react-native'
 
-const FromInput = ({labelValue, placeholderText, ...rest}) => {
+const FromInput = ({labelValue, placeholderText,NumberOfLines,KeyboardType, ...rest}) => {
    return (
          <View style={styles.form}>
             <TextInput
                value={labelValue}
                style={styles.textInput}
-               numberOfLines={1}
+               numberOfLines={NumberOfLines}
                placeholder={placeholderText}
+               keyboardType={KeyboardType}
                {...rest}
             />
          </View>

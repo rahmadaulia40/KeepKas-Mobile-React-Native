@@ -5,7 +5,7 @@ import firebase from '../database/firebase'
 export default class Details extends React.Component {
 
     input = () => {
-      alert('Kas Masuk', 'Data berhasil diubah')
+      Alert.alert('Kas Masuk', 'Data berhasil diubah')
       const { data } = this.props.route.params
       firebase.database().ref('kas_masuk/'+ data.id + '/').update(
          {
