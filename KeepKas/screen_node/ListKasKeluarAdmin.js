@@ -34,7 +34,7 @@ export default class ListKasKeluarAdmin extends React.Component {
                <Text style={styles.titleNama} numberOfLines={1}>{data.keterangan}</Text>
             </View>
           </View>
-        <View style={{justifyContent: 'center',backgroundColor: '#3C6AE1', width: 140}}>
+        <View style={{justifyContent: 'center',backgroundColor: '#3C6AE1', width: 100}}>
             <Text style={styles.titleStatus}>{data.waktu}</Text>
         </View>
       </TouchableOpacity>

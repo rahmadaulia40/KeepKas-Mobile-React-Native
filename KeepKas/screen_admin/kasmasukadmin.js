@@ -24,7 +24,7 @@ export default class Kasmasuk extends React.Component {
       })
   }
   Nilai(list) {
-    this.props.navigation.navigate('DetailAdmin', {
+    this.props.navigation.navigate('DetailKasMasuk', {
     data : this.setState.data = list
     })
   }

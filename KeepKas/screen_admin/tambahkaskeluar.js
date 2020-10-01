@@ -1,6 +1,7 @@
 import React from 'react'
-import {View, Text, TouchableOpacity, StyleSheet, Alert} from 'react-native'
+import {View, Text, StyleSheet, Alert} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
+import moment from 'moment'
 import firebase from '../database/firebase'
 import FromInput from '../screen_components/FromInput'
 import Loading from '../screen_components/Loading'
@@ -23,15 +24,8 @@ export default class barang extends React.Component {
       state[prop] = val;
       this.setState(state);
     }
-    getCurrentDate=()=>{
-
-      var date = new Date().getDate();
-      var month = new Date().getMonth() + 1;
-      var year = new Date().getFullYear();
-      var hours = new Date().getHours();
-      var minutes = new Date().getMinutes();
-      var second = new Date().getSeconds();
-      return hours + ':'+ minutes + ':' + second + ' ' + date + '-' + month + '-' + year
+    getDateWithMoment = () => {
+      return moment().format('DD-MM-YYYY');
     }
     input = () => {
       if(this.state.jumlah === '')
@@ -42,26 +36,24 @@ export default class barang extends React.Component {
       {
          const { uid,displayName } = this.props.route.params
          this.setState({isLoading: true})
-         var db = firebase.database().ref('kas_keluar')
+         var db = firebase.database().ref().child('kas_keluar')
          var ref = db.push({
             id_user : uid,
             nama : displayName,
             nominal : this.state.nominal,
             keterangan : this.state.keterangan,
-            waktu : this.getCurrentDate()
+            waktu : this.getDateWithMoment()
          })
          var id = ref.key
          db.child(ref.key).update({id : id})
+         firebase.database().ref().child('total_kas_keluar/'+uid+ '/').update({[ref.key] : this.state.nominal})
          .then(()=>{
             this.setState({isLoading: false,nominal: '', keterangan: ''})
-            console.log('INSERTED !')
             Alert.alert('Input Data', 'Berhasil !')
             this.setState({isLoading: false})
-            this.props.navigation.navigate('Kaskeluar')
-            
-         }).catch((error) => {
-            console.log(error)
-           })
+            this.props.navigation.navigate('KasKeluarAdmin') 
+         })
+         .catch((error) => {Alert.alert('Kas Keluar',String(error))})
       }
     }
    render(){

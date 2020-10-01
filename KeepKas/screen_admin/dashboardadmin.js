@@ -1,6 +1,6 @@
 import React from 'react'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native'
+import {View, Text, TouchableOpacity, StyleSheet, Image} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import firebase from '../database/firebase'
 
@@ -26,6 +26,7 @@ export default class Home extends React.Component {
       .then(() => {this.props.navigation.navigate('Login')})
       .catch(error => alert(error))
     }
+
    render(){
       if(this.state.isLoading){
          return(
@@ -35,37 +36,54 @@ export default class Home extends React.Component {
       this.state = { 
          displayName: firebase.auth().currentUser.displayName,
          uid: firebase.auth().currentUser.uid,
-         photoURL: firebase.auth().currentUser.photoURL
+         photoURL: firebase.auth().currentUser.photoURL,
        }
-       var db = firebase.database().ref()
-       var reff = db.child('total_kas_masuk/'+this.state.uid +'/')
-       reff.on('value', snap => {
-       const datai = snap.val()
-         
-         if (datai == undefined)
-         {
-            this.state.totalkasmasuk = '0'
-         }
+
+      if(this.state.photoURL == null)
+      {
+         this.state.gambar = require('../assets/user.png')
+      }
+
+       firebase.database().ref().child('total_kas_masuk/'+this.state.uid +'/').on('value', snap => 
+       {
+         const datai = snap.val()
+         if (datai == undefined){this.state.totalkasmasuk = '0'}
          else
          {
-            
             var count_array = Object.values(datai)
             for(var i=0; i<count_array.length;i++) 
             count_array[i] = +count_array[i];
             var total = count_array.reduce(function(a, b){return a + b;});
             this.state.totalkasmasuk = total
             console.log('Kas Masuk : ' +total)
-            //this.setState({isLoading: false})
          }
          
       })
+      firebase.database().ref().child('total_kas_keluar/'+this.state.uid +'/').on('value', snap => 
+       {
+         const datai = snap.val()
+         if (datai == undefined){this.state.totalkaskeluar = '0'}
+         else
+         {
+            var count_array = Object.values(datai)
+            for(var i=0; i<count_array.length;i++) 
+            count_array[i] = +count_array[i];
+            var total = count_array.reduce(function(a, b){return a + b;});
+            this.state.totalkaskeluar = total
+            console.log('Kas Keluar : ' +total)
+         }
+         
+      })
+      var saldo_kas = this.state.totalkasmasuk - this.state.totalkaskeluar
+      console.log('Saldo Kas : '+saldo_kas)
    return (
       <View style={{flex:1, justifyContent: 'space-between'}}>
          <View style={styles.header}>
                <Text style={styles.titleHeader}>Keep<Text style={{fontWeight: 'normal'}}>Kas</Text></Text>
-               <TouchableOpacity  style={styles.rightH} onPress={() => {this.props.navigation.navigate('Profil')}}>
+               <TouchableOpacity  style={styles.rightH} 
+                  onPress={() => {this.props.navigation.navigate('ProfilAdmin')}}>
                   <Text style={styles.text}>Hai, {this.state.displayName}</Text>
-                  <Icon name='account-circle' style={{color: 'white', fontSize: 34, paddingRight: 24}} />
+                  <Image source={this.state.gambar} style={styles.picture} />
                </TouchableOpacity>
          </View>
 
@@ -75,21 +93,17 @@ export default class Home extends React.Component {
                      <Text style={styles.titleLeft1}>Saldo Kas</Text>
                   </View>
                   <View style={styles.right1}>
-                     <Text style={{color: 'white', fontSize: 18, fontWeight: 'bold', paddingRight: 24}}>Rp.10.000.000</Text>
+                     <Text style={{color: 'white', fontSize: 18, fontWeight: 'bold', paddingRight: 24}}>{this.currencyFormat(Number(saldo_kas))}</Text>
                   </View>
                </View>
                <ScrollView style={{paddingLeft: 20,paddingRight: 20}}>
                   <ButtonView 
-                     onPress={() => {this.props.navigation.navigate('KasMasukAdmin', {uid: this.state.uid})}}
+                     onPress={() => {this.setState({isLoading: true}),this.props.navigation.navigate('KasMasukAdmin',{uid: this.state.uid}), this.setState({isLoading: false})} }
                      Txt1 = 'Kas' Txt2 = 'Masuk' Txt3 = {this.currencyFormat(Number(this.state.totalkasmasuk))} Color= '#088506'
                   />
                   <ButtonView 
-                     onPress={() => {this.props.navigation.navigate('Kaskeluar',{uid: this.state.uid})}}
-                     Txt1 = 'Kas' Txt2 = 'Keluar' Txt3 = '12.000' Color= '#B90303'
-                  />
-                  <ButtonView 
-                     onPress={() => {this.props.navigation.navigate('RincianKas', {uid : this.state.uid})}}
-                     Txt1 = 'Rincian' Txt2 = 'Kas Saya' Txt3 = '10.000' Color= '#269cae'
+                     onPress={() => {{this.setState({isLoading: true}),this.props.navigation.navigate('KasKeluarAdmin',{uid: this.state.uid}), this.setState({isLoading: false})}}}
+                     Txt1 = 'Kas' Txt2 = 'Keluar' Txt3 = {this.currencyFormat(Number(this.state.totalkaskeluar))} Color= '#B90303'
                   />
                   <ButtonView_2
                      onPress={() => {this.props.navigation.navigate('Jumlahanggota')}}
@@ -100,7 +114,6 @@ export default class Home extends React.Component {
                      titleButton = 'Bayar Kas'
                      Txt = 'Bayar Kas'
                      Color = '#3C6AE1'
-                     
                   />
                   <ButtonInput
                      onPress={() => this.signOut()}
@@ -108,15 +121,12 @@ export default class Home extends React.Component {
                      Txt = 'Keluar'
                      Color = '#B90303'
                      MarginTop = {20}
-                  />
-                  <TouchableOpacity style={styles.button2} onPress={() => {this.props.navigation.navigate('Tentang')}}>
-                     <Text style={{color: '#7a7676', fontWeight: 'bold', fontSize: 18}}>Tentang Aplikasi</Text>
-                  </TouchableOpacity>    
+                  />   
                </ScrollView>
 
-               <View style={styles.keepKas}>
+               <TouchableOpacity style={styles.keepKas} onPress={() => {this.props.navigation.navigate('Tentang')}}>
                      <Text style={styles.titleHeader}>@Keep<Text style={{fontWeight: 'normal'}}>Kas</Text></Text>
-               </View>
+               </TouchableOpacity>
             
          </View>
 
@@ -204,4 +214,10 @@ const styles = StyleSheet.create({
       backgroundColor: '#3C6AE1',
       height: 60
    },
+   picture:{
+      height: 30,
+      width: 30,
+      marginRight: 24,
+      borderRadius: 50
+   }
 })

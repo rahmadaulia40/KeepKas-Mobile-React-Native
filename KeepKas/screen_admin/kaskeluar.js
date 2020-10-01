@@ -21,7 +21,6 @@ export default class KasKeluar extends React.Component {
       twoRef.on('value', snap => {
            const datai = snap.val()
            this.setState({data : datai})
-           
         })
     }
     Nilai(list) {
@@ -40,8 +39,6 @@ export default class KasKeluar extends React.Component {
       }
     }
   
-  
-      
    render(){
       const nilai = this.CekData()
       this.state = { 
@@ -60,16 +57,12 @@ export default class KasKeluar extends React.Component {
             />
          </View>
          <View style={styles.footer}>
-         <ButtonInput
-                     onPress={() => {this.props.navigation.navigate('TambahKasKeluarAdmin', {uid: this.state.uid, displayName : this.state.displayName})}}
-                     titleButton = 'Bayar Kas'
-                     Txt = 'Tambah Pengeluaran'
-                     Color = '#B90303'
-                  />
-            {/* <ButtonPlus 
-               onPress={() => {this.props.navigation.navigate('TambahKasKeluarAdmin', {uid: this.state.uid, displayName : this.state.displayName})}}
-               Color = '#B90303' Size = {60}
-            /> */}
+            <ButtonInput
+               onPress={() => {this.props.navigation.navigate('TambahKasKeluar', {uid: this.state.uid, displayName : this.state.displayName})}}
+               titleButton = 'Bayar Kas'
+               Txt = 'Tambah Pengeluaran'
+               Color = '#B90303'
+            />
          </View>
 
          

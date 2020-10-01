@@ -1,12 +1,11 @@
 import React from 'react';
-import {View, Text, StyleSheet, Alert} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import firebase from '../database/firebase'
 
 import FromInput from '../screen_components/FromInput'
 import ButtonInput from '../screen_components/ButtonInput'
 import Loading from '../screen_components/Loading'
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default class Login extends React.Component {
    constructor() {
@@ -38,7 +37,7 @@ export default class Login extends React.Component {
     userLogin = () => {
       if(this.state.email === '' && this.state.password === '')
       {
-         Alert.alert('Login Error !','Username/Password Tidak Terdeteksi')
+         Alert.alert('Login Gagal !','Data tidak boleh kosong')
       }
       else 
       {
@@ -51,16 +50,18 @@ export default class Login extends React.Component {
           {
             this.props.navigation.navigate('HomeAdmin',this.setState({isLoading: true}))
             this.setState({isLoading: false})
+            Alert.alert('Login','Login Sukses')
           }
           else
           {
              this.props.navigation.navigate('HomeUser')
              this.setState({isLoading: false})
+             Alert.alert('Login','Login Sukses')
           }
         })
          .catch((error) => {
             this.setState({isLoading : false})
-            Alert.alert('Login Error !','E-mail/Password Salah')
+            Alert.alert('Login Gagal !',String(error))
             console.log(error)
          })
       

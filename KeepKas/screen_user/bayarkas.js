@@ -1,6 +1,7 @@
 import React from 'react'
 import {View, Text, TouchableOpacity, StyleSheet, Alert} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
+import moment from 'moment'
 import firebase from '../database/firebase'
 import FromInput from '../screen_components/FromInput'
 import Loading from '../screen_components/Loading'
@@ -10,6 +11,7 @@ export default class barang extends React.Component {
       super()
       this.state = {
           jumlah : '',
+          keterangan : '',
           isLoading : false
       }
     }
@@ -19,15 +21,8 @@ export default class barang extends React.Component {
       state[prop] = val;
       this.setState(state);
     }
-    getCurrentDate=()=>{
-
-      var date = new Date().getDate();
-      var month = new Date().getMonth() + 1;
-      var year = new Date().getFullYear();
-      var hours = new Date().getHours();
-      var minutes = new Date().getMinutes();
-      var second = new Date().getSeconds();
-      return hours + ':'+ minutes + ':' + second + ' ' + date + '-' + month + '-' + year
+    getDateWithMoment = () => {
+      return moment().format('DD-MM-YYYY');
     }
     input = () => {
       if(this.state.jumlah === '')
@@ -45,17 +40,19 @@ export default class barang extends React.Component {
             nama : displayName,
             jumlah : this.state.jumlah,
             status : 'Di Proses',
-            waktu : this.getCurrentDate()
+            keterangan : this.state.keterangan,
+            waktu : this.getDateWithMoment()
          })
          var id = ref.key
          db.child(ref.key).update({id : id})
          .then(()=>{
-            this.setState({isLoading: false,jumlah: ''})
+            this.setState({isLoading: false,jumlah: '',keterangan: ''})
             console.log('INSERTED !')
             Alert.alert('Input Data', 'Berhasil !')
             
          }).catch((error) => {
             console.log(error)
+            Alert.alert('Input Error',error)
            })
       }
     }
@@ -71,22 +68,27 @@ export default class barang extends React.Component {
          <ScrollView style={styles.body}>
 
             <View style={{alignItems: 'center'}}>
-               <Text style={styles.title1}>Bayar Kas</Text>
+               <Text style={styles.title1}>Tambah Kas</Text>
             </View>
 
             <View style={styles.box1}>
-               <Text style={styles.titleInfo}>Silahkan masukkan nominal uang kas yang ingin di bayarkan. Selanjutnya Admin (bendahara) akan mengkonfirmasi pembayaran kas Anda dan akan tampil di halaman Rincian Kas.</Text>
+               <Text style={styles.titleInfo}>Silahkan masukkan nominal uang kas yang ingin di input. Selanjutnya Admin akan mengkonfirmasi penginputan kas Anda dan akan tampil di halaman Rincian Kas.</Text>
             </View>
-
-            <Text style={styles.title2}>Masukkan Jumlah</Text>
 
             <FromInput onChangeText={(val) => this.updateInputVal(val, 'jumlah')}
                labelValue={this.state.jumlah}
+               KeyboardType= 'numeric'
+               placeholderText = 'Input Nominal'
+            />
+
+            <FromInput onChangeText={(val) => this.updateInputVal(val, 'keterangan')}
+               labelValue={this.state.keterangan}
+               placeholderText = 'Input Keterangan'
             />
 
 
             <TouchableOpacity style={styles.button} onPress={() => this.input()}>
-               <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20}}>Bayar</Text>
+               <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20}}>Tambah</Text>
             </TouchableOpacity>
 
          </ScrollView>
@@ -113,7 +115,6 @@ const styles = StyleSheet.create({
       backgroundColor: '#00DCEA',
       justifyContent: 'center',
       alignItems: 'center',
-      margin: 20,
       borderColor: '#3C6AE1',
       borderWidth: 2,
       borderRadius: 5,
@@ -123,7 +124,6 @@ const styles = StyleSheet.create({
       margin: 20,
       fontSize: 24,
       fontWeight: 'bold'
-
    },
    title2 :{
       margin: 20,

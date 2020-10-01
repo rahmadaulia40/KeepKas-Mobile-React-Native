@@ -51,7 +51,7 @@ export default class TambahUser extends React.Component {
       })
       .catch((error) => {
         this.setState({isLoading : false})
-        Alert.alert('Login Error !','E-mail Sudah Tersedia')
+        Alert.alert('Tambah Anggota !',String(error))
         console.log(error)
         })
       }

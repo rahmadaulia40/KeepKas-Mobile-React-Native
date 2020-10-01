@@ -24,18 +24,8 @@ export default class ListKasMasukAdmin extends React.Component {
      {
        this.state.warna='#44BAFD'
      }
-     const Aksi =()=>{
-       if (data.status === 'Di Proses')
-       {
-        this.state.action = this.props.Nilai(data)
-       }
-       else
-       {
-         this.state.action = {}
-       }
-     }
      return (
-        <TouchableOpacity style={styles.box} onPress={() => Aksi()}>
+        <TouchableOpacity style={styles.box} onPress={() => this.state.action = this.props.Nilai(data)}>
         <View style={{flex: 1,justifyContent: 'center'}}>
           <Text style={styles.titleHarga}>{this.currencyFormat(Number(data.jumlah))}</Text>
           <View style={{flexDirection: 'row'}}>
