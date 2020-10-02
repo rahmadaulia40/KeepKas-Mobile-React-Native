@@ -21,7 +21,7 @@ import TambahKasKeluar from './screen_admin/tambahkaskeluar'
 import Jumlahanggota from './screen/jumlahanggota'
 import Tentang from './screen/tentang'
 import TambahUser from './screen_admin/tambahuser';
-
+import KasKeluar from './processing/totalkaskeluar';
 
 const Stack = createStackNavigator();
 const statusBarHeight = Constants.statusBarHeight
@@ -48,6 +48,8 @@ export default class App extends React.Component {
           <Stack.Screen name='RincianKasSaya' component={RincianKasSaya} options={{ headerTitle: 'Rincian Kas Saya'}} />
           <Stack.Screen name='BayarKasUser' component={BayarKasUser} options={{ headerTitle: 'Tambah Kas'}} />
           <Stack.Screen name='Tentang' component={Tentang} options={{ headerTitle: 'Tentang Aplikasi'}} />
+
+          <Stack.Screen name='TotalKasKeluar' component={KasKeluar} options={{ headerTitle: 'Tentang Aplikasi'}} />
         </Stack.Navigator>
       </NavigationContainer>
     );

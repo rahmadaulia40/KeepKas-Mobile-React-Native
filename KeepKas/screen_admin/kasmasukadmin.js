@@ -16,13 +16,14 @@ export default class Kasmasuk extends React.Component {
   fetchData = async () => {
     const { uid } = this.props.route.params
     const db = firebase.database().ref()
-    const twoRef = db.child('kas_masuk').orderByChild('id_kasmasuk').equalTo(uid)
-    twoRef.on('value', snap => {
-         const datai = snap.val()
-         this.setState({data : datai})
-         
-      })
+    const twoRef = db.child('kas_masuk').orderByChild('id_admin').equalTo(uid)
+    var onValueChange =(snap)=>{ 
+      const datai = snap.val() 
+      this.setState({data : datai})
+    }
+    twoRef.on('value', onValueChange)
   }
+
   Nilai(list) {
     this.props.navigation.navigate('DetailKasMasuk', {
     data : this.setState.data = list
@@ -38,11 +39,9 @@ export default class Kasmasuk extends React.Component {
       return Object.values(this.state.data)
     }
   }
-
-
-    
+ 
   render(){
-  const nilai = this.CekData()
+    const nilai = this.CekData()
   return (
     <View style={styles.container}>
       <View style={styles.body}>

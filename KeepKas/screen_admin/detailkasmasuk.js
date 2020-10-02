@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import {View, StyleSheet, Alert,Text } from 'react-native'
 import firebase from '../database/firebase'
 
@@ -19,18 +19,26 @@ export default class DetailKasMasuk extends React.Component {
     konfirmasi = () => {
       this.setState({isLoading: true})
       const { data } = this.props.route.params
-      firebase.database().ref('kas_masuk/'+ data.id + '/').update({status : 'Sukses'})
-      firebase.database().ref('total_kas_masuk/'+data.id_kasmasuk+ '/').update({[data.id] : data.jumlah})
-      .then(()=>{
-         Alert.alert('Sukses', 'Data berhasil di Konfirmasi')
-         this.props.navigation.navigate('KasMasukAdmin')
+      if (data.status == 'Sukses')
+      {
          this.setState({isLoading: false})
-      })
-      .catch((error) => {
-         this.setState({isLoading: false})
-         console.log(error)
-         alert(error)
-      })
+         Alert.alert('Gagal Konfirmasi Data !', 'Data telah dikonfirmasi sebelumnya')
+      }
+      else
+      {
+         firebase.database().ref('kas_masuk/'+ data.id + '/').update({status : 'Sukses'})
+         .then(()=>{
+            firebase.database().ref('total_kas_masuk/'+data.id_admin+ '/').update({[data.id] : data.jumlah})
+            Alert.alert('Sukses', 'Data berhasil di Konfirmasi')
+            this.setState({isLoading: false})
+            
+         })
+         .catch((error) => {
+            this.setState({isLoading: false})
+            console.log(error)
+            alert(error)
+         })
+      }
     }
 
     delete = () => {
@@ -52,7 +60,20 @@ export default class DetailKasMasuk extends React.Component {
     }
 
    render() {
-      const { data } = this.props.route.params      
+      const { data } = this.props.route.params
+      if (data.status == 'Sukses')
+      {
+         this.state.color = '#98a8d2'
+      }
+      else
+      {
+         this.state.color = '#3C6AE1'
+      }
+      if(this.state.isLoading){
+         return(
+           <Loading/>
+         )
+       }    
       return (
          <View style={styles.container}>
 
@@ -83,7 +104,7 @@ export default class DetailKasMasuk extends React.Component {
                onPress={() => this.konfirmasi()}
                titleButton = 'Konfirmasi'
                Txt = 'Konfirmasi'
-               Color = '#3C6AE1'
+               Color = {this.state.color}//'#3C6AE1'//98a8d2
                MarginTop = {20}
             />
 
@@ -116,9 +137,9 @@ const styles = StyleSheet.create({
       fontWeight: 'bold'
    },
    box:{
-      backgroundColor: '#088506',
+      backgroundColor: '#3C6AE1',
       alignItems: 'center',
-      borderRadius: 5,
+      borderRadius: 20,
       padding: 20,
       flexDirection: 'row',
       elevation: 10
@@ -128,11 +149,13 @@ const styles = StyleSheet.create({
       fontSize: 20,
       fontWeight: 'bold',
       paddingRight: 5,
+      marginTop: 10,
+      marginRight: 10
    },
    box1 :{
-      backgroundColor: '#088506',
+      backgroundColor: '#3C6AE1',
       justifyContent: 'center',
-      borderRadius: 5,
+      borderRadius: 20,
       padding: 20,
       elevation: 10,
       marginTop: 20
@@ -141,6 +164,7 @@ const styles = StyleSheet.create({
       color: 'white',
       fontSize: 20,
       fontWeight: 'bold',
-      paddingLeft: 20
+      paddingLeft: 20,
+      marginTop: 10,
    },
 })

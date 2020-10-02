@@ -35,7 +35,7 @@ export default class barang extends React.Component {
          const { uid,photoURL,displayName } = this.props.route.params
          var db = firebase.database().ref('kas_masuk')
          var ref = db.push({
-            id_kasmasuk : photoURL,
+            id_admin : photoURL,
             id_user : uid,
             nama : displayName,
             jumlah : this.state.jumlah,

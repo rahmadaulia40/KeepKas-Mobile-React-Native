@@ -1,9 +1,9 @@
 import React from 'react'
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native'
+import {View, StyleSheet} from 'react-native'
 import firebase from '../database/firebase'
 
 import ButtonInput from '../screen_components/ButtonInput'
+import TotalKasMasuk from '../processing/totalkasmasuk'
 
 export default class barang extends React.Component {
    render(){
@@ -15,15 +15,18 @@ export default class barang extends React.Component {
    return (
       <View style={{flex:1, justifyContent: 'space-between'}}>
          <View style={styles.header}>
-            <Text>Data Anggota</Text>
+            <TotalKasMasuk/>
          </View>
+
+
+
          <View>
-         <ButtonInput
-                     onPress={() => {this.props.navigation.navigate('TambahUser',{uid : this.state.uid, displayName: this.state.displayName})}}
-                     titleButton = 'Tambah Anggota'
-                     Txt = 'Tambah Anggota'
-                     Color = '#3C6AE1'
-                  />
+            <ButtonInput
+               onPress={() => {this.props.navigation.navigate('TambahUser',{uid : this.state.uid, displayName: this.state.displayName})}}
+               titleButton = 'Tambah Anggota'
+               Txt = 'Tambah Anggota'
+               Color = '#3C6AE1'
+            />
          </View>
 
          

@@ -1,8 +1,7 @@
 import React from 'react'
-import {View, StyleSheet, FlatList, Text, Alert} from 'react-native'
+import {View, StyleSheet, FlatList, Alert} from 'react-native'
 import firebase from '../database/firebase'
 import ListKasKeluarAdmin from '../screen_node/ListKasKeluarAdmin'
-import ButtonInput from '../screen_components/ButtonInput'
 
 export default class KasKeluar extends React.Component {
    constructor() {
@@ -17,7 +16,7 @@ export default class KasKeluar extends React.Component {
     fetchData = async () => {
       const { uid } = this.props.route.params
       const db = firebase.database().ref()
-      const twoRef = db.child('kas_keluar').orderByChild('id_user').equalTo(uid)
+      const twoRef = db.child('kas_keluar').orderByChild('id_admin').equalTo(uid)
       twoRef.on('value', snap => {
            const datai = snap.val()
            this.setState({data : datai})
@@ -41,14 +40,8 @@ export default class KasKeluar extends React.Component {
   
    render(){
       const nilai = this.CekData()
-      this.state = { 
-         displayName: firebase.auth().currentUser.displayName,
-         uid: firebase.auth().currentUser.uid,
-         photoURL: firebase.auth().currentUser.photoURL
-       }
    return (
       <View style={styles.container}>
-
          <View style={styles.body}>
             <FlatList
                data={nilai}
@@ -56,16 +49,6 @@ export default class KasKeluar extends React.Component {
                keyExtractor={item => item.id}
             />
          </View>
-         <View style={styles.footer}>
-            <ButtonInput
-               onPress={() => {this.props.navigation.navigate('TambahKasKeluar', {uid: this.state.uid, displayName : this.state.displayName})}}
-               titleButton = 'Bayar Kas'
-               Txt = 'Tambah Pengeluaran'
-               Color = '#B90303'
-            />
-         </View>
-
-         
       </View>
    )}
 }
@@ -76,9 +59,6 @@ const styles = StyleSheet.create({
      flex: 1
    },
    body: {
-     flex: 1
-   },
-   footer: {
-      margin: 5
+     margin: 2
    },
  });

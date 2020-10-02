@@ -1,6 +1,5 @@
 import React from 'react'
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import {View, Text, TouchableOpacity, StyleSheet, Image} from 'react-native'
+import {View, Text, TouchableOpacity, StyleSheet, Image, Alert} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import firebase from '../database/firebase'
 
@@ -8,6 +7,9 @@ import ButtonView from '../screen_components/ButtonView'
 import ButtonView_2 from '../screen_components/ButtonView_2'
 import ButtonInput from '../screen_components/ButtonInput'
 import Loading from '../screen_components/Loading'
+import TotalKasMasuk from '../processing/totalkasmasuk'
+import TotalKasKeluar from '../processing/totalkaskeluar'
+import SaldoKas from '../processing/saldokas'
 
 
 
@@ -23,7 +25,7 @@ export default class Home extends React.Component {
     };
     signOut = () => {
       firebase.auth().signOut()
-      .then(() => {this.props.navigation.navigate('Login')})
+      .then(() => {Alert.alert('KeepKas', 'Silahkan Login Kembali') ,this.props.navigation.navigate('Login')})
       .catch(error => alert(error))
     }
 
@@ -44,38 +46,6 @@ export default class Home extends React.Component {
          this.state.gambar = require('../assets/user.png')
       }
 
-       firebase.database().ref().child('total_kas_masuk/'+this.state.uid +'/').on('value', snap => 
-       {
-         const datai = snap.val()
-         if (datai == undefined){this.state.totalkasmasuk = '0'}
-         else
-         {
-            var count_array = Object.values(datai)
-            for(var i=0; i<count_array.length;i++) 
-            count_array[i] = +count_array[i];
-            var total = count_array.reduce(function(a, b){return a + b;});
-            this.state.totalkasmasuk = total
-            console.log('Kas Masuk : ' +total)
-         }
-         
-      })
-      firebase.database().ref().child('total_kas_keluar/'+this.state.uid +'/').on('value', snap => 
-       {
-         const datai = snap.val()
-         if (datai == undefined){this.state.totalkaskeluar = '0'}
-         else
-         {
-            var count_array = Object.values(datai)
-            for(var i=0; i<count_array.length;i++) 
-            count_array[i] = +count_array[i];
-            var total = count_array.reduce(function(a, b){return a + b;});
-            this.state.totalkaskeluar = total
-            console.log('Kas Keluar : ' +total)
-         }
-         
-      })
-      var saldo_kas = this.state.totalkasmasuk - this.state.totalkaskeluar
-      console.log('Saldo Kas : '+saldo_kas)
    return (
       <View style={{flex:1, justifyContent: 'space-between'}}>
          <View style={styles.header}>
@@ -93,17 +63,18 @@ export default class Home extends React.Component {
                      <Text style={styles.titleLeft1}>Saldo Kas</Text>
                   </View>
                   <View style={styles.right1}>
-                     <Text style={{color: 'white', fontSize: 18, fontWeight: 'bold', paddingRight: 24}}>{this.currencyFormat(Number(saldo_kas))}</Text>
+                     <Text style={{color: 'white', fontSize: 18, fontWeight: 'bold', paddingRight: 24}}>{<SaldoKas/>}</Text>
                   </View>
                </View>
                <ScrollView style={{paddingLeft: 20,paddingRight: 20}}>
+                  
                   <ButtonView 
-                     onPress={() => {this.setState({isLoading: true}),this.props.navigation.navigate('KasMasukAdmin',{uid: this.state.uid}), this.setState({isLoading: false})} }
-                     Txt1 = 'Kas' Txt2 = 'Masuk' Txt3 = {this.currencyFormat(Number(this.state.totalkasmasuk))} Color= '#088506'
+                     onPress={() => {this.props.navigation.navigate('KasMasukAdmin',{uid: this.state.uid})} }
+                     Txt1 = 'Kas' Txt2 = 'Masuk' Txt3 = {<TotalKasMasuk/>} Color= '#088506'
                   />
                   <ButtonView 
-                     onPress={() => {{this.setState({isLoading: true}),this.props.navigation.navigate('KasKeluarAdmin',{uid: this.state.uid}), this.setState({isLoading: false})}}}
-                     Txt1 = 'Kas' Txt2 = 'Keluar' Txt3 = {this.currencyFormat(Number(this.state.totalkaskeluar))} Color= '#B90303'
+                     onPress={() => {this.props.navigation.navigate('KasKeluarAdmin',{uid: this.state.uid})}}
+                     Txt1 = 'Kas' Txt2 = 'Keluar' Txt3 = {<TotalKasKeluar/>} Color= '#B90303'
                   />
                   <ButtonView_2
                      onPress={() => {this.props.navigation.navigate('Jumlahanggota')}}
@@ -114,6 +85,14 @@ export default class Home extends React.Component {
                      titleButton = 'Bayar Kas'
                      Txt = 'Bayar Kas'
                      Color = '#3C6AE1'
+                     MarginTop = {20}
+                  />
+                  <ButtonInput
+                     onPress={() => {this.props.navigation.navigate('TambahKasKeluar', {uid: this.state.uid, displayName : this.state.displayName})}}
+                     titleButton = 'Tambah Pengeluaran'
+                     Txt = 'Tambah Pengeluaran'
+                     Color = '#B90303'
+                     MarginTop = {20}
                   />
                   <ButtonInput
                      onPress={() => this.signOut()}
