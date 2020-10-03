@@ -10,6 +10,7 @@ import Loading from '../screen_components/Loading'
 import TotalKasMasuk from '../processing/totalkasmasuk'
 import TotalKasKeluar from '../processing/totalkaskeluar'
 import SaldoKas from '../processing/saldokas'
+import TotalUser from '../processing/totaldatauser'
 
 
 
@@ -40,6 +41,8 @@ export default class Home extends React.Component {
          uid: firebase.auth().currentUser.uid,
          photoURL: firebase.auth().currentUser.photoURL,
        }
+       Alert.alert('KeepKas','Selamat Datang '+[this.state.displayName])
+       
 
       if(this.state.photoURL == null)
       {
@@ -77,13 +80,13 @@ export default class Home extends React.Component {
                      Txt1 = 'Kas' Txt2 = 'Keluar' Txt3 = {<TotalKasKeluar/>} Color= '#B90303'
                   />
                   <ButtonView_2
-                     onPress={() => {this.props.navigation.navigate('Jumlahanggota')}}
-                     Txt1 = 'Data' Txt2 = 'Anggota' Txt3 = '8' Txt4 = 'Anggota' Color= '#44BAFD'
+                     onPress={() => {this.props.navigation.navigate('Jumlahanggota', {uid: this.state.uid})}}
+                     Txt1 = 'Data' Txt2 = 'Anggota' Txt3 = {<TotalUser/>} Txt4 = 'Anggota' Color= '#44BAFD'
                   />
                   <ButtonInput
-                     onPress={() => {this.props.navigation.navigate('BayarKas',{uid : this.state.uid, displayName: this.state.displayName, photoURL: this.state.photoURL})}}
-                     titleButton = 'Bayar Kas'
-                     Txt = 'Bayar Kas'
+                     onPress={() => {this.props.navigation.navigate('TambahKasAdmin',{uid : this.state.uid, displayName: this.state.displayName, photoURL: this.state.photoURL})}}
+                     titleButton = 'Tambah Kas'
+                     Txt = 'Tambah Kas'
                      Color = '#3C6AE1'
                      MarginTop = {20}
                   />

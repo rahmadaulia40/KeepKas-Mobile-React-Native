@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import {View, StyleSheet, Alert,Text } from 'react-native'
 import firebase from '../database/firebase'
 

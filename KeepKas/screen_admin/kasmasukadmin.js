@@ -16,11 +16,11 @@ export default class Kasmasuk extends React.Component {
   fetchData = async () => {
     const { uid } = this.props.route.params
     const db = firebase.database().ref()
-    const twoRef = db.child('kas_masuk').orderByChild('id_admin').equalTo(uid)
     var onValueChange =(snap)=>{ 
       const datai = snap.val() 
       this.setState({data : datai})
     }
+    const twoRef = db.child('kas_masuk').orderByChild('id_admin').equalTo(uid)
     twoRef.on('value', onValueChange)
   }
 

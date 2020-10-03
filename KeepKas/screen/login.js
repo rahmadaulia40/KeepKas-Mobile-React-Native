@@ -49,14 +49,12 @@ export default class Login extends React.Component {
           if (firebase.auth().currentUser.photoURL === null || firebase.auth().currentUser.photoURL === 'account-circle')
           {
             this.props.navigation.navigate('HomeAdmin',this.setState({isLoading: true}))
-            this.setState({isLoading: false})
-            Alert.alert('Login','Login Sukses')
+            this.setState({isLoading: false,passwordhide: true})
           }
           else
           {
              this.props.navigation.navigate('HomeUser')
-             this.setState({isLoading: false})
-             Alert.alert('Login','Login Sukses')
+             this.setState({isLoading: false, passwordhide: true})
           }
         })
          .catch((error) => {

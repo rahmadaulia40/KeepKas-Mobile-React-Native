@@ -39,7 +39,7 @@ export default class TambahUser extends React.Component {
           uidadmin : uid,
           email : this.state.email,
           nama : this.state.displayName,
-          gambar : 'account-circle'
+          gambar : 'user.png'
         })
         var id = ref.key
         db.child(ref.key).update({id : id})

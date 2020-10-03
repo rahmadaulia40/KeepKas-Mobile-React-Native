@@ -38,7 +38,7 @@ export default class barang extends React.Component {
          this.setState({isLoading: true})
          var db = firebase.database().ref().child('kas_keluar')
          var ref = db.push({
-            id_user : uid,
+            id_admin : uid,
             nama : displayName,
             nominal : this.state.nominal,
             keterangan : this.state.keterangan,
@@ -49,9 +49,8 @@ export default class barang extends React.Component {
          firebase.database().ref().child('total_kas_keluar/'+uid+ '/').update({[ref.key] : this.state.nominal})
          .then(()=>{
             this.setState({isLoading: false,nominal: '', keterangan: ''})
-            Alert.alert('Input Data', 'Berhasil !')
+            Alert.alert('Data Pengeluaran !', 'Data pengeluaran berhasil di input, silahkan cek Kas Keluar')
             this.setState({isLoading: false})
-            this.props.navigation.navigate('KasKeluarAdmin') 
          })
          .catch((error) => {Alert.alert('Kas Keluar',String(error))})
       }
