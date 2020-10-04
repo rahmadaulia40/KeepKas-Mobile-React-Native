@@ -24,9 +24,23 @@ export default class Home extends React.Component {
    currencyFormat(num) {
       return 'Rp ' + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
     };
+    ButtonAlertKonfirmasi = () =>
+    Alert.alert(
+      "KeepKas",
+      "Apakah anda yakin ingin keluar ?",
+      [
+        {
+          text: "Batal",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "Ya", onPress: () => {this.signOut()}}
+      ],
+      { cancelable: false }
+    )
     signOut = () => {
       firebase.auth().signOut()
-      .then(() => {Alert.alert('KeepKas', 'Silahkan Login Kembali') ,this.props.navigation.navigate('Login')})
+      .then(() => {this.props.navigation.navigate('Login')})
       .catch(error => alert(error))
     }
 
@@ -84,6 +98,12 @@ export default class Home extends React.Component {
                      Txt1 = 'Data' Txt2 = 'Anggota' Txt3 = {<TotalUser/>} Txt4 = 'Anggota' Color= '#44BAFD'
                   />
                   <ButtonInput
+                     onPress={() => {this.props.navigation.navigate('TambahUser',{uid : this.state.uid, displayName: this.state.displayName})}}
+                     titleButton = 'Tambah Anggota'
+                     Txt = 'Tambah Anggota'
+                     Color = '#3C6AE1'
+                  />
+                  <ButtonInput
                      onPress={() => {this.props.navigation.navigate('TambahKasAdmin',{uid : this.state.uid, displayName: this.state.displayName, photoURL: this.state.photoURL})}}
                      titleButton = 'Tambah Kas'
                      Txt = 'Tambah Kas'
@@ -98,7 +118,7 @@ export default class Home extends React.Component {
                      MarginTop = {20}
                   />
                   <ButtonInput
-                     onPress={() => this.signOut()}
+                     onPress={() => this.ButtonAlertKonfirmasi()}
                      titleButton = 'Keluar'
                      Txt = 'Keluar'
                      Color = '#B90303'

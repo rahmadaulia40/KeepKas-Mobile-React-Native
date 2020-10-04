@@ -33,7 +33,14 @@ export default class ListKasMasukAdmin extends React.Component {
                <Text style={styles.titleWaktu}>{data.waktu}</Text>
             </View>
           </View>
-        <View style={{justifyContent: 'center',backgroundColor: this.state.warna, width: 130}}>
+        <View style={{
+          justifyContent: 'center',
+          backgroundColor: this.state.warna, 
+          width: 130,
+          borderBottomRightRadius: 30,
+          borderTopLeftRadius: 30,
+          }}
+        >
           <Text style={styles.titleStatus}>{data.status}</Text>
         </View>
       </TouchableOpacity>
@@ -46,10 +53,14 @@ export default class ListKasMasukAdmin extends React.Component {
    box:{
       height: 100,
       backgroundColor: '#3C6AE1',
-      elevation: 5,
+      //elevation: 5,
       paddingLeft: 20,
       flexDirection: 'row',
-      margin: 10
+      margin: 5,
+      borderTopLeftRadius: 30,
+      borderTopRightRadius: 30,
+      borderBottomRightRadius: 30
+
    },
    titleNama: {
      color: 'white',

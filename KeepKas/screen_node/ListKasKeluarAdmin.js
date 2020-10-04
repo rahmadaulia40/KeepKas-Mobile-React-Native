@@ -2,39 +2,30 @@ import React from 'react'
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native'
 
 export default class ListKasKeluarAdmin extends React.Component {
-  constructor(){
-    super()
-    this.state = {
-      action : {}
-    }
-  }
-
    currencyFormat(num) {
      return 'Rp ' + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
    };
  
    render() {
      const data = this.props.data
-     const Aksi =()=>{
-       if (data.status === 'Di Proses')
-       {
-        this.state.action = {}//this.props.Nilai(data)
-       }
-       else
-       {
-         this.state.action = {}
-       }
-     }
      return (
        <View>
-        <TouchableOpacity style={styles.box} onPress={() => Aksi()}>
+        <TouchableOpacity style={styles.box} onPress={() => this.props.Nilai(data)}>
         <View style={{flex: 1,justifyContent: 'center'}}>
           <Text style={styles.titleHarga} numberOfLines={1}>{this.currencyFormat(Number(data.nominal))}</Text>
           <View style={{flexDirection: 'row'}}>
                <Text style={styles.titleNama} numberOfLines={1}>{data.keterangan}</Text>
             </View>
           </View>
-        <View style={{justifyContent: 'center',backgroundColor: '#3C6AE1', width: 100}}>
+        <View style={{
+          justifyContent: 'center',
+          backgroundColor: '#3C6AE1', 
+          width: 150,
+          height:30,
+          borderBottomRightRadius: 40,
+          borderBottomLeftRadius: 40,
+          }}
+        >
             <Text style={styles.titleStatus}>{data.waktu}</Text>
         </View>
       </TouchableOpacity>
@@ -50,10 +41,13 @@ export default class ListKasKeluarAdmin extends React.Component {
    box:{
       height: 100,
       backgroundColor: '#B90303',
-      elevation: 5,
       paddingLeft: 20,
       flexDirection: 'row',
-      margin: 10
+      margin: 5,
+      borderBottomRightRadius: 50,
+      borderTopLeftRadius: 50,
+      borderBottomLeftRadius: 50
+
    },
    titleNama: {
      color: 'white',

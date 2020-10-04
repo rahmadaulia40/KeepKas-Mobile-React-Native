@@ -5,7 +5,7 @@ import firebase from '../database/firebase'
 import ButtonInput from '../screen_components/ButtonInput'
 import Loading from '../screen_components/Loading'
 
-export default class DetailKasMasuk extends React.Component {
+export default class DetailKasKeluar extends React.Component {
    constructor() {
       super()
       this.state = {
@@ -59,8 +59,8 @@ export default class DetailKasMasuk extends React.Component {
     delete = () => {
       this.setState({isLoading: true})
       const { data } = this.props.route.params
-      firebase.database().ref('total_kas_masuk/'+data.id_admin+ '/' + data.id + '/').remove()
-      firebase.database().ref('kas_masuk/'+ data.id + '/').remove()
+      firebase.database().ref('total_kas_keluar/'+data.id_admin+ '/' + data.id + '/').remove()
+      firebase.database().ref('kas_keluar/'+ data.id + '/').remove()
       
       .then(()=>{
          this.ButtonAlertSukses()
@@ -78,7 +78,7 @@ export default class DetailKasMasuk extends React.Component {
       "Data Berhasil Di Hapus !",
       [
         { text: "OK", onPress: () => {
-           this.props.navigation.navigate('KasMasukAdmin') 
+           this.props.navigation.navigate('KasKeluarAdmin') 
             this.setState({isLoading: false})
          }}
       ],
@@ -86,25 +86,12 @@ export default class DetailKasMasuk extends React.Component {
     )
 
    render() {
-      const { data } = this.props.route.params
-      if (data.status == 'Sukses')
-      {
-         this.state.color = '#98a8d2'
-      }
-      else
-      {
-         this.state.color = '#3C6AE1'
-      }
-      if(this.state.isLoading){
-         return(
-           <Loading/>
-         )
-       }    
+      const { data } = this.props.route.params   
       return (
          <View style={styles.container}>
 
             <View style={{alignItems: 'center'}}>
-               <Text style={styles.titleHeader}>Detail Kas Masuk</Text>
+               <Text style={styles.titleHeader}>Detail Kas Keluar</Text>
             </View>
 
             <View style={styles.box}>
@@ -112,27 +99,17 @@ export default class DetailKasMasuk extends React.Component {
                   <Text style={styles.titleInfo}>Nama</Text>
                   <Text style={styles.titleInfo}>Nominal</Text>
                   <Text style={styles.titleInfo}>Tanggal</Text>
-                  <Text style={styles.titleInfo}>Status</Text>
                </View>
                <View>
                   <Text style={styles.titleInfo}>: {data.nama}</Text>
-                  <Text style={styles.titleInfo}>: {this.currencyFormat(Number(data.jumlah))}</Text>
+                  <Text style={styles.titleInfo}>: {this.currencyFormat(Number(data.nominal))}</Text>
                   <Text style={styles.titleInfo}>: {data.waktu}</Text>
-                  <Text style={styles.titleInfo}>: {data.status}</Text>
                </View>
             </View>
             <View style={styles.box1}>
                <Text style={styles.titleInfo}>Keterangan :</Text>
                   <Text style={styles.titleInfo1} numberOfLines = {10}>{data.keterangan}</Text>
             </View>
-
-            <ButtonInput
-               onPress={() => this.konfirmasi()}
-               titleButton = 'Konfirmasi'
-               Txt = 'Konfirmasi'
-               Color = {this.state.color}//'#3C6AE1'//98a8d2
-               MarginTop = {20}
-            />
 
             <ButtonInput
                onPress={() => this.ButtonAlertKonfirmasi()}
@@ -161,10 +138,10 @@ const styles = StyleSheet.create({
       margin: 20,
       fontSize: 24,
       fontWeight: 'bold',
-      color: '#3C6AE1'
+      color: '#B90303'
    },
    box:{
-      backgroundColor: '#3C6AE1',
+      backgroundColor: '#B90303',
       alignItems: 'center',
       borderRadius: 20,
       padding: 20,
@@ -180,7 +157,7 @@ const styles = StyleSheet.create({
       marginRight: 10
    },
    box1 :{
-      backgroundColor: '#3C6AE1',
+      backgroundColor: '#B90303',
       justifyContent: 'center',
       borderRadius: 20,
       padding: 20,

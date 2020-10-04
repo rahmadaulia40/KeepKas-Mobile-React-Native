@@ -48,7 +48,7 @@ export default class TambahKasAdmin extends React.Component {
          .then(()=>{
             this.setState({isLoading: false,jumlah: '',keterangan: ''})
             console.log('INSERTED !')
-            Alert.alert('Tambah Kas Mauk', 'Penambahan kas berhasil, silahkan cek data kas masuk anda ')
+            this.ButtonAlertSukses()
             
          }).catch((error) => {
             this.setState({isLoading: false})
@@ -57,6 +57,18 @@ export default class TambahKasAdmin extends React.Component {
            })
       }
     }
+    ButtonAlertSukses = () =>
+    Alert.alert(
+      "Tambah Kas",
+      "Penambahan kas berhasil, silahkan cek data kas masuk anda !",
+      [
+        { text: "OK", onPress: () => {
+           this.props.navigation.navigate('HomeAdmin') 
+            this.setState({isLoading: false})
+         }}
+      ],
+      { cancelable: false }
+    )
    render(){
       if(this.state.isLoading){
          return(

@@ -1,5 +1,8 @@
-import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, Alert, ActivityIndicator } from 'react-native';
+import React from 'react'
+import { StyleSheet, Text, View, Alert, NativeModules } from 'react-native'
+import ImagePicker from 'react-native-image-picker'
+
+import ImageResizer from 'react-native-image-resizer'
 import firebase from '../database/firebase'
 
 import ButtonInput from '../screen_components/ButtonInput'
@@ -45,8 +48,40 @@ export default class TambahUser extends React.Component {
         })
       }
   }
+
+
+  OpenPicture=()=>{
+    const options = {
+      title: 'Select Avatar',
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    
+    ImagePicker.showImagePicker(options, (response) => {
+      console.log('Response = ', response);
+    
+      if (response.didCancel) 
+      {
+        console.log('User cancelled image picker');
+      } 
+      else if (response.error) 
+      {
+        console.log('ImagePicker Error: ', response.error);
+      } 
+      else 
+      {
+        const uri = response.uri;
+        this.setState({
+          selectedPictureUri: uri,
+        });
+      }
+    })
+  }
     
    render(){
+
     if(this.state.isLoading){
       return(
         <Loading/>
@@ -66,6 +101,12 @@ export default class TambahUser extends React.Component {
         onPress={() => this.editProfil()}
         titleButton = 'Edit Profil'
         Txt = 'Edit Profil'
+        Color = '#3C6AE1'
+      />
+      <ButtonInput
+        onPress={() => this.OpenPicture()}
+        titleButton = 'Edit Gambar'
+        Txt = 'Edit Gambar'
         Color = '#3C6AE1'
       />
       

@@ -20,7 +20,6 @@ export default class Kasmasuk extends React.Component {
     const db = firebase.database().ref()
     var onValueChange =(snap)=>{ 
       const datai = snap.val()
-      console.log(datai)
       this.setState({data : datai})
     }
     const twoRef = db.child('users').orderByChild('uidadmin').equalTo(uid)
@@ -59,15 +58,6 @@ export default class Kasmasuk extends React.Component {
         />
 
       </View>
-      <View style={{margin:20}}>
-      <ButtonInput
-         onPress={() => {this.props.navigation.navigate('TambahUser',{uid : this.state.uid, displayName: this.state.displayName})}}
-         titleButton = 'Tambah Anggota'
-         Txt = 'Tambah Anggota'
-         Color = '#3C6AE1'
-      />
-      </View>
-      
     </View>
   )
 

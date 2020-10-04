@@ -12,12 +12,14 @@ export default class ListUser extends React.Component {
   }
    render() {
      const data = this.props.data
-     var imageRef = firebase.storage().ref(data.gambar)
+     var imageRef = firebase.storage().ref('ImageProfile/'+data.gambar)
      imageRef.getDownloadURL()
      .then((url)=>{
        this.setState({gambar: url})
       })
-     .catch((error) => {Alert.alert('Data Anggota',String(error))})
+     .catch(() => {
+       Alert.alert('Data Anggota','Gambar tidak ditemukan !')
+      })
      return (
         <TouchableOpacity style={styles.box} onPress={() => this.state.action = this.props.Nilai(data)}>
           <View style={{justifyContent: 'center', width: 100, alignItems: 'center'}}>

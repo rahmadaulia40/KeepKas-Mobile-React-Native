@@ -24,6 +24,7 @@ import KasMasukAdmin from './screen_admin/kasmasukadmin'
 import KasKeluarAdmin from './screen_admin/kaskeluar'
 import DetailKasMasuk from './screen_admin/detailkasmasuk'
 import TambahKasKeluar from './screen_admin/tambahkaskeluar'
+import DetailKasKeluar from './screen_admin/detailkaskeluar';
 
 const Stack = createStackNavigator();
 const statusBarHeight = Constants.statusBarHeight
@@ -50,6 +51,7 @@ export default class App extends React.Component {
           <Stack.Screen name='KasMasukAdmin' component={KasMasukAdmin} options={{ headerTitle: 'Kas Masuk'}} />
           <Stack.Screen name='KasKeluarAdmin' component={KasKeluarAdmin} options={{ headerTitle: 'Kas Keluar'}} />
           <Stack.Screen name='DetailKasMasuk' component={DetailKasMasuk} options={{ headerTitle: 'Detail Kas Masuk'}} />
+          <Stack.Screen name='DetailKasKeluar' component={DetailKasKeluar} options={{ headerTitle: 'Detail Kas Keluar'}} />
           <Stack.Screen name='TambahKasKeluar' component={TambahKasKeluar} options={{ headerTitle: 'Tambah Pengeluaran'}} />
           <Stack.Screen name='TambahUser' component={TambahUser} options={{ headerTitle: 'Tambah Anggota'}} />
           <Stack.Screen name='TambahKasAdmin' component={TambahKasAdmin} options={{ headerTitle: 'Tambah Kas'}} />

@@ -65,46 +65,73 @@ export default class TambahUser extends React.Component {
     }
   return (
     <View style={styles.container}>
-      <Text>Input Data</Text>
-    <View style={styles.body}>
+      <View style={styles.body}>
 
-      <FromInput onChangeText={(val)=> this.updateInputVal(val, 'displayName')}
-        labelValue={this.state.displayName}
-        placeholderText= 'Nama Lengkap'
-      />
+        <View style={{alignItems: 'center'}}>
+          <Text style={styles.title1}>Tambah Anggota</Text>
+        </View>
 
-      <FromInput onChangeText={(val) => this.updateInputVal(val, 'email')}
-        labelValue={this.state.email}
-        placeholderText= 'Email Address'
-      />
+        <View style={styles.box1}>
+          <Text style={styles.titleInfo}>Fitur penambahan anggota ini berfungsi agar anggota dapat melihat data kas serta membayar kas.</Text>
+        </View>
 
-      <FromInput onChangeText={(val) => this.updateInputVal(val, 'password')}
-        labelValue={this.state.password}
-        placeholderText= 'Password'
-      />
+        <FromInput onChangeText={(val)=> this.updateInputVal(val, 'displayName')}
+          labelValue={this.state.displayName}
+          placeholderText= 'Nama Lengkap'
+        />
 
-      <ButtonInput
-        onPress={() => this.registerUser()}
-        titleButton = 'Tambah Anggota'
-        Txt = 'Tambah Anggota'
-        Color = '#3C6AE1'
-      />
-      
+        <FromInput onChangeText={(val) => this.updateInputVal(val, 'email')}
+          labelValue={this.state.email}
+          placeholderText= 'Email Address'
+        />
+
+        <FromInput onChangeText={(val) => this.updateInputVal(val, 'password')}
+          labelValue={this.state.password}
+          placeholderText= 'Password'
+        />
+
+        <ButtonInput
+          onPress={() => this.registerUser()}
+          titleButton = 'Tambah Anggota'
+          Txt = 'Tambah Anggota'
+          Color = '#3C6AE1'
+        />
+        
       </View>
-      
     </View>
-  )
-  }
+  )}
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    justifyContent: 'center',
   },
   body:{
-      marginLeft: 60,
-      marginRight: 60
-  }
+      marginLeft: 40,
+      marginRight: 40
+  },
+  title1 :{
+    margin: 20,
+    fontSize: 24,
+    fontWeight: 'bold'
+ },
+ titleInfo: {
+  color: 'white',
+  fontSize: 24,
+  textAlign: 'center',
+  fontWeight: 'bold'
+ },
+ box1:{
+  height: 200,
+  backgroundColor: '#00DCEA',
+  justifyContent: 'center',
+  alignItems: 'center',
+  borderColor: '#3C6AE1',
+  borderWidth: 2,
+  borderRadius: 10,
+  padding: 20,
+  marginBottom: 20
+},
+
 });

@@ -23,7 +23,7 @@ export default class KasKeluar extends React.Component {
         })
     }
     Nilai(list) {
-      this.props.navigation.navigate('DetailAdmin', {
+      this.props.navigation.navigate('DetailKasKeluar', {
       data : this.setState.data = list
       })
     }
