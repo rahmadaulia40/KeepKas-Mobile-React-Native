@@ -46,7 +46,7 @@ export default class Login extends React.Component {
         .then(() => {
           console.log('User logged-in successfully!')
           this.setState({isLoading: true,email: '', password: ''})
-          if (firebase.auth().currentUser.photoURL === null || firebase.auth().currentUser.photoURL === 'account-circle')
+          if (firebase.auth().currentUser.photoURL === null || firebase.auth().currentUser.photoURL === firebase.auth().currentUser.uid)
           {
             this.props.navigation.navigate('HomeAdmin',this.setState({isLoading: true}))
             this.setState({isLoading: false,passwordhide: true})

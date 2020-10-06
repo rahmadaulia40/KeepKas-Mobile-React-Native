@@ -17,15 +17,7 @@ export default class ListKasKeluarAdmin extends React.Component {
                <Text style={styles.titleNama} numberOfLines={1}>{data.keterangan}</Text>
             </View>
           </View>
-        <View style={{
-          justifyContent: 'center',
-          backgroundColor: '#3C6AE1', 
-          width: 150,
-          height:30,
-          borderBottomRightRadius: 40,
-          borderBottomLeftRadius: 40,
-          }}
-        >
+        <View style={styles.boxWaktu}>
             <Text style={styles.titleStatus}>{data.waktu}</Text>
         </View>
       </TouchableOpacity>
@@ -75,5 +67,13 @@ export default class ListKasKeluarAdmin extends React.Component {
     fontWeight: 'bold',
     fontSize: 18,
     margin: 8
-  }
+  },
+  boxWaktu : {
+    justifyContent: 'center',
+    backgroundColor: '#3C6AE1', 
+    width: 150,
+    height:30,
+    borderBottomRightRadius: 40,
+    borderBottomLeftRadius: 40,
+    }
  })

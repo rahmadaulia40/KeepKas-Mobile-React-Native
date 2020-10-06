@@ -46,10 +46,18 @@ export default class SignUp extends React.Component {
         firebase
         .auth()
         .createUserWithEmailAndPassword(this.state.email, this.state.password)
-        .then((res) => {res.user.updateProfile({displayName: this.state.displayName, photoURL : 'account-circle'})
-          console.log('User logged-in successfully!')
-          Alert.alert('Daftar', 'Akun anda telah ditambah !')
-          this.props.navigation.navigate('Login')
+        .then((res) => {res.user.updateProfile({displayName: this.state.displayName})
+          var db = firebase.database().ref('users')
+          var ref = db.push({
+          uidadmin : firebase.auth().currentUser.uid,
+          uid : firebase.auth().currentUser.uid,
+          email : this.state.email,
+          nama : this.state.displayName,
+          level : 'admin'
+        })
+        var id = ref.key
+        db.child(ref.key).update({id : id})
+          this.ButtonAlertKonfirmasi()
           this.setState({isLoading: false,displayName: '', email: '', password: ''})
         })
         .catch((error) => {
@@ -59,6 +67,16 @@ export default class SignUp extends React.Component {
       })
       }
     }
+
+    ButtonAlertKonfirmasi = () =>
+    Alert.alert(
+      "Daftar Akun Admin",
+      "Data telah ditambah",
+      [
+        { text: "Ya", onPress: () => {this.props.navigation.navigate('Login')}}
+      ],
+      { cancelable: false }
+    )
     render() {
       if(this.state.isLoading){
          return(

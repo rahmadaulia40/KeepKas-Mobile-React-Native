@@ -39,15 +39,14 @@ export default class TambahUser extends React.Component {
           uidadmin : uid,
           email : this.state.email,
           nama : this.state.displayName,
-          gambar : 'user.png'
+          uid : firebase.auth().currentUser.uid,
+          level : 'user'
         })
         var id = ref.key
         db.child(ref.key).update({id : id})
-
+        this.ButtonAlertKonfirmasi()
         console.log('User logged-in successfully!')
-        Alert.alert('Data User', 'data telah ditambah !')
-        this.props.navigation.navigate('Jumlahanggota')
-          this.setState({isLoading: false,displayName: '', email: '', password: ''})
+        this.setState({isLoading: false,displayName: '', email: '', password: ''})
       })
       .catch((error) => {
         this.setState({isLoading : false})
@@ -56,6 +55,16 @@ export default class TambahUser extends React.Component {
         })
       }
   }
+
+  ButtonAlertKonfirmasi = () =>
+    Alert.alert(
+      "Tambah Anggota",
+      "Data telah ditambah",
+      [
+        { text: "Ya", onPress: () => {this.props.navigation.navigate('HomeAdmin')}}
+      ],
+      { cancelable: false }
+    )
     
    render(){
     if(this.state.isLoading){
@@ -88,6 +97,7 @@ export default class TambahUser extends React.Component {
         <FromInput onChangeText={(val) => this.updateInputVal(val, 'password')}
           labelValue={this.state.password}
           placeholderText= 'Password'
+          secureTextEntry= {true}
         />
 
         <ButtonInput

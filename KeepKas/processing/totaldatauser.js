@@ -9,6 +9,9 @@ export default class TotalKasMasuk extends React.Component {
       data: ''
     }
   }
+  currencyFormat(num) {
+    return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+   };
   componentDidMount() {
     this.fetchData()
  }
@@ -36,7 +39,7 @@ export default class TotalKasMasuk extends React.Component {
   }
   render(){
   return (
-  <Text>{this.state.data}</Text>
+    <Text>{this.currencyFormat(Number(this.state.data))}</Text>
   )
 
   }

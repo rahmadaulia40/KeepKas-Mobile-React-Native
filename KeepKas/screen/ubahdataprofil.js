@@ -1,8 +1,5 @@
-import React from 'react'
-import { StyleSheet, Text, View, Alert, NativeModules } from 'react-native'
-import ImagePicker from 'react-native-image-picker'
-
-import ImageResizer from 'react-native-image-resizer'
+import * as React from 'react';
+import { StyleSheet, View, Alert, Text } from 'react-native'
 import firebase from '../database/firebase'
 
 import ButtonInput from '../screen_components/ButtonInput'
@@ -14,14 +11,19 @@ export default class TambahUser extends React.Component {
     super()
     this.state = {
         displayName : '',
-        isLoading : false
+        isLoading : false,
+        uid : firebase.auth().currentUser.uid,
+        email : firebase.auth().currentUser.email,
+        photoURL : firebase.auth().currentUser.photoURL
     }
   }
+
   updateInputVal = (val, prop) => {
     const state = this.state;
     state[prop] = val;
     this.setState(state);
   }
+  
   editProfil = () => {
     if(this.state.email === '' && this.state.password === '')
     {
@@ -35,7 +37,15 @@ export default class TambahUser extends React.Component {
          displayName : this.state.displayName
       })
       .then(() => {
-         console.log('User logged-in successfully!')
+        var db = firebase.database().ref('users')
+        var ref = db.push({
+          uidadmin : this.state.uid,
+          email : this.state.email,
+          nama : this.state.displayName,
+          gambar : this.state.photoURL
+        })
+        var id = ref.key
+        db.child(ref.key).update({id : id})
          Alert.alert('Data Profil', 'Profil telah diubah !')
          this.props.navigation.navigate('ProfilAdmin')
          this.setState({isLoading: false,displayName: '', email: '', password: ''})
@@ -49,39 +59,8 @@ export default class TambahUser extends React.Component {
       }
   }
 
-
-  OpenPicture=()=>{
-    const options = {
-      title: 'Select Avatar',
-      storageOptions: {
-        skipBackup: true,
-        path: 'images',
-      },
-    };
-    
-    ImagePicker.showImagePicker(options, (response) => {
-      console.log('Response = ', response);
-    
-      if (response.didCancel) 
-      {
-        console.log('User cancelled image picker');
-      } 
-      else if (response.error) 
-      {
-        console.log('ImagePicker Error: ', response.error);
-      } 
-      else 
-      {
-        const uri = response.uri;
-        this.setState({
-          selectedPictureUri: uri,
-        });
-      }
-    })
-  }
-    
+  
    render(){
-
     if(this.state.isLoading){
       return(
         <Loading/>
@@ -103,14 +82,7 @@ export default class TambahUser extends React.Component {
         Txt = 'Edit Profil'
         Color = '#3C6AE1'
       />
-      <ButtonInput
-        onPress={() => this.OpenPicture()}
-        titleButton = 'Edit Gambar'
-        Txt = 'Edit Gambar'
-        Color = '#3C6AE1'
-      />
-      
-      </View>
+    </View>
       
     </View>
   )

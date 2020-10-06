@@ -13,12 +13,15 @@ import SaldoKas from '../processing/saldokas'
 import TotalUser from '../processing/totaldatauser'
 
 
-
 export default class Home extends React.Component {
    constructor() {
       super()
       this.state ={
-         isLoading : false
+         isLoading : false,
+         gambar: 'user',
+         displayName : firebase.auth().currentUser.displayName,
+         email : firebase.auth().currentUser.email,
+         uid : firebase.auth().currentUser.uid
       }
    }
    currencyFormat(num) {
@@ -50,27 +53,26 @@ export default class Home extends React.Component {
            <Loading/>
          )
        }
-      this.state = { 
-         displayName: firebase.auth().currentUser.displayName,
-         uid: firebase.auth().currentUser.uid,
-         photoURL: firebase.auth().currentUser.photoURL,
-       }
-       Alert.alert('KeepKas','Selamat Datang '+[this.state.displayName])
-       
-
-      if(this.state.photoURL == null)
-      {
-         this.state.gambar = require('../assets/user.png')
-      }
-
+       var imageRef = firebase.storage().ref('ImageProfile/'+this.state.uid+'.png')
+         imageRef.getDownloadURL()
+         .then((url)=>{
+            this.setState ({gambar : url})
+         })
+         .catch(() => {
+            var imageRef = firebase.storage().ref('ImageProfile/user.png')
+            imageRef.getDownloadURL()
+            .then((url)=>{
+               this.setState({gambar : url})
+            })
+         })
    return (
       <View style={{flex:1, justifyContent: 'space-between'}}>
          <View style={styles.header}>
                <Text style={styles.titleHeader}>Keep<Text style={{fontWeight: 'normal'}}>Kas</Text></Text>
                <TouchableOpacity  style={styles.rightH} 
-                  onPress={() => {this.props.navigation.navigate('ProfilAdmin')}}>
+                  onPress={() => {this.props.navigation.navigate('ProfilAdmin',{uid : this.state.uid, displayName : this.state.displayName, email : this.state.email})}}>
                   <Text style={styles.text}>Hai, {this.state.displayName}</Text>
-                  <Image source={this.state.gambar} style={styles.picture} />
+                  <Image source={{uri : this.state.gambar}} style={styles.picture} />
                </TouchableOpacity>
          </View>
 
@@ -217,8 +219,8 @@ const styles = StyleSheet.create({
       height: 60
    },
    picture:{
-      height: 30,
-      width: 30,
+      height: 40,
+      width: 40,
       marginRight: 24,
       borderRadius: 50
    }
