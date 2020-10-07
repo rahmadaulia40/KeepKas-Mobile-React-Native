@@ -6,6 +6,7 @@ import Constants from 'expo-constants'
 import * as Permissions from 'expo-permissions'
 import firebase from '../database/firebase'
 import Loading from '../screen_components/Loading'
+import PictureProfileBig from '../processing/PictureProfileBig'
 
 export default class Profil extends React.Component {
    constructor(){
@@ -68,28 +69,14 @@ export default class Profil extends React.Component {
            <Loading/>
          )
        }
-       const { uid, displayName, email } = this.props.route.params;
-         var imageRef = firebase.storage().ref('ImageProfile/'+uid+'.png')
-         imageRef.getDownloadURL()
-         .then((url)=>{
-            this.setState ({gambar : url})
-         })
-         .catch(() => {
-            var imageRef = firebase.storage().ref('ImageProfile/user.png')
-            imageRef.getDownloadURL()
-            .then((url)=>{
-               this.setState({gambar : url})
-            })
-         })
+       const { displayName, email } = this.props.route.params;
       
    return (
       <View style={{flex:1, margin: 20}}>
          <View style={styles.header}>
             <View style={{alignItems: 'center', marginTop: 20}}>
-
-               <View style={{elevation: 10,width: 230,height: 230,borderRadius: 220,}}>
-                  <Image source={{uri: this.state.gambar}} style={styles.picture}/>
-               </View>
+            
+               <PictureProfileBig />
                <TouchableOpacity
                style={{flexDirection: 'row', alignItems: 'center', marginTop: 10}}
                onPress={this._pickImage}>

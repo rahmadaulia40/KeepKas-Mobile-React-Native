@@ -64,8 +64,9 @@ export default class TotalKasMasuk extends React.Component {
    console.log('Saldo Kas : '+this.state.datamasuk - this.state.datakeluar)
  }
   render(){
+    var Total = this.state.datamasuk - this.state.datakeluar
   return (
-  <Text>{this.currencyFormat(Number(this.state.datamasuk - this.state.datakeluar))}</Text>
+  <Text>{this.currencyFormat(Number(Total))}</Text>
   )
 
   }

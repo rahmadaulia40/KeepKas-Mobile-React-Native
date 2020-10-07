@@ -36,9 +36,9 @@ export default class ListKasKeluarAdmin extends React.Component {
       paddingLeft: 20,
       flexDirection: 'row',
       margin: 5,
-      borderBottomRightRadius: 50,
-      borderTopLeftRadius: 50,
-      borderBottomLeftRadius: 50
+      borderTopRightRadius: 35,
+      borderBottomLeftRadius: 30,
+      borderBottomRightRadius: 30,
 
    },
    titleNama: {
@@ -73,7 +73,7 @@ export default class ListKasKeluarAdmin extends React.Component {
     backgroundColor: '#3C6AE1', 
     width: 150,
     height:30,
-    borderBottomRightRadius: 40,
+    borderTopRightRadius: 40,
     borderBottomLeftRadius: 40,
     }
  })

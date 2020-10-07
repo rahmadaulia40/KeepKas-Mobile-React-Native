@@ -56,7 +56,14 @@ export default class Kasmasuk extends React.Component {
             renderItem={({ item }) => <ListUser Nilai={this.Nilai.bind(this)} data={item} />}
             keyExtractor={item => item.id}
         />
-
+      </View>
+      <View style={{margin: 20}}>
+        <ButtonInput
+          onPress={() => {this.props.navigation.navigate('ScanTambahUser')}}
+          titleButton = 'Tambah Anggota'
+          Txt = 'Tambah Anggota'
+          Color = '#3C6AE1'
+        />
       </View>
     </View>
   )

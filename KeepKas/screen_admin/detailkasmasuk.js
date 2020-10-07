@@ -78,7 +78,7 @@ export default class DetailKasMasuk extends React.Component {
       "Data Berhasil Di Hapus !",
       [
         { text: "OK", onPress: () => {
-           this.props.navigation.navigate('KasMasukAdmin') 
+           this.props.navigation.navigate('HomeAdmin') 
             this.setState({isLoading: false})
          }}
       ],

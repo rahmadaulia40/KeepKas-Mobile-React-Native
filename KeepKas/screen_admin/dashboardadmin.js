@@ -11,6 +11,7 @@ import TotalKasMasuk from '../processing/totalkasmasuk'
 import TotalKasKeluar from '../processing/totalkaskeluar'
 import SaldoKas from '../processing/saldokas'
 import TotalUser from '../processing/totaldatauser'
+import PictureProfileSmall from '../processing/PictureProfileSmall'
 
 
 export default class Home extends React.Component {
@@ -53,18 +54,6 @@ export default class Home extends React.Component {
            <Loading/>
          )
        }
-       var imageRef = firebase.storage().ref('ImageProfile/'+this.state.uid+'.png')
-         imageRef.getDownloadURL()
-         .then((url)=>{
-            this.setState ({gambar : url})
-         })
-         .catch(() => {
-            var imageRef = firebase.storage().ref('ImageProfile/user.png')
-            imageRef.getDownloadURL()
-            .then((url)=>{
-               this.setState({gambar : url})
-            })
-         })
    return (
       <View style={{flex:1, justifyContent: 'space-between'}}>
          <View style={styles.header}>
@@ -72,7 +61,7 @@ export default class Home extends React.Component {
                <TouchableOpacity  style={styles.rightH} 
                   onPress={() => {this.props.navigation.navigate('ProfilAdmin',{uid : this.state.uid, displayName : this.state.displayName, email : this.state.email})}}>
                   <Text style={styles.text}>Hai, {this.state.displayName}</Text>
-                  <Image source={{uri : this.state.gambar}} style={styles.picture} />
+                  <PictureProfileSmall/>
                </TouchableOpacity>
          </View>
 
@@ -99,26 +88,7 @@ export default class Home extends React.Component {
                      onPress={() => {this.props.navigation.navigate('Jumlahanggota', {uid: this.state.uid})}}
                      Txt1 = 'Data' Txt2 = 'Anggota' Txt3 = {<TotalUser/>} Txt4 = 'Anggota' Color= '#44BAFD'
                   />
-                  <ButtonInput
-                     onPress={() => {this.props.navigation.navigate('TambahUser',{uid : this.state.uid, displayName: this.state.displayName})}}
-                     titleButton = 'Tambah Anggota'
-                     Txt = 'Tambah Anggota'
-                     Color = '#3C6AE1'
-                  />
-                  <ButtonInput
-                     onPress={() => {this.props.navigation.navigate('TambahKasAdmin',{uid : this.state.uid, displayName: this.state.displayName, photoURL: this.state.photoURL})}}
-                     titleButton = 'Tambah Kas'
-                     Txt = 'Tambah Kas'
-                     Color = '#3C6AE1'
-                     MarginTop = {20}
-                  />
-                  <ButtonInput
-                     onPress={() => {this.props.navigation.navigate('TambahKasKeluar', {uid: this.state.uid, displayName : this.state.displayName})}}
-                     titleButton = 'Tambah Pengeluaran'
-                     Txt = 'Tambah Pengeluaran'
-                     Color = '#B90303'
-                     MarginTop = {20}
-                  />
+                  
                   <ButtonInput
                      onPress={() => this.ButtonAlertKonfirmasi()}
                      titleButton = 'Keluar'

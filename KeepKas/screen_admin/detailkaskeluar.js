@@ -3,7 +3,6 @@ import {View, StyleSheet, Alert,Text } from 'react-native'
 import firebase from '../database/firebase'
 
 import ButtonInput from '../screen_components/ButtonInput'
-import Loading from '../screen_components/Loading'
 
 export default class DetailKasKeluar extends React.Component {
    constructor() {
@@ -15,31 +14,6 @@ export default class DetailKasKeluar extends React.Component {
    currencyFormat(num) {
       return 'Rp ' + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
     };
-
-    konfirmasi = () => {
-      this.setState({isLoading: true})
-      const { data } = this.props.route.params
-      if (data.status == 'Sukses')
-      {
-         this.setState({isLoading: false})
-         Alert.alert('Gagal Konfirmasi Data !', 'Data telah dikonfirmasi sebelumnya')
-      }
-      else
-      {
-         firebase.database().ref('kas_masuk/'+ data.id + '/').update({status : 'Sukses'})
-         .then(()=>{
-            firebase.database().ref('total_kas_masuk/'+data.id_admin+ '/').update({[data.id] : data.jumlah})
-            Alert.alert('Sukses', 'Data berhasil di Konfirmasi')
-            this.setState({isLoading: false})
-            
-         })
-         .catch((error) => {
-            this.setState({isLoading: false})
-            console.log(error)
-            alert(error)
-         })
-      }
-    }
 
    ButtonAlertKonfirmasi = () =>
     Alert.alert(
@@ -78,7 +52,7 @@ export default class DetailKasKeluar extends React.Component {
       "Data Berhasil Di Hapus !",
       [
         { text: "OK", onPress: () => {
-           this.props.navigation.navigate('KasKeluarAdmin') 
+           this.props.navigation.navigate('Jumlahanggota') 
             this.setState({isLoading: false})
          }}
       ],

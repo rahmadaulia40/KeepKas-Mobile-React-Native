@@ -101,7 +101,7 @@ export default class Login extends React.Component {
 
                <TouchableOpacity>
                   <Text style={styles.loginText}
-                     onPress={() => this.props.navigation.navigate('SignUp')}>
+                     onPress={() => this.props.navigation.navigate('ScannerSignUp')}>
                      Don't have account? Click here to signup
                   </Text>
                </TouchableOpacity>

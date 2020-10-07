@@ -46,15 +46,25 @@ export default class barang extends React.Component {
          })
          var id = ref.key
          db.child(ref.key).update({id : id})
-         firebase.database().ref().child('total_kas_keluar/'+uid+ '/').update({[ref.key] : this.state.nominal})
          .then(()=>{
-            this.setState({isLoading: false,nominal: '', keterangan: ''})
-            Alert.alert('Data Pengeluaran !', 'Data pengeluaran berhasil di input, silahkan cek Kas Keluar')
-            this.setState({isLoading: false})
+            firebase.database().ref().child('total_kas_keluar/'+uid+ '/').update({[ref.key] : this.state.nominal})
+            this.ButtonAlertSukses()
          })
          .catch((error) => {Alert.alert('Kas Keluar',String(error))})
       }
     }
+
+    ButtonAlertSukses = () =>
+    Alert.alert(
+      "Tambah Pengeluaran",
+      "Data pengeluaran berhasil di input, silahkan cek Kas Keluar",
+      [
+        { text: "OK", onPress: () => { 
+           this.setState({isLoading: false,nominal: '', keterangan: ''})
+         }}
+      ],
+      { cancelable: false }
+    )
    render(){
       if(this.state.isLoading){
          return(

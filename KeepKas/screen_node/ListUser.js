@@ -10,20 +10,27 @@ export default class ListUser extends React.Component {
       gambar : 'user.png'
     }
   }
+
+  componentDidMount() {
+    this.fetchData()
+ }
+  fetchData = async () => {
+    const data = this.props.data
+    var imageRef = firebase.storage().ref('ImageProfile/'+data.uid+'.png')
+   imageRef.getDownloadURL()
+   .then((url)=>{
+    this.setState ({gambar : url})
+ })
+ .catch(() => {
+    var imageRef = firebase.storage().ref('ImageProfile/user.png')
+    imageRef.getDownloadURL()
+    .then((url)=>{
+       this.setState({gambar : url})
+    })
+ })
+  }
    render() {
      const data = this.props.data
-     var imageRef = firebase.storage().ref('ImageProfile/'+data.uid+'.png')
-         imageRef.getDownloadURL()
-         .then((url)=>{
-            this.setState ({gambar : url})
-         })
-         .catch(() => {
-            var imageRef = firebase.storage().ref('ImageProfile/user.png')
-            imageRef.getDownloadURL()
-            .then((url)=>{
-               this.setState({gambar : url})
-            })
-         })
      return (
         <TouchableOpacity style={styles.box} onPress={() => this.state.action = this.props.Nilai(data)}>
           <View style={{justifyContent: 'center', width: 100, alignItems: 'center'}}>

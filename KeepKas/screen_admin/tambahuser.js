@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, Alert, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, Alert } from 'react-native';
 import firebase from '../database/firebase'
 
 import ButtonInput from '../screen_components/ButtonInput'
@@ -13,7 +13,8 @@ export default class TambahUser extends React.Component {
         displayName : '',
         email : '',
         password : '',
-        isLoading : false
+        isLoading : false,
+        uid : firebase.auth().currentUser.uid
     }
   }
   updateInputVal = (val, prop) => {
@@ -29,14 +30,14 @@ export default class TambahUser extends React.Component {
     else 
     {
        this.setState({isLoading: true})
-       const { uid } = this.props.route.params;
+       const { uid } = this.props.route.params
       firebase.auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then((res) => {res.user.updateProfile({displayName: this.state.displayName, photoURL: uid})
+      .then((res) => {res.user.updateProfile({displayName: this.state.displayName, photoURL: this.state.uid})
 
         var db = firebase.database().ref('users')
         var ref = db.push({
-          uidadmin : uid,
+          uidadmin : this.state.uid,
           email : this.state.email,
           nama : this.state.displayName,
           uid : firebase.auth().currentUser.uid,
@@ -45,8 +46,7 @@ export default class TambahUser extends React.Component {
         var id = ref.key
         db.child(ref.key).update({id : id})
         this.ButtonAlertKonfirmasi()
-        console.log('User logged-in successfully!')
-        this.setState({isLoading: false,displayName: '', email: '', password: ''})
+        
       })
       .catch((error) => {
         this.setState({isLoading : false})
@@ -61,7 +61,11 @@ export default class TambahUser extends React.Component {
       "Tambah Anggota",
       "Data telah ditambah",
       [
-        { text: "Ya", onPress: () => {this.props.navigation.navigate('HomeAdmin')}}
+        { text: "Ya", onPress: () => {
+          this.setState({isLoading: false,displayName: '', email: '', password: ''})
+          this.props.navigation.navigate('HomeAdmin')
+
+        }}
       ],
       { cancelable: false }
     )
@@ -75,7 +79,6 @@ export default class TambahUser extends React.Component {
   return (
     <View style={styles.container}>
       <View style={styles.body}>
-
         <View style={{alignItems: 'center'}}>
           <Text style={styles.title1}>Tambah Anggota</Text>
         </View>

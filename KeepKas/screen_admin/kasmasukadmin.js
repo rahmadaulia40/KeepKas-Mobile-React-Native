@@ -1,7 +1,8 @@
 import React from 'react';
-import { StyleSheet, View,FlatList, Alert} from 'react-native';
+import { StyleSheet, View,FlatList, Alert} from 'react-native'
 import firebase from '../database/firebase'
 import ListKasMasukAdmin from '../screen_node/ListKasMasukAdmin'
+import ButtonInput from '../screen_components/ButtonInput'
 
 export default class Kasmasuk extends React.Component {
   constructor() {
@@ -50,7 +51,14 @@ export default class Kasmasuk extends React.Component {
             renderItem={({ item }) => <ListKasMasukAdmin Nilai={this.Nilai.bind(this)} data={item} />}
             keyExtractor={item => item.id}
         />
-
+      </View>
+      <View style={{margin: 20}}>
+        <ButtonInput
+          onPress={() => {this.props.navigation.navigate('TambahKasAdmin',{uid : firebase.auth().currentUser.uid, displayName: firebase.auth().currentUser.displayName, photoURL: firebase.auth().currentUser.photoURL})}}
+          titleButton = 'Tambah Kas'
+          Txt = 'Tambah Kas'
+          Color = '#3C6AE1'
+        />
       </View>
       
     </View>
