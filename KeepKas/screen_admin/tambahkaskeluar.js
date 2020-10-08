@@ -88,11 +88,13 @@ export default class barang extends React.Component {
                labelValue={this.state.nominal}
                placeholderText = 'Input Nominal'
                KeyboardType= 'numeric'
+               MarginBottom={30}
             />
 
             <FromInput onChangeText={(val) => this.updateInputVal(val, 'keterangan')}
                labelValue={this.state.keterangan}
                placeholderText = 'Keterangan'
+               MarginBottom={30}
             />
 
             <ButtonInput onPress={() => this.input()} title='Tambah' Color='#B90303' Txt='Tambah'/>
@@ -107,8 +109,8 @@ export default class barang extends React.Component {
 const styles = StyleSheet.create({
    body:{
       flex: 1,
-      marginLeft: 40,
-      marginRight: 40
+      marginLeft: 20,
+      marginRight: 20
    },
    box1:{
       height: 200,
@@ -120,14 +122,14 @@ const styles = StyleSheet.create({
       marginBottom: 30
    },
    title1 :{
-      margin: 20,
+      margin: 18,
       fontSize: 24,
       fontWeight: 'bold'
 
    },
    titleInfo: {
       color: 'white',
-      fontSize: 24,
+      fontSize: 18,
       textAlign: 'center',
       fontWeight: 'bold'
    }

@@ -9,19 +9,28 @@ export default class ListKasKeluarAdmin extends React.Component {
    render() {
      const data = this.props.data
      return (
-       <View>
-        <TouchableOpacity style={styles.box} onPress={() => this.props.Nilai(data)}>
-        <View style={{flex: 1,justifyContent: 'center'}}>
-          <Text style={styles.titleHarga} numberOfLines={1}>{this.currencyFormat(Number(data.nominal))}</Text>
-          <View style={{flexDirection: 'row'}}>
-               <Text style={styles.titleNama} numberOfLines={1}>{data.keterangan}</Text>
+       <TouchableOpacity style={styles.box} onPress={() => this.props.Nilai(data)}>
+
+          <View style={{flexDirection: 'column', flex: 1}}>
+
+            <View style={{flexDirection: 'row'}}>
+
+                  <View style={{flex: 1,justifyContent: 'center'}}>
+                    <Text style={styles.titleHarga} numberOfLines={1}>{this.currencyFormat(Number(data.nominal))}</Text>
+                  </View>
+
+                  <View style={styles.boxWaktu}>
+                      <Text style={styles.titleStatus}>{data.waktu}</Text>
+                  </View>
+
             </View>
+
+                <View style={{flexDirection: 'row'}}>
+                      <Text style={styles.titleNama} numberOfLines={1}>{data.keterangan}</Text>
+                </View>
+
           </View>
-        <View style={styles.boxWaktu}>
-            <Text style={styles.titleStatus}>{data.waktu}</Text>
-        </View>
       </TouchableOpacity>
-      </View>
 
       
       
@@ -31,7 +40,7 @@ export default class ListKasKeluarAdmin extends React.Component {
 
  const styles = StyleSheet.create({
    box:{
-      height: 100,
+      height: 80,
       backgroundColor: '#B90303',
       paddingLeft: 20,
       flexDirection: 'row',
@@ -39,23 +48,26 @@ export default class ListKasKeluarAdmin extends React.Component {
       borderTopRightRadius: 35,
       borderBottomLeftRadius: 30,
       borderBottomRightRadius: 30,
+      borderTopLeftRadius: 30
 
    },
    titleNama: {
      color: 'white',
      fontWeight: 'bold',
-     fontSize: 18,
-     margin: 8,
-     flex: 1
+     fontSize: 14,
+     flex: 1,
+     paddingLeft: 10,
+     paddingRight: 10
    },
    titleHarga: {
      color: 'white',
-     fontSize: 28,
+     fontSize: 24,
      fontWeight: 'bold',
      paddingLeft: 9,
+     paddingTop: 10
    },
    titleStatus: {
-     fontSize: 20,
+     fontSize: 14,
      color: 'white',
      fontWeight: 'bold',
      textAlign: 'center',
@@ -71,7 +83,7 @@ export default class ListKasKeluarAdmin extends React.Component {
   boxWaktu : {
     justifyContent: 'center',
     backgroundColor: '#3C6AE1', 
-    width: 150,
+    width: 120,
     height:30,
     borderTopRightRadius: 40,
     borderBottomLeftRadius: 40,

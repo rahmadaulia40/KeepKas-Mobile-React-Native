@@ -82,6 +82,7 @@ export default class Login extends React.Component {
                <FromInput onChangeText={(val) => this.updateInputVal(val, 'email')}
                   labelValue={this.state.email}
                   placeholderText= 'Email Address'
+                  MarginBottom={30}
                />
 
                <FromInput onChangeText={(val) => this.updateInputVal(val, 'password')}
@@ -102,13 +103,12 @@ export default class Login extends React.Component {
                <TouchableOpacity>
                   <Text style={styles.loginText}
                      onPress={() => this.props.navigation.navigate('ScannerSignUp')}>
-                     Don't have account? Click here to signup
+                     Belum memiliki akun? Klik disini untuk mendaftar
                   </Text>
                </TouchableOpacity>
             </View>
-            <View style={{alignItems: 'center', paddingTop: 70, justifyContent: 'center'}}>
-            <Text style={{fontSize: 14}}>Dirancang Dengan <Icon name='attach-money' style={{fontSize: 14}}/> </Text>
-            
+            <View style={{alignItems: 'center', paddingTop: 20, justifyContent: 'center'}}>
+               <Text style={{fontSize: 14}}>Dirancang Dengan <Icon name='attach-money' style={{fontSize: 14}}/> </Text>
             </View>
          </View>
       )}
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
       fontSize: 50,
       textAlign: 'center',
       color:'#3C6AE1',
-      paddingBottom: 50
+      paddingBottom: 20
    },
    header:{
       alignItems: 'center',
@@ -132,11 +132,11 @@ const styles = StyleSheet.create({
       fontSize: 30,
       fontWeight: 'bold',
       color: 'black',
-      paddingBottom: 70
+      paddingBottom: 30
    },
    body:{
-      marginLeft: 60,
-      marginRight: 60
+      marginLeft: 30,
+      marginRight: 30
    },
     button:{
        height: 50,
@@ -153,6 +153,7 @@ const styles = StyleSheet.create({
     },
     ShowPassword: {
       color: '#3740FE',
-      textAlign: 'right'
+      textAlign: 'right',
+      marginBottom: 25
     },
 })

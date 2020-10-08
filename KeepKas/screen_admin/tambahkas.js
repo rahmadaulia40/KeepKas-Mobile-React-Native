@@ -1,8 +1,9 @@
 import React from 'react'
-import {View, Text, TouchableOpacity, StyleSheet, Alert} from 'react-native'
+import {View, Text, StyleSheet, Alert} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import moment from 'moment'
 import firebase from '../database/firebase'
+import ButtonInput from '../screen_components/ButtonInput'
 import FromInput from '../screen_components/FromInput'
 import Loading from '../screen_components/Loading'
 
@@ -92,6 +93,8 @@ export default class TambahKasAdmin extends React.Component {
                labelValue={this.state.jumlah}
                KeyboardType= 'numeric'
                placeholderText = 'Input Nominal'
+               MarginBottom={30}
+               MarginTop={14}
             />
 
             <FromInput onChangeText={(val) => this.updateInputVal(val, 'keterangan')}
@@ -99,10 +102,13 @@ export default class TambahKasAdmin extends React.Component {
                placeholderText = 'Input Keterangan'
             />
 
-
-            <TouchableOpacity style={styles.button} onPress={() => this.input()}>
-               <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20}}>Tambah</Text>
-            </TouchableOpacity>
+            <ButtonInput
+               onPress={() => this.input()}
+               titleButton = 'Tambah'
+               Txt = 'Tambah'
+               Color = '#3C6AE1'
+               MarginTop = {20}
+            />
 
          </ScrollView>
 
@@ -147,7 +153,7 @@ const styles = StyleSheet.create({
    },
    titleInfo: {
       color: 'white',
-      fontSize: 24,
+      fontSize: 20,
       textAlign: 'center',
       fontWeight: 'bold'
    },
@@ -155,16 +161,6 @@ const styles = StyleSheet.create({
       height: 70,
       backgroundColor: '#DAEAF9',
       margin: 20
-   },
-   button:{
-      height: 60,
-      marginTop: 20,
-      marginLeft: 100,
-      marginRight: 100,
-      borderRadius: 10,
-      backgroundColor: '#3C6AE1',
-      alignItems: 'center',
-      justifyContent: 'center'
    },
    buttonLeft:{
       color: 'white',

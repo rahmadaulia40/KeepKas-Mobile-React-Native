@@ -1,9 +1,14 @@
 import React from 'react'
 import {View, TextInput, StyleSheet} from 'react-native'
 
-const FromInput = ({labelValue, placeholderText,NumberOfLines,KeyboardType, ...rest}) => {
+const FromInput = ({labelValue, placeholderText,NumberOfLines,KeyboardType,MarginTop,MarginBottom, ...rest}) => {
    return (
-         <View style={styles.form}>
+         <View style={{
+            backgroundColor: '#DAEAF9',
+            height: 60,
+            marginTop: MarginTop,//12
+            marginBottom: MarginBottom,//24
+         }}>
             <TextInput
                value={labelValue}
                style={styles.textInput}
@@ -19,12 +24,6 @@ const FromInput = ({labelValue, placeholderText,NumberOfLines,KeyboardType, ...r
 export default FromInput
 
 const styles = StyleSheet.create ({
-   form:{
-      backgroundColor: '#DAEAF9',
-      height: 60,
-      marginTop: 12,
-      marginBottom: 24,
-   },
    textInput:{
       color : 'black',
       padding: 15,

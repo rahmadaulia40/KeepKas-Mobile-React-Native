@@ -1,44 +1,89 @@
-import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Button } from 'react-native';
+import React from 'react';
+import {StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 
-export default function App() {
-  const [hasPermission, setHasPermission] = useState(null);
-  const [scanned, setScanned] = useState(false);
+export default class ScannerSignup extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      scanned : false
+    }
+  }
 
-  useEffect(() => {
-    (async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
-      setHasPermission(status === 'granted');
-    })();
-  }, []);
-
-  const handleBarCodeScanned = ({ type, data }) => {
-    setScanned(true);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+  handleBarCodeScanned = ({data}) => {
+    this.setState({scanned : true})
+    this.props.navigation.navigate('SignUpUser', {uidadmin : data})
   };
-
-  if (hasPermission === null) {
-    return <Text>Requesting for camera permission</Text>;
-  }
-  if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
-  }
-
-  return (
-    <View
-      style={{
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'flex-end',
-      }}>
+  render() {
+    return (
       <BarCodeScanner
-        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+        onBarCodeScanned ={this.state.scanned ? undefined : this.handleBarCodeScanned}
+        style={[StyleSheet.absoluteFill]}
+      >
+        <View style={styles.layerTop}>
+          <Image source={require('../assets/splash.png')} style={{width: 250, height: 100}}/>
+          <Text style={styles.titleHeader}>Scan Untuk Mendaftar</Text>
+        </View>
         
-        style={StyleSheet.absoluteFillObject}
-      />
-
-      {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
-    </View>
-  );
+        <View style={styles.layerCenter}>
+            <View style={styles.layerLeft} />
+            <View style={styles.focused} />
+            <View style={styles.layerRight} />
+        </View>
+        <View style={styles.layerBottom}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('SignUp')}>
+            <Text style={styles.titleFooter}>Klik disini untuk mendaftar sebagai admin</Text>
+          </TouchableOpacity>
+        </View>
+      </BarCodeScanner>
+    );
+  }
 }
+
+const opacity = 'rgba(0, 0, 0, 1)';
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'column'
+  },
+  layerTop: {
+    flex: 1,
+    backgroundColor: opacity,
+    justifyContent: 'center',
+    alignItems:'center'
+  },
+  layerCenter: {
+    flex: 2,
+    flexDirection: 'row'
+  },
+  layerLeft: {
+    flex: 1,
+    backgroundColor: opacity
+  },
+  focused: {
+    flex: 10
+  },
+  layerRight: {
+    flex: 1,
+    backgroundColor: opacity
+  },
+  layerBottom: {
+    flex: 1,
+    backgroundColor: opacity
+  },
+  titleQR:{
+    color: 'white',
+    fontSize: 28,
+    fontWeight: 'bold'
+  },
+  titleHeader:{
+    color: 'white',
+    fontSize: 18
+  },
+  titleFooter:{
+    color: '#3740FE',
+    textAlign: 'center',
+    marginTop: 70,
+    fontSize: 15,
+    fontWeight: 'bold'
+  }
+});

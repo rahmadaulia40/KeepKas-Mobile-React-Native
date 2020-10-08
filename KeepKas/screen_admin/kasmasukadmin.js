@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View,FlatList, Alert} from 'react-native'
 import firebase from '../database/firebase'
 import ListKasMasukAdmin from '../screen_node/ListKasMasukAdmin'
-import ButtonInput from '../screen_components/ButtonInput'
+import ButtonAction from '../screen_components/ButtonAction'
 
 export default class Kasmasuk extends React.Component {
   constructor() {
@@ -43,6 +43,15 @@ export default class Kasmasuk extends React.Component {
  
   render(){
     const nilai = this.CekData()
+    const ButtonHeader = () => {
+      return(
+        <ButtonAction
+          onPress={() => {this.props.navigation.navigate('TambahKasAdmin',{uid : firebase.auth().currentUser.uid, displayName: firebase.auth().currentUser.displayName, photoURL: firebase.auth().currentUser.photoURL})}}
+          Txt = 'Tambah Kas'
+          iconName='plus'
+          Color='#3C6AE1'
+        />
+      )}
   return (
     <View style={styles.container}>
       <View style={styles.body}>
@@ -50,17 +59,9 @@ export default class Kasmasuk extends React.Component {
             data={nilai}
             renderItem={({ item }) => <ListKasMasukAdmin Nilai={this.Nilai.bind(this)} data={item} />}
             keyExtractor={item => item.id}
+            ListHeaderComponent={ButtonHeader}
         />
-      </View>
-      <View style={{margin: 20}}>
-        <ButtonInput
-          onPress={() => {this.props.navigation.navigate('TambahKasAdmin',{uid : firebase.auth().currentUser.uid, displayName: firebase.auth().currentUser.displayName, photoURL: firebase.auth().currentUser.photoURL})}}
-          titleButton = 'Tambah Kas'
-          Txt = 'Tambah Kas'
-          Color = '#3C6AE1'
-        />
-      </View>
-      
+      </View>      
     </View>
   )
 

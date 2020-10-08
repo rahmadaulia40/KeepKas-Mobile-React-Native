@@ -60,7 +60,7 @@ export default class Home extends React.Component {
                <Text style={styles.titleHeader}>Keep<Text style={{fontWeight: 'normal'}}>Kas</Text></Text>
                <TouchableOpacity  style={styles.rightH} 
                   onPress={() => {this.props.navigation.navigate('ProfilAdmin',{uid : this.state.uid, displayName : this.state.displayName, email : this.state.email})}}>
-                  <Text style={styles.text}>Hai, {this.state.displayName}</Text>
+                  <Text numberOfLines={1} style={styles.text}>Hai, {this.state.displayName}</Text>
                   <PictureProfileSmall/>
                </TouchableOpacity>
          </View>
@@ -74,7 +74,7 @@ export default class Home extends React.Component {
                      <Text style={{color: 'white', fontSize: 18, fontWeight: 'bold', paddingRight: 24}}>{<SaldoKas/>}</Text>
                   </View>
                </View>
-               <ScrollView style={{paddingLeft: 20,paddingRight: 20}}>
+               <ScrollView style={{paddingLeft: 10,paddingRight: 10}}>
                   
                   <ButtonView 
                      onPress={() => {this.props.navigation.navigate('KasMasukAdmin',{uid: this.state.uid})} }

@@ -6,6 +6,7 @@ import 'react-native-gesture-handler'
 import Constants from 'expo-constants'
 
 import Login from './screen/login'
+import SignupUser from './screen/signupuser'
 import Signup from './screen/signup'
 import ScanSignup from './screen/scannersignup'
 import RincianKasSaya from './screen/rinciankas'
@@ -18,7 +19,6 @@ import BayarKasUser from './screen_user/bayarkas'
 import KasMasukUser from './screen_user/kasmasuk'
 
 import ScanTambahUser from './screen_admin/scantambahuser'
-import TambahUserManual from './screen_admin/tambahuser'
 import TambahKasAdmin from './screen_admin/tambahkas'
 import DashboardAdmin from './screen_admin/dashboardadmin'
 import ProfilAdmin from './screen_admin/profil'
@@ -38,6 +38,7 @@ export default class App extends React.Component {
         <View style = {styles.bar}/>
         <Stack.Navigator initialRouteName="Login" screenOptions={{ headerStyle:{backgroundColor:'#3C6AE1'}, headerTintColor: 'white', headerTitleStyle :{fontWeight: 'bold', fontSize: 22} }}>
           <Stack.Screen name='Login' component={Login} options={{headerShown: false}} />
+          <Stack.Screen name='SignUpUser' component={SignupUser} options={{headerShown: false}} />
           <Stack.Screen name='SignUp' component={Signup} options={{headerShown: false}} />
           <Stack.Screen name='ScannerSignUp' component={ScanSignup} options={{headerShown: false}} />
           <Stack.Screen name='Jumlahanggota' component={Jumlahanggota} options={{ headerTitle: 'Data Angota'}} />
@@ -57,7 +58,6 @@ export default class App extends React.Component {
           <Stack.Screen name='DetailKasKeluar' component={DetailKasKeluar} options={{ headerTitle: 'Detail Kas Keluar'}} />
           <Stack.Screen name='TambahKasKeluar' component={TambahKasKeluar} options={{ headerTitle: 'Tambah Pengeluaran'}} />
           <Stack.Screen name='ScanTambahUser' component={ScanTambahUser} options={{ headerTitle: 'Tambah Anggota'}} />
-          <Stack.Screen name='TambahUserManual' component={TambahUserManual} options={{ headerTitle: 'Tambah Anggota'}} />
           <Stack.Screen name='TambahKasAdmin' component={TambahKasAdmin} options={{ headerTitle: 'Tambah Kas'}} />
 
           

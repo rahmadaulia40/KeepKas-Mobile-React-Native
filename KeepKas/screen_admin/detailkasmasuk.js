@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
    },
    titleHeader :{
       margin: 20,
-      fontSize: 24,
+      fontSize: 20,
       fontWeight: 'bold',
       color: '#3C6AE1'
    },
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
    },
    titleInfo: {
       color: 'white',
-      fontSize: 20,
+      fontSize: 15,
       fontWeight: 'bold',
       paddingRight: 5,
       marginTop: 10,
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
    },
    titleInfo1 : {
       color: 'white',
-      fontSize: 20,
+      fontSize: 15,
       fontWeight: 'bold',
       paddingLeft: 20,
       marginTop: 10,

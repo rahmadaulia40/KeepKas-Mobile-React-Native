@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
 import firebase from '../database/firebase'
 import QRCode from 'react-native-qrcode-svg'
 
@@ -11,7 +11,7 @@ export default class ScanTambahUser extends React.Component {
     }
   return (
     <View style={styles.container}>
-      <View style={styles.body}>
+      <ScrollView style={styles.body}>
         <View style={{alignItems: 'center'}}>
           <Text style={styles.title1}>Tambah Anggota</Text>
         </View>
@@ -24,17 +24,11 @@ export default class ScanTambahUser extends React.Component {
           <QRCode 
             value={this.state.uid} 
             logo={require('../assets/barcodeLogo.png')}
-            size= {380}
+            size= {250}
             logoSize={80}
           />
         </View>
-
-        <TouchableOpacity onPress={() => {this.props.navigation.navigate('TambahUserManual',{uid : this.state.uid, displayName: this.state.displayName})}}>
-            <Text style={styles.InputManualText}>
-               Input penambahan anggota secara manual
-            </Text>
-         </TouchableOpacity>
-      </View>
+      </ScrollView>
     </View>
   )}
 }
@@ -45,8 +39,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   body:{
-      marginLeft: 40,
-      marginRight: 40
+      marginLeft: 20,
+      marginRight: 20
   },
   title1 :{
     margin: 20,
@@ -55,7 +49,7 @@ const styles = StyleSheet.create({
  },
  titleInfo: {
   color: 'white',
-  fontSize: 22,
+  fontSize: 18,
   textAlign: 'center',
   fontWeight: 'bold'
  },

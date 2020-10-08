@@ -111,25 +111,19 @@ const styles = StyleSheet.create({
       height: 230,
       borderRadius: 230,
    },
-   title1 :{
-      margin: 20,
-      fontSize: 24,
-      fontWeight: 'bold'
-   },
    title2 :{
-      fontSize: 18,
+      fontSize: 14,
       fontWeight: 'bold',
       color: 'white',
-      margin: 5
+      padding: 10,
    },
    box:{
       backgroundColor: '#3C6AE1',
       alignItems: 'center',
       borderRadius: 20,
-      padding: 20,
       flexDirection: 'row',
       elevation: 10,
-      margin: 20,
-      padding: 20
+      margin: 10,
+      justifyContent: 'center'
    },
 })

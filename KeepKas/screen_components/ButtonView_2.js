@@ -21,7 +21,7 @@ const ButtonView = ({Txt1,Txt2,Txt3,Txt4,Color, ...rest}) => {
             <Text style={styles.titleLeft}>{Txt2}</Text>
          </View>
          <View style={styles.right}>
-            <Text style={{color: 'white', fontSize: 50, fontWeight: 'bold'}}>{Txt3}</Text>
+            <Text style={{color: 'white', fontSize: 40, fontWeight: 'bold'}}>{Txt3}</Text>
             <Text style={{color: 'white', fontSize: 20, fontWeight: 'bold'}}>{Txt4}</Text>
          </View>
       </TouchableOpacity>

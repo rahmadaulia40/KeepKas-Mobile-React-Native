@@ -36,9 +36,8 @@ export default class ListKasMasukAdmin extends React.Component {
         <View style={{
           justifyContent: 'center',
           backgroundColor: this.state.warna, 
-          width: 130,
-          borderBottomRightRadius: 30,
-          borderTopLeftRadius: 30,
+          width: 80,
+          borderRadius: 80
           }}
         >
           <Text style={styles.titleStatus}>{data.status}</Text>
@@ -51,42 +50,43 @@ export default class ListKasMasukAdmin extends React.Component {
 
  const styles = StyleSheet.create({
    box:{
-      height: 100,
+      height: 80,
       backgroundColor: '#3C6AE1',
       //elevation: 5,
       paddingLeft: 20,
-      flexDirection: 'row',
+      flexDirection: 'row-reverse',
       margin: 5,
-      borderTopLeftRadius: 30,
+      borderTopLeftRadius: 50,
       borderTopRightRadius: 30,
-      borderBottomRightRadius: 30
+      borderBottomRightRadius: 30,
+      borderBottomLeftRadius: 50
 
    },
    titleNama: {
      color: 'white',
      fontWeight: 'bold',
-     fontSize: 18,
+     fontSize: 14,
      margin: 8,
      flex: 1
    },
    titleHarga: {
      color: 'white',
-     fontSize: 28,
+     fontSize: 24,
      fontWeight: 'bold',
      paddingLeft: 9,
    },
    titleStatus: {
-     fontSize: 20,
+     fontSize: 14,
      color: 'white',
      fontWeight: 'bold',
      textAlign: 'center',
-     paddingRight: 20,
-     paddingLeft: 20
+     paddingRight: 5,
+     paddingLeft: 5
    },
    titleWaktu: {
     color: 'white',
     fontWeight: 'bold',
-    fontSize: 18,
+    fontSize: 14,
     margin: 8
   }
  })

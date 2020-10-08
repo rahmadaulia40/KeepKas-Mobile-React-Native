@@ -52,7 +52,7 @@ export default class DetailKasKeluar extends React.Component {
       "Data Berhasil Di Hapus !",
       [
         { text: "OK", onPress: () => {
-           this.props.navigation.navigate('Jumlahanggota') 
+           this.props.navigation.navigate('HomeAdmin') 
             this.setState({isLoading: false})
          }}
       ],

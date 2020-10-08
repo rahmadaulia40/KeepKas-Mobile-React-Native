@@ -2,8 +2,7 @@ import React from 'react';
 import { StyleSheet, View,FlatList, Alert} from 'react-native'
 import firebase from '../database/firebase'
 import ListUser from '../screen_node/ListUser'
-
-import ButtonInput from '../screen_components/ButtonInput'
+import ButtonAction from '../screen_components/ButtonAction'
 
 export default class Kasmasuk extends React.Component {
   constructor() {
@@ -44,9 +43,15 @@ export default class Kasmasuk extends React.Component {
  
   render(){
     const nilai = this.CekData()
-    this.state = {
-       uid : firebase.auth().currentUser.uid,
-       displayName : firebase.auth().currentUser.displayName
+    const ButtonHeader = () => {
+      return(
+        <ButtonAction
+          onPress={() => {this.props.navigation.navigate('ScanTambahUser')}}
+          Txt = 'Tambah Anggota'
+          iconName='account-multiple-plus'
+          Color='#3C6AE1'
+        />
+      )
     }
   return (
     <View style={styles.container}>
@@ -55,16 +60,10 @@ export default class Kasmasuk extends React.Component {
             data={nilai}
             renderItem={({ item }) => <ListUser Nilai={this.Nilai.bind(this)} data={item} />}
             keyExtractor={item => item.id}
+            ListHeaderComponent={ButtonHeader}
         />
       </View>
-      <View style={{margin: 20}}>
-        <ButtonInput
-          onPress={() => {this.props.navigation.navigate('ScanTambahUser')}}
-          titleButton = 'Tambah Anggota'
-          Txt = 'Tambah Anggota'
-          Color = '#3C6AE1'
-        />
-      </View>
+      
     </View>
   )
 
