@@ -3,6 +3,7 @@ import {View, StyleSheet, Alert,Text } from 'react-native'
 import firebase from '../database/firebase'
 
 import ButtonInput from '../screen_components/ButtonInput'
+import Loading from '../screen_components/Loading'
 
 export default class DetailKasKeluar extends React.Component {
    constructor() {
@@ -61,6 +62,11 @@ export default class DetailKasKeluar extends React.Component {
 
    render() {
       const { data } = this.props.route.params   
+      if(this.state.isLoading){
+         return(
+           <Loading/>
+         )
+       }  
       return (
          <View style={styles.container}>
 

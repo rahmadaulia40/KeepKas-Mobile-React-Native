@@ -6,7 +6,7 @@ import Constants from 'expo-constants'
 import * as Permissions from 'expo-permissions'
 import firebase from '../database/firebase'
 import Loading from '../screen_components/Loading'
-import PictureProfileBig from '../processing/PictureProfileBig'
+import PictureProfile from '../processing/PictureProfile'
 
 export default class Profil extends React.Component {
    constructor(){
@@ -69,14 +69,15 @@ export default class Profil extends React.Component {
            <Loading/>
          )
        }
-       const { displayName, email } = this.props.route.params;
+       const { uid,displayName, email } = this.props.route.params;
       
    return (
       <View style={{flex:1, margin: 20}}>
          <View style={styles.header}>
             <View style={{alignItems: 'center', marginTop: 20}}>
-            
-               <PictureProfileBig />
+
+               <PictureProfile Size={230} UID={uid}/>
+
                <TouchableOpacity
                style={{flexDirection: 'row', alignItems: 'center', marginTop: 10}}
                onPress={this._pickImage}>

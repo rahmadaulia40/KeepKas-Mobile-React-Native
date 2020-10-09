@@ -11,7 +11,7 @@ import TotalKasMasuk from '../processing/totalkasmasuk'
 import TotalKasKeluar from '../processing/totalkaskeluar'
 import SaldoKas from '../processing/saldokas'
 import TotalUser from '../processing/totaldatauser'
-import PictureProfileSmall from '../processing/PictureProfileSmall'
+import PictureProfile from '../processing/PictureProfile'
 
 
 export default class Home extends React.Component {
@@ -61,7 +61,7 @@ export default class Home extends React.Component {
                <TouchableOpacity  style={styles.rightH} 
                   onPress={() => {this.props.navigation.navigate('ProfilAdmin',{uid : this.state.uid, displayName : this.state.displayName, email : this.state.email})}}>
                   <Text numberOfLines={1} style={styles.text}>Hai, {this.state.displayName}</Text>
-                  <PictureProfileSmall/>
+                  <PictureProfile Size={50} MarginRight={20} UID={this.state.uid}/>
                </TouchableOpacity>
          </View>
 

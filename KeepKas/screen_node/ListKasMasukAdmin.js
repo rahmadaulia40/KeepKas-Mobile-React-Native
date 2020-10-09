@@ -13,7 +13,6 @@ export default class ListKasMasukAdmin extends React.Component {
    currencyFormat(num) {
      return 'Rp ' + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
    };
- 
    render() {
      const data = this.props.data
      if (data.status === 'Di Proses')
@@ -27,7 +26,7 @@ export default class ListKasMasukAdmin extends React.Component {
      return (
         <TouchableOpacity style={styles.box} onPress={() => this.state.action = this.props.Nilai(data)}>
         <View style={{flex: 1,justifyContent: 'center'}}>
-          <Text style={styles.titleHarga}>{this.currencyFormat(Number(data.jumlah))}</Text>
+          <Text numberOfLines={1} style={styles.titleHarga}>{this.currencyFormat(Number(data.jumlah))}</Text>
           <View style={{flexDirection: 'row'}}>
                <Text style={styles.titleNama}>{data.nama}</Text>
                <Text style={styles.titleWaktu}>{data.waktu}</Text>

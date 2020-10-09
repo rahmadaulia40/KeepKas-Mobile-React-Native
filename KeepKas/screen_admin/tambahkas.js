@@ -34,7 +34,7 @@ export default class TambahKasAdmin extends React.Component {
       {
          this.setState({isLoading: true})
          const { uid,displayName } = this.props.route.params
-         var db = firebase.database().ref('kas_masuk')
+         var db = firebase.database().ref('kas_masuk/'+uid+'/')
          var ref = db.push({
             id_admin : uid,
             nama : displayName,
@@ -45,13 +45,12 @@ export default class TambahKasAdmin extends React.Component {
          })
          var id = ref.key
          db.child(ref.key).update({id : id})
-         firebase.database().ref('total_kas_masuk/'+uid+ '/').update({[id] : this.state.jumlah})
          .then(()=>{
-            this.setState({isLoading: false,jumlah: '',keterangan: ''})
             console.log('INSERTED !')
+            firebase.database().ref('total_kas_masuk/'+uid+ '/').update({[id] : this.state.jumlah})
             this.ButtonAlertSukses()
-            
-         }).catch((error) => {
+         })
+         .catch((error) => {
             this.setState({isLoading: false})
             console.log(error)
             Alert.alert('Input Error !!!',String(error))
@@ -64,8 +63,7 @@ export default class TambahKasAdmin extends React.Component {
       "Penambahan kas berhasil, silahkan cek data kas masuk anda !",
       [
         { text: "OK", onPress: () => {
-           this.props.navigation.navigate('HomeAdmin') 
-            this.setState({isLoading: false})
+           this.setState({isLoading: false,jumlah: '',keterangan: ''})
          }}
       ],
       { cancelable: false }

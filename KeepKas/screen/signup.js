@@ -50,6 +50,7 @@ export default class SignUp extends React.Component {
           var db = firebase.database().ref('users')
           var ref = db.push({
           uidadmin : firebase.auth().currentUser.uid,
+          uid : firebase.auth().currentUser.uid,
           email : this.state.email,
           nama : this.state.displayName,
           level : 'admin'

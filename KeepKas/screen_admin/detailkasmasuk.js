@@ -60,9 +60,9 @@ export default class DetailKasMasuk extends React.Component {
       this.setState({isLoading: true})
       const { data } = this.props.route.params
       firebase.database().ref('total_kas_masuk/'+data.id_admin+ '/' + data.id + '/').remove()
-      firebase.database().ref('kas_masuk/'+ data.id + '/').remove()
       
       .then(()=>{
+         firebase.database().ref('kas_masuk/'+ data.id + '/').remove()
          this.ButtonAlertSukses()
       })
       

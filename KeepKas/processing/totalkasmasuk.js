@@ -1,7 +1,6 @@
 import React from 'react';
-import { Text} from 'react-native';
+import {Text} from 'react-native';
 import firebase from '../database/firebase'
-
 export default class TotalKasMasuk extends React.Component {
   constructor() {
     super()

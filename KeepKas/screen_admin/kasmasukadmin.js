@@ -1,8 +1,10 @@
 import React from 'react';
 import { StyleSheet, View,FlatList, Alert} from 'react-native'
 import firebase from '../database/firebase'
+import moment from 'moment'
 import ListKasMasukAdmin from '../screen_node/ListKasMasukAdmin'
-import ButtonAction from '../screen_components/ButtonAction'
+import FAB from 'react-native-fab'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 export default class Kasmasuk extends React.Component {
   constructor() {
@@ -14,6 +16,9 @@ export default class Kasmasuk extends React.Component {
   componentDidMount() {
     this.fetchData()
  }
+ getDateWithMoment = () => {
+  return moment().format('DD-MM-YYYY');
+}
   fetchData = async () => {
     const { uid } = this.props.route.params
     const db = firebase.database().ref()
@@ -21,7 +26,7 @@ export default class Kasmasuk extends React.Component {
       const datai = snap.val() 
       this.setState({data : datai})
     }
-    const twoRef = db.child('kas_masuk').orderByChild('id_admin').equalTo(uid)
+    const twoRef = db.child('kas_masuk/'+uid+'/')
     twoRef.on('value', onValueChange)
   }
 
@@ -43,25 +48,22 @@ export default class Kasmasuk extends React.Component {
  
   render(){
     const nilai = this.CekData()
-    const ButtonHeader = () => {
-      return(
-        <ButtonAction
-          onPress={() => {this.props.navigation.navigate('TambahKasAdmin',{uid : firebase.auth().currentUser.uid, displayName: firebase.auth().currentUser.displayName, photoURL: firebase.auth().currentUser.photoURL})}}
-          Txt = 'Tambah Kas'
-          iconName='plus'
-          Color='#3C6AE1'
-        />
-      )}
   return (
     <View style={styles.container}>
       <View style={styles.body}>
         <FlatList
             data={nilai}
             renderItem={({ item }) => <ListKasMasukAdmin Nilai={this.Nilai.bind(this)} data={item} />}
-            keyExtractor={item => item.id}
-            ListHeaderComponent={ButtonHeader}
+            keyExtractor={item=>item.id}
         />
-      </View>      
+      </View>
+      <FAB 
+        buttonColor='#20c720' 
+        iconTextColor="#FFFFFF" 
+        onClickAction={() => {this.props.navigation.navigate('TambahKasAdmin',{uid : firebase.auth().currentUser.uid, displayName: firebase.auth().currentUser.displayName, photoURL: firebase.auth().currentUser.photoURL})}}
+        visible={true} 
+        iconTextComponent={<Icon name="plus"/>} 
+      />   
     </View>
   )
 

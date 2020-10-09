@@ -1,40 +1,14 @@
 import React from 'react'
 import {View, Text, TouchableOpacity, StyleSheet, Image, Alert} from 'react-native'
-import firebase from '../database/firebase'
+import PictureProfile from '../processing/PictureProfile'
 
 export default class ListUser extends React.Component {
-  constructor(){
-    super()
-    this.state = {
-      warna : '',
-      gambar : 'user.png'
-    }
-  }
-
-  componentDidMount() {
-    this.fetchData()
- }
-  fetchData = async () => {
-    const data = this.props.data
-    var imageRef = firebase.storage().ref('ImageProfile/'+data.uid+'.png')
-   imageRef.getDownloadURL()
-   .then((url)=>{
-    this.setState ({gambar : url})
- })
- .catch(() => {
-    var imageRef = firebase.storage().ref('ImageProfile/user.png')
-    imageRef.getDownloadURL()
-    .then((url)=>{
-       this.setState({gambar : url})
-    })
- })
-  }
    render() {
      const data = this.props.data
      return (
       <View style={styles.box}>
          <View style={{justifyContent: 'center', width: 80, alignItems: 'center'}}>
-                <Image source= {{uri: this.state.gambar}} style={styles.picture} />
+                <PictureProfile Size={80} UID={data.uid}/>
           </View>
           <View style={{flexDirection: 'column', flex: 1}}>
 

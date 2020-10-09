@@ -50,17 +50,16 @@ export default class SignUpUser extends React.Component {
         .then((res) => {res.user.updateProfile({displayName: this.state.displayName, photoURL: uidadmin})
           var db = firebase.database().ref('users')
           var ref = db.push({
-          uidadmin : uidadmin,
-          uid : firebase.auth().currentUser.uid,
-          email : this.state.email,
-          nama : this.state.displayName,
-          level : 'user'
+            uidadmin : uidadmin,
+            uid : firebase.auth().currentUser.uid,
+            email : this.state.email,
+            nama : this.state.displayName,
+            level : 'user'
         })
-        var id = ref.key
-        db.child(ref.key).update({id : id})
+            var id = ref.key
+            db.child(ref.key).update({id : id})
           this.ButtonAlertKonfirmasi()
           this.setState({isLoading: false,displayName: '', email: '', password: ''})
-          firebase.auth().signOut()
         })
         .catch((error) => {
          this.setState({isLoading : false})
@@ -96,11 +95,13 @@ export default class SignUpUser extends React.Component {
                <FromInput onChangeText={(val)=> this.updateInputVal(val, 'displayName')}
                labelValue={this.state.displayName}
                placeholderText= 'Nama Lengkap'
+               MarginBottom={30}
                />
 
                <FromInput onChangeText={(val) => this.updateInputVal(val, 'email')}
                labelValue={this.state.email}
                placeholderText= 'Email Address'
+               MarginBottom={30}
                />
 
                <FromInput onChangeText={(val) => this.updateInputVal(val, 'password')}
@@ -154,8 +155,8 @@ const styles = StyleSheet.create({
       paddingBottom: 20
    },
    body:{
-      marginLeft: 60,
-      marginRight: 60
+      marginLeft: 30,
+      marginRight: 30
    },
     loginText: {
       color: '#3740FE',
