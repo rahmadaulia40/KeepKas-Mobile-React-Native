@@ -1,10 +1,11 @@
 import React from 'react'
-import {View, StyleSheet, FlatList, Alert} from 'react-native'
+import {View, StyleSheet, FlatList, Alert, Text} from 'react-native'
 import firebase from '../database/firebase'
+import FAB from 'react-native-fab'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import ListKasKeluarAdmin from '../screen_node/ListKasKeluarAdmin'
-import ButtonAction from '../screen_components/ButtonAction'
 
-export default class KasKeluar extends React.Component {
+export default class KasKeluarAdmin extends React.Component {
    constructor() {
       super()
       this.state = {
@@ -17,7 +18,7 @@ export default class KasKeluar extends React.Component {
     fetchData = async () => {
       const { uid } = this.props.route.params
       const db = firebase.database().ref()
-      const twoRef = db.child('kas_keluar').orderByChild('id_admin').equalTo(uid)
+      const twoRef = db.child('kas_keluar/'+uid+'/')
       twoRef.on('value', snap => {
            const datai = snap.val()
            this.setState({data : datai})
@@ -41,15 +42,13 @@ export default class KasKeluar extends React.Component {
    render(){
       const nilai = this.CekData()
 
-      const ButtonHeader = () => {
-        return(
-          <ButtonAction
-          onPress={() => {this.props.navigation.navigate('TambahKasKeluar', {uid: firebase.auth().currentUser.uid, displayName : firebase.auth().currentUser.displayName})}}
-            Txt = 'Tambah Pengeluaran'
-            iconName='pencil-minus'
-            Color = '#B90303'
-          />
-        )}
+      const NullData=()=>{
+        return (
+          <View style={{alignItems: 'center', paddingTop: 30}}>
+            <Text style={{color:'#a7a7a7', fontSize: 14}}>Data Kosong/Tidak Ditemukan</Text>
+          </View>
+        )
+      }
    return (
       <View style={styles.container}>
          <View style={styles.body}>
@@ -57,9 +56,16 @@ export default class KasKeluar extends React.Component {
                data={nilai}
                renderItem={({ item }) => <ListKasKeluarAdmin Nilai={this.Nilai.bind(this)} data={item} />}
                keyExtractor={item => item.id}
-               ListHeaderComponent={ButtonHeader}
+               ListEmptyComponent={NullData()}
             />
          </View>
+         <FAB 
+            buttonColor='#B90303'
+            iconTextColor="#FFFFFF" 
+            onClickAction={() => {this.props.navigation.navigate('TambahKasKeluar', {uid: firebase.auth().currentUser.uid, displayName : firebase.auth().currentUser.displayName})}}
+            visible={true} 
+            iconTextComponent={<Icon name="pencil-minus"/>} 
+          />   
       </View>
    )}
 }

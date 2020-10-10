@@ -1,12 +1,12 @@
 import React from 'react';
-import { StyleSheet, View,FlatList, Alert} from 'react-native'
+import { StyleSheet, View,FlatList, Alert, Text} from 'react-native'
 import firebase from '../database/firebase'
 import moment from 'moment'
 import ListKasMasukAdmin from '../screen_node/ListKasMasukAdmin'
 import FAB from 'react-native-fab'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
-export default class Kasmasuk extends React.Component {
+export default class KasmasukAdmin extends React.Component {
   constructor() {
     super()
     this.state = {
@@ -17,17 +17,17 @@ export default class Kasmasuk extends React.Component {
     this.fetchData()
  }
  getDateWithMoment = () => {
-  return moment().format('DD-MM-YYYY');
+  return moment().format('DD');
 }
+
   fetchData = async () => {
     const { uid } = this.props.route.params
-    const db = firebase.database().ref()
+    const db = firebase.database().ref('kas_masuk/'+uid+'/')
     var onValueChange =(snap)=>{ 
       const datai = snap.val() 
       this.setState({data : datai})
     }
-    const twoRef = db.child('kas_masuk/'+uid+'/')
-    twoRef.on('value', onValueChange)
+    db.on('value', onValueChange)
   }
 
   Nilai(list) {
@@ -48,6 +48,13 @@ export default class Kasmasuk extends React.Component {
  
   render(){
     const nilai = this.CekData()
+    const NullData=()=>{
+      return (
+        <View style={{alignItems: 'center', paddingTop: 30}}>
+          <Text style={{color:'#a7a7a7', fontSize: 14}}>Data Kosong/Tidak Ditemukan</Text>
+        </View>
+      )
+    }
   return (
     <View style={styles.container}>
       <View style={styles.body}>
@@ -55,6 +62,7 @@ export default class Kasmasuk extends React.Component {
             data={nilai}
             renderItem={({ item }) => <ListKasMasukAdmin Nilai={this.Nilai.bind(this)} data={item} />}
             keyExtractor={item=>item.id}
+            ListEmptyComponent={NullData()}
         />
       </View>
       <FAB 

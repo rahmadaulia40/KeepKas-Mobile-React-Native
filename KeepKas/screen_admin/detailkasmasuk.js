@@ -26,7 +26,7 @@ export default class DetailKasMasuk extends React.Component {
       }
       else
       {
-         firebase.database().ref('kas_masuk/'+ data.id + '/').update({status : 'Sukses'})
+         firebase.database().ref('kas_masuk/'+ data.id_admin + '/'+ data.id+'/').update({status : 'Sukses'})
          .then(()=>{
             firebase.database().ref('total_kas_masuk/'+data.id_admin+ '/').update({[data.id] : data.jumlah})
             Alert.alert('Sukses', 'Data berhasil di Konfirmasi')
@@ -62,7 +62,7 @@ export default class DetailKasMasuk extends React.Component {
       firebase.database().ref('total_kas_masuk/'+data.id_admin+ '/' + data.id + '/').remove()
       
       .then(()=>{
-         firebase.database().ref('kas_masuk/'+ data.id + '/').remove()
+         firebase.database().ref('kas_masuk/'+ data.id_admin + '/'+ data.id+'/').remove()
          this.ButtonAlertSukses()
       })
       

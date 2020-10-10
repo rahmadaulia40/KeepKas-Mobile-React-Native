@@ -2,9 +2,10 @@ import React from 'react';
 import { StyleSheet, View,FlatList, Alert} from 'react-native'
 import firebase from '../database/firebase'
 import ListUser from '../screen_node/ListUser'
-import ButtonAction from '../screen_components/ButtonAction'
+import FAB from 'react-native-fab'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
-export default class Kasmasuk extends React.Component {
+export default class JumlahAnggota extends React.Component {
   constructor() {
     super()
     this.state = {
@@ -21,7 +22,7 @@ export default class Kasmasuk extends React.Component {
       const datai = snap.val()
       this.setState({data : datai})
     }
-    const twoRef = db.child('users').orderByChild('uidadmin').equalTo(uid)
+    const twoRef = db.child('users/'+uid+'/')
     twoRef.on('value', onValueChange)
   }
 
@@ -43,16 +44,6 @@ export default class Kasmasuk extends React.Component {
  
   render(){
     const nilai = this.CekData()
-    const ButtonHeader = () => {
-      return(
-        <ButtonAction
-          onPress={() => {this.props.navigation.navigate('ScanTambahUser')}}
-          Txt = 'Tambah Anggota'
-          iconName='account-multiple-plus'
-          Color='#3C6AE1'
-        />
-      )
-    }
   return (
     <View style={styles.container}>
       <View style={styles.body}>
@@ -60,10 +51,15 @@ export default class Kasmasuk extends React.Component {
             data={nilai}
             renderItem={({ item }) => <ListUser Nilai={this.Nilai.bind(this)} data={item} />}
             keyExtractor={item => item.id}
-            ListHeaderComponent={ButtonHeader}
         />
       </View>
-      
+      <FAB 
+        buttonColor='#3C6AE1'
+        iconTextColor="#FFFFFF" 
+        onClickAction={() => {this.props.navigation.navigate('ScanTambahUser')}}
+        visible={true} 
+        iconTextComponent={<Icon name="plus"/>} 
+      />   
     </View>
   )
 

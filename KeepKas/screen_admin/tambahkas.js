@@ -22,8 +22,14 @@ export default class TambahKasAdmin extends React.Component {
       state[prop] = val;
       this.setState(state);
     }
-    getDateWithMoment = () => {
-      return moment().format('DD-MM-YYYY');
+    Date = () => {
+      return moment().format('YYYY');
+    }
+    Mounth = ()=>{
+       return moment().format('MM')
+    }
+    Day =()=>{
+       return moment().format('DD')
     }
     input = () => {
       if(this.state.jumlah === '')
@@ -38,16 +44,18 @@ export default class TambahKasAdmin extends React.Component {
          var ref = db.push({
             id_admin : uid,
             nama : displayName,
-            jumlah : this.state.jumlah,
+            jumlah : Number(this.state.jumlah),
             status : 'Sukses',
             keterangan : this.state.keterangan,
-            waktu : this.getDateWithMoment()
+            tgl : Number(this.Day()),
+            bln : Number(this.Mounth()),
+            thn : Number(this.Date())
          })
          var id = ref.key
          db.child(ref.key).update({id : id})
          .then(()=>{
             console.log('INSERTED !')
-            firebase.database().ref('total_kas_masuk/'+uid+ '/').update({[id] : this.state.jumlah})
+            firebase.database().ref('total_kas_masuk/'+uid+ '/').update({[id] : Number(this.state.jumlah)})
             this.ButtonAlertSukses()
          })
          .catch((error) => {

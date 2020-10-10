@@ -1,5 +1,5 @@
 import React from 'react'
-import {View, Text, TouchableOpacity, StyleSheet, Image, Alert} from 'react-native'
+import {View, Text, TouchableOpacity, StyleSheet, Alert} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import firebase from '../database/firebase'
 
@@ -14,7 +14,7 @@ import TotalUser from '../processing/totaldatauser'
 import PictureProfile from '../processing/PictureProfile'
 
 
-export default class Home extends React.Component {
+export default class HomeAdmin extends React.Component {
    constructor() {
       super()
       this.state ={
@@ -59,7 +59,7 @@ export default class Home extends React.Component {
          <View style={styles.header}>
                <Text style={styles.titleHeader}>Keep<Text style={{fontWeight: 'normal'}}>Kas</Text></Text>
                <TouchableOpacity  style={styles.rightH} 
-                  onPress={() => {this.props.navigation.navigate('ProfilAdmin',{uid : this.state.uid, displayName : this.state.displayName, email : this.state.email})}}>
+                  onPress={() => {this.props.navigation.navigate('Profil',{uid : this.state.uid, displayName : this.state.displayName, email : this.state.email})}}>
                   <Text numberOfLines={1} style={styles.text}>Hai, {this.state.displayName}</Text>
                   <PictureProfile Size={50} MarginRight={20} UID={this.state.uid}/>
                </TouchableOpacity>
@@ -85,7 +85,7 @@ export default class Home extends React.Component {
                      Txt1 = 'Kas' Txt2 = 'Keluar' Txt3 = {<TotalKasKeluar/>} Color= '#B90303'
                   />
                   <ButtonView_2
-                     onPress={() => {this.props.navigation.navigate('Jumlahanggota', {uid: this.state.uid})}}
+                     onPress={() => {this.props.navigation.navigate('Jumlahanggotaadmin', {uid: this.state.uid})}}
                      Txt1 = 'Data' Txt2 = 'Anggota' Txt3 = {<TotalUser/>} Txt4 = 'Anggota' Color= '#44BAFD'
                   />
                   
@@ -96,11 +96,16 @@ export default class Home extends React.Component {
                      Color = '#B90303'
                      MarginTop = {20}
                   />   
+               <TouchableOpacity style={styles.button2} onPress={() => {
+                  Alert.alert('Tentang Aplikasi','KeepKas ini berguna untuk melakukan penyimpanan data kas, terutama untuk para siswa/mahasiswa yang memiliki kegiatan iuran kas kelas. Aplikasi ini masih dalam tahap prototype')
+                  }}>
+                     <Text style={{color: '#7a7676', fontWeight: 'bold', fontSize: 18}}>Tentang Aplikasi</Text>
+                  </TouchableOpacity>    
                </ScrollView>
 
-               <TouchableOpacity style={styles.keepKas} onPress={() => {this.props.navigation.navigate('Tentang')}}>
+               <View style={styles.keepKas}>
                      <Text style={styles.titleHeader}>@Keep<Text style={{fontWeight: 'normal'}}>Kas</Text></Text>
-               </TouchableOpacity>
+               </View>
             
          </View>
 

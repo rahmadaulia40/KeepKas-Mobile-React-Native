@@ -1,6 +1,6 @@
 import React from 'react';
-import {View, Text, StyleSheet, Alert,TouchableOpacity, ActivityIndicator} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons'
+import {View, Text, StyleSheet, Alert,TouchableOpacity} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import firebase from '../database/firebase'
 
 import FromInput from '../screen_components/FromInput'
@@ -48,7 +48,7 @@ export default class SignUpUser extends React.Component {
         .auth()
         .createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then((res) => {res.user.updateProfile({displayName: this.state.displayName, photoURL: uidadmin})
-          var db = firebase.database().ref('users')
+          var db = firebase.database().ref('users/'+uidadmin+'/')
           var ref = db.push({
             uidadmin : uidadmin,
             uid : firebase.auth().currentUser.uid,
@@ -126,9 +126,9 @@ export default class SignUpUser extends React.Component {
                   </Text>
                </TouchableOpacity>
             </View>
-            <View style={{alignItems: 'center', paddingTop: 70, justifyContent: 'center'}}>
-            <Text style={{fontSize: 14}}>Dirancang Dengan <Icon name='attach-money' style={{fontSize: 14}}/> </Text>
-            
+            <View style={{alignItems: 'center', paddingTop: 30, justifyContent: 'center', flexDirection:'row'}}>
+               <Text style={{fontSize: 14, color: '#a7a7a7'}}>Dirancang dengan penuh</Text>
+               <Icon name='heart' style={{fontSize: 14, color: '#a7a7a7'}}/> 
             </View>
          </View>
       )}

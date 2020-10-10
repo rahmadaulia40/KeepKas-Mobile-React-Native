@@ -5,8 +5,7 @@ export default class ListKasMasukAdmin extends React.Component {
   constructor(){
     super()
     this.state = {
-      warna : '',
-      action : {}
+      warna : ''
     }
   }
 
@@ -29,7 +28,7 @@ export default class ListKasMasukAdmin extends React.Component {
           <Text numberOfLines={1} style={styles.titleHarga}>{this.currencyFormat(Number(data.jumlah))}</Text>
           <View style={{flexDirection: 'row'}}>
                <Text style={styles.titleNama}>{data.nama}</Text>
-               <Text style={styles.titleWaktu}>{data.waktu}</Text>
+               <Text style={styles.titleWaktu}>{data.tgl}-{data.bln}-{data.thn}</Text>
             </View>
           </View>
         <View style={{

@@ -18,7 +18,7 @@ export default class TotalKasMasuk extends React.Component {
     this.fetchDataKeluar()
  }
   fetchDataMasuk = async () => {
-    this.state={uid : firebase.auth().currentUser.uid}
+    this.state={uid : firebase.auth().currentUser.photoURL}
     const db = firebase.database().ref()
     var onValueChange =(snap)=>{
       const data = snap.val()
@@ -41,7 +41,7 @@ export default class TotalKasMasuk extends React.Component {
     twoRef.on('value', onValueChange)
   }
   fetchDataKeluar = async () => {
-   this.state={uid : firebase.auth().currentUser.uid}
+   this.state={uid : firebase.auth().currentUser.photoURL}
    const db = firebase.database().ref()
    var onValueChange =(snap)=>{
     const data = snap.val()

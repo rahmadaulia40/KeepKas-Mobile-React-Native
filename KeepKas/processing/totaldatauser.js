@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text} from 'react-native';
+import {Text} from 'react-native';
 import firebase from '../database/firebase'
 
 export default class TotalKasMasuk extends React.Component {
@@ -16,7 +16,7 @@ export default class TotalKasMasuk extends React.Component {
     this.fetchData()
  }
   fetchData = async () => {
-    this.state={uid : firebase.auth().currentUser.uid}
+    this.state={uid : firebase.auth().currentUser.photoURL}
     const db = firebase.database().ref()
     var onValueChange =(snap)=>{
       const data = snap.val()
@@ -34,7 +34,7 @@ export default class TotalKasMasuk extends React.Component {
          this.setState({data : i})
          }
     }
-    const twoRef = db.child('users').orderByChild('uidadmin').equalTo(this.state.uid)
+    const twoRef = db.child('users/'+this.state.uid+'/')
     twoRef.on('value', onValueChange)
   }
   render(){

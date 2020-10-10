@@ -7,7 +7,7 @@ import FromInput from '../screen_components/FromInput'
 import Loading from '../screen_components/Loading'
 import ButtonInput from '../screen_components/ButtonInput'
 
-export default class barang extends React.Component {
+export default class TambahKasKeluar extends React.Component {
    constructor() {
       super()
       this.state = {
@@ -36,7 +36,7 @@ export default class barang extends React.Component {
       {
          const { uid,displayName } = this.props.route.params
          this.setState({isLoading: true})
-         var db = firebase.database().ref().child('kas_keluar')
+         var db = firebase.database().ref().child('kas_keluar/'+uid+'/')
          var ref = db.push({
             id_admin : uid,
             nama : displayName,

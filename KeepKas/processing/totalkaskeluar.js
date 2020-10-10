@@ -17,7 +17,7 @@ export default class TotalKasMasuk extends React.Component {
     this.fetchData()
  }
   fetchData = async () => {
-    this.state={uid : firebase.auth().currentUser.uid}
+    this.state={uid : firebase.auth().currentUser.photoURL}
     const db = firebase.database().ref()
     var onValueChange =(snap)=>{
       const data = snap.val()

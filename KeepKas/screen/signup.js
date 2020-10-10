@@ -1,6 +1,6 @@
 import React from 'react';
-import {View, Text, StyleSheet, Alert,TouchableOpacity, ActivityIndicator, ScrollView} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons'
+import {View, Text, StyleSheet, Alert,TouchableOpacity} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import firebase from '../database/firebase'
 
 import FromInput from '../screen_components/FromInput'
@@ -46,8 +46,8 @@ export default class SignUp extends React.Component {
         firebase
         .auth()
         .createUserWithEmailAndPassword(this.state.email, this.state.password)
-        .then((res) => {res.user.updateProfile({displayName: this.state.displayName})
-          var db = firebase.database().ref('users')
+        .then((res) => {res.user.updateProfile({displayName: this.state.displayName, photoURL: firebase.auth().currentUser.uid})
+          var db = firebase.database().ref('users/'+firebase.auth().currentUser.uid+'/')
           var ref = db.push({
           uidadmin : firebase.auth().currentUser.uid,
           uid : firebase.auth().currentUser.uid,
@@ -126,8 +126,9 @@ export default class SignUp extends React.Component {
                   </Text>
                </TouchableOpacity>
             </View>
-            <View style={{alignItems: 'center', paddingTop: 30, justifyContent: 'center'}}>
-               <Text style={{fontSize: 14}}>Dirancang Dengan <Icon name='attach-money' style={{fontSize: 14}}/> </Text>
+            <View style={{alignItems: 'center', paddingTop: 30, justifyContent: 'center', flexDirection:'row'}}>
+               <Text style={{fontSize: 14, color: '#a7a7a7'}}>Dirancang dengan penuh</Text>
+               <Icon name='heart' style={{fontSize: 14, color: '#a7a7a7'}}/> 
             </View>
 
          </View>
@@ -158,14 +159,6 @@ const styles = StyleSheet.create({
       marginLeft: 30,
       marginRight: 30
    },
-    button:{
-       height: 50,
-       width: 130,
-       backgroundColor: '#3C6AE1',
-       alignItems: 'center',
-       justifyContent: 'center',
-       borderRadius: 5
-    },
     loginText: {
       color: '#3740FE',
       marginTop: 25,

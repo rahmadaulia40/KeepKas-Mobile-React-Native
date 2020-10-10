@@ -2,31 +2,29 @@ import * as React from 'react';
 import {View, StyleSheet} from 'react-native'
 import { NavigationContainer } from "@react-navigation/native"
 import { createStackNavigator } from "@react-navigation/stack"
-import 'react-native-gesture-handler'
 import Constants from 'expo-constants'
 
 import Login from './screen/login'
 import SignupUser from './screen/signupuser'
 import Signup from './screen/signup'
 import ScanSignup from './screen/scannersignup'
-import RincianKasSaya from './screen/rinciankas'
-import UbahDataProfil from './screen/ubahdataprofil'
-import Jumlahanggota from './screen/jumlahanggota'
-import Tentang from './screen/tentang'
+import Profil from './screen/profil'
 
 import DashboardUser from './screen_user/dashboarduser'
 import BayarKasUser from './screen_user/bayarkas'
 import KasMasukUser from './screen_user/kasmasuk'
+import KasKeluarUser from './screen_user/kaskeluar'
+import Jumlahanggotauser from './screen_user/jumlahanggotauser'
 
 import ScanTambahUser from './screen_admin/scantambahuser'
 import TambahKasAdmin from './screen_admin/tambahkas'
 import DashboardAdmin from './screen_admin/dashboardadmin'
-import ProfilAdmin from './screen_admin/profil'
 import KasMasukAdmin from './screen_admin/kasmasukadmin'
 import KasKeluarAdmin from './screen_admin/kaskeluar'
 import DetailKasMasuk from './screen_admin/detailkasmasuk'
 import TambahKasKeluar from './screen_admin/tambahkaskeluar'
-import DetailKasKeluar from './screen_admin/detailkaskeluar';
+import DetailKasKeluar from './screen_admin/detailkaskeluar'
+import Jumlahanggotaadmin from './screen_admin/jumlahanggota'
 
 const Stack = createStackNavigator();
 const statusBarHeight = Constants.statusBarHeight
@@ -41,17 +39,15 @@ export default class App extends React.Component {
           <Stack.Screen name='SignUpUser' component={SignupUser} options={{headerShown: false}} />
           <Stack.Screen name='SignUp' component={Signup} options={{headerShown: false}} />
           <Stack.Screen name='ScannerSignUp' component={ScanSignup} options={{headerShown: false}} />
-          <Stack.Screen name='Jumlahanggota' component={Jumlahanggota} options={{ headerTitle: 'Data Angota'}} />
-          <Stack.Screen name='RincianKasSaya' component={RincianKasSaya} options={{ headerTitle: 'Rincian Kas Saya'}} />
-          <Stack.Screen name='Tentang' component={Tentang} options={{ headerTitle: 'Tentang Aplikasi'}} />
+          <Stack.Screen name='Profil' component={Profil} options={{ headerTitle: 'Profil'}} />
 
           <Stack.Screen name='HomeUser' component={DashboardUser} options={{ headerShown: false}} />
           <Stack.Screen name='KasMasukUser' component={KasMasukUser} options={{ headerTitle: 'Kas Masuk'}} />
+          <Stack.Screen name='KasKeluarUser' component={KasKeluarUser} options={{ headerTitle: 'Kas Keluar'}} />
           <Stack.Screen name='BayarKasUser' component={BayarKasUser} options={{ headerTitle: 'Tambah Kas'}} />
+          <Stack.Screen name='Jumlahanggotauser' component={Jumlahanggotauser} options={{ headerTitle: 'Data Angota'}} />
 
           <Stack.Screen name='HomeAdmin' component={DashboardAdmin} options={{ headerShown: false}} />
-          <Stack.Screen name='ProfilAdmin' component={ProfilAdmin} options={{ headerTitle: 'Profil'}} />
-          <Stack.Screen name='UbahDataProfil' component={UbahDataProfil} options={{ headerTitle: 'Edit Profil'}} />
           <Stack.Screen name='KasMasukAdmin' component={KasMasukAdmin} options={{ headerTitle: 'Kas Masuk'}} />
           <Stack.Screen name='KasKeluarAdmin' component={KasKeluarAdmin} options={{ headerTitle: 'Kas Keluar'}} />
           <Stack.Screen name='DetailKasMasuk' component={DetailKasMasuk} options={{ headerTitle: 'Detail Kas Masuk'}} />
@@ -59,6 +55,7 @@ export default class App extends React.Component {
           <Stack.Screen name='TambahKasKeluar' component={TambahKasKeluar} options={{ headerTitle: 'Tambah Pengeluaran'}} />
           <Stack.Screen name='ScanTambahUser' component={ScanTambahUser} options={{ headerTitle: 'Tambah Anggota'}} />
           <Stack.Screen name='TambahKasAdmin' component={TambahKasAdmin} options={{ headerTitle: 'Tambah Kas'}} />
+          <Stack.Screen name='Jumlahanggotaadmin' component={Jumlahanggotaadmin} options={{ headerTitle: 'Data Angota'}} />
 
           
 

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import {View, Text, TouchableOpacity, StyleSheet, Image, Alert} from 'react-native'
+import {View, Text, TouchableOpacity, StyleSheet, Alert} from 'react-native'
 import * as ImagePicker from 'expo-image-picker'
 import Constants from 'expo-constants'
 import * as Permissions from 'expo-permissions'

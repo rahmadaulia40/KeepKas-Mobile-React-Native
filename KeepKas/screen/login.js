@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Alert} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import firebase from '../database/firebase'
 
 import FromInput from '../screen_components/FromInput'
@@ -107,8 +107,9 @@ export default class Login extends React.Component {
                   </Text>
                </TouchableOpacity>
             </View>
-            <View style={{alignItems: 'center', paddingTop: 20, justifyContent: 'center'}}>
-               <Text style={{fontSize: 14}}>Dirancang Dengan <Icon name='attach-money' style={{fontSize: 14}}/> </Text>
+            <View style={{alignItems: 'center', paddingTop: 30, justifyContent: 'center', flexDirection:'row'}}>
+               <Text style={{fontSize: 14, color: '#a7a7a7'}}>Dirancang dengan penuh</Text>
+               <Icon name='heart' style={{fontSize: 14, color: '#a7a7a7'}}/> 
             </View>
          </View>
       )}
@@ -138,14 +139,6 @@ const styles = StyleSheet.create({
       marginLeft: 30,
       marginRight: 30
    },
-    button:{
-       height: 50,
-       width: 130,
-       backgroundColor: '#3C6AE1',
-       alignItems: 'center',
-       justifyContent: 'center',
-       borderRadius: 5
-    },
     loginText: {
       color: '#3740FE',
       marginTop: 25,

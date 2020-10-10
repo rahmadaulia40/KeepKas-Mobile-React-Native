@@ -6,7 +6,7 @@ import firebase from '../database/firebase'
 import FromInput from '../screen_components/FromInput'
 import Loading from '../screen_components/Loading'
 
-export default class barang extends React.Component {
+export default class BayarKas extends React.Component {
    constructor() {
       super()
       this.state = {
@@ -21,8 +21,14 @@ export default class barang extends React.Component {
       state[prop] = val;
       this.setState(state);
     }
-    getDateWithMoment = () => {
-      return moment().format('DD-MM-YYYY');
+    Date = () => {
+      return moment().format('YYYY');
+    }
+    Mounth = ()=>{
+       return moment().format('MM')
+    }
+    Day =()=>{
+       return moment().format('DD')
     }
     input = () => {
       if(this.state.jumlah === '')
@@ -33,7 +39,7 @@ export default class barang extends React.Component {
       {
          this.setState({isLoading: true})
          const { uid,photoURL,displayName } = this.props.route.params
-         var db = firebase.database().ref('kas_masuk')
+         var db = firebase.database().ref('kas_masuk/'+photoURL+'/')
          var ref = db.push({
             id_admin : photoURL,
             id_user : uid,
@@ -41,7 +47,9 @@ export default class barang extends React.Component {
             jumlah : this.state.jumlah,
             status : 'Di Proses',
             keterangan : this.state.keterangan,
-            waktu : this.getDateWithMoment()
+            tgl : Number(this.Day()),
+            bln : Number(this.Mounth()),
+            thn : Number(this.Date())
          })
          var id = ref.key
          db.child(ref.key).update({id : id})
@@ -79,6 +87,8 @@ export default class barang extends React.Component {
                labelValue={this.state.jumlah}
                KeyboardType= 'numeric'
                placeholderText = 'Input Nominal'
+               MarginBottom={30}
+               MarginTop={30}
             />
 
             <FromInput onChangeText={(val) => this.updateInputVal(val, 'keterangan')}

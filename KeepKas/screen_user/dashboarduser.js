@@ -1,12 +1,16 @@
 import React from 'react'
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native'
+import {View, Text, TouchableOpacity, StyleSheet, Alert} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import firebase from '../database/firebase'
 
 import ButtonView from '../screen_components/ButtonView'
 import ButtonView_2 from '../screen_components/ButtonView_2'
 import ButtonInput from '../screen_components/ButtonInput'
+import SaldoKas from '../processing/saldokas'
+import KasMasuk from '../processing/totalkasmasuk'
+import KasKeluar from '../processing/totalkaskeluar'
+import User from '../processing/totaldatauser'
+import PictureProfile from '../processing/PictureProfile'
 
 export default class Home extends React.Component {
    constructor() {
@@ -26,35 +30,16 @@ export default class Home extends React.Component {
       this.state = { 
          displayName: firebase.auth().currentUser.displayName,
          uid: firebase.auth().currentUser.uid,
-         photoURL: firebase.auth().currentUser.photoURL
+         photoURL: firebase.auth().currentUser.photoURL,
+         email : firebase.auth().currentUser.email
        }
-       
-       var db = firebase.database().ref()
-       var reff = db.child('total_kas_masuk')
-       reff.on('child_added', snap => {
-       const datai = snap.val()
-         
-         if (datai == undefined)
-         {
-            this.state.totalkasmasuk = '0'
-         }
-         else
-         {
-            var count_array = Object.values(datai)
-            for(var i=0; i<count_array.length;i++) 
-            count_array[i] = +count_array[i];
-            var total = count_array.reduce(function(a, b){return a + b;});
-            this.state.totalkasmasuk = total
-         }
-         console.log('Kas Masuk : ' +this.state.totalkasmasuk)
-      })
    return (
       <View style={{flex:1, justifyContent: 'space-between'}}>
          <View style={styles.header}>
                <Text style={styles.titleHeader}>Keep<Text style={{fontWeight: 'normal'}}>Kas</Text></Text>
-               <TouchableOpacity  style={styles.rightH} onPress={() => {this.props.navigation.navigate('Profil')}}>
-                  <Text style={styles.text}>Hai, {this.state.displayName}</Text>
-                  <Icon name='account-circle' style={{color: 'white', fontSize: 34, paddingRight: 24}} />
+               <TouchableOpacity  style={styles.rightH} onPress={() => {this.props.navigation.navigate('Profil',{uid : this.state.uid, displayName : this.state.displayName, email : this.state.email})}}>
+                  <Text numberOfLines={1} style={styles.text}>Hai, {this.state.displayName}</Text>
+                  <PictureProfile Size={50} MarginRight={20} UID={this.state.uid}/>
                </TouchableOpacity>
          </View>
          <View style={styles.box4}>
@@ -62,7 +47,7 @@ export default class Home extends React.Component {
                      <Text style={styles.titleLeft1}>Saldo Kas</Text>
                   </View>
                   <View style={styles.right1}>
-                     <Text style={{color: 'white', fontSize: 18, fontWeight: 'bold', paddingRight: 24}}>Rp.10.000.000</Text>
+                     <Text style={{color: 'white', fontSize: 18, fontWeight: 'bold', paddingRight: 24}}>{<SaldoKas/>}</Text>
                   </View>
                </View>
 
@@ -70,33 +55,26 @@ export default class Home extends React.Component {
                <ScrollView style={{paddingLeft: 20,paddingRight: 20}}>
                   <ButtonView 
                      onPress={() => {this.props.navigation.navigate('KasMasukUser', {photoURL: this.state.photoURL})}}
-                     Txt1 = 'Kas' Txt2 = 'Masuk' Txt3 = {this.currencyFormat(Number(this.state.totalkasmasuk))} Color= '#088506'
+                     Txt1 = 'Kas' Txt2 = 'Masuk' Txt3 = {<KasMasuk/>} Color= '#088506'
                   />
                   <ButtonView 
-                     onPress={() => {this.props.navigation.navigate('Kaskeluar')}}
-                     Txt1 = 'Kas' Txt2 = 'Keluar' Txt3 = '12.000' Color= '#B90303'
-                  />
-                  <ButtonView 
-                     onPress={() => {this.props.navigation.navigate('RincianKas', {uid : this.state.uid})}}
-                     Txt1 = 'Rincian' Txt2 = 'Kas Saya' Txt3 = '10.000' Color= '#269cae'
+                     onPress={() => {this.props.navigation.navigate('KasKeluarUser', {photoURL: this.state.photoURL})}}
+                     Txt1 = 'Kas' Txt2 = 'Keluar' Txt3 = {<KasKeluar/>} Color= '#B90303'
                   />
                   <ButtonView_2
-                     onPress={() => {this.props.navigation.navigate('Jumlahanggota')}}
-                     Txt1 = 'Data' Txt2 = 'Anggota' Txt3 = '8' Txt4 = 'Anggota' Color= '#44BAFD'
+                     onPress={() => {this.props.navigation.navigate('Jumlahanggotauser', {uid: this.state.photoURL})}}
+                     Txt1 = 'Data' Txt2 = 'Anggota' Txt3 = {<User/>} Txt4 = 'Anggota' Color= '#44BAFD'
                   />
-                  <ButtonInput
-                     onPress={() => {this.props.navigation.navigate('BayarKasUser',{uid : this.state.uid, displayName: this.state.displayName, photoURL: this.state.photoURL})}}
-                     titleButton = 'Bayar Kas'
-                     Txt = 'Bayar Kas'
-                     Color = '#3C6AE1'
-                  />
+
                   <ButtonInput
                      onPress={() => this.signOut()}
                      titleButton = 'Keluar'
                      Txt = 'Keluar'
                      Color = '#B90303'
                   />
-                  <TouchableOpacity style={styles.button2} onPress={() => {this.props.navigation.navigate('Tentang')}}>
+                  <TouchableOpacity style={styles.button2} onPress={() => {
+                  Alert.alert('Tentang Aplikasi','KeepKas ini berguna untuk melakukan penyimpanan data kas, terutama untuk para siswa/mahasiswa yang memiliki kegiatan iuran kas kelas. Aplikasi ini masih dalam tahap prototype')
+                  }}>
                      <Text style={{color: '#7a7676', fontWeight: 'bold', fontSize: 18}}>Tentang Aplikasi</Text>
                   </TouchableOpacity>    
                </ScrollView>

@@ -1,7 +1,7 @@
 import React from 'react'
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native'
+import {View, Text, StyleSheet} from 'react-native'
 
-export default class ListKasMasuk extends React.Component {
+export default class ListKasMasukAdmin extends React.Component {
   constructor(){
     super()
     this.state = {
@@ -12,7 +12,6 @@ export default class ListKasMasuk extends React.Component {
    currencyFormat(num) {
      return 'Rp ' + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
    };
- 
    render() {
      const data = this.props.data
      if (data.status === 'Di Proses')
@@ -24,18 +23,23 @@ export default class ListKasMasuk extends React.Component {
        this.state.warna='#44BAFD'
      }
      return (
-        <TouchableOpacity style={styles.box} onPress={() => {this.props.Nilai(data)}}>
+        <View style={styles.box}>
         <View style={{flex: 1,justifyContent: 'center'}}>
-          <Text style={styles.titleHarga}>{this.currencyFormat(Number(data.jumlah))}</Text>
+          <Text numberOfLines={1} style={styles.titleHarga}>{this.currencyFormat(Number(data.jumlah))}</Text>
           <View style={{flexDirection: 'row'}}>
                <Text style={styles.titleNama}>{data.nama}</Text>
-               <Text style={styles.titleWaktu}>{data.waktu}</Text>
+               <Text style={styles.titleWaktu}>{data.tgl}-{data.bln}-{data.thn}</Text>
             </View>
           </View>
-        <View style={{justifyContent: 'center',backgroundColor: this.state.warna, width: 130}}>
+        <View style={{
+              justifyContent: 'center',
+              backgroundColor: this.state.warna, 
+              width: 80,
+              borderRadius: 80
+        }}>
           <Text style={styles.titleStatus}>{data.status}</Text>
         </View>
-      </TouchableOpacity>
+      </View>
       
      )
    }
@@ -43,38 +47,43 @@ export default class ListKasMasuk extends React.Component {
 
  const styles = StyleSheet.create({
    box:{
-      height: 100,
+      height: 80,
       backgroundColor: '#3C6AE1',
-      elevation: 5,
+      //elevation: 5,
       paddingLeft: 20,
-      flexDirection: 'row',
-      margin: 10
+      flexDirection: 'row-reverse',
+      margin: 5,
+      borderTopLeftRadius: 50,
+      borderTopRightRadius: 30,
+      borderBottomRightRadius: 30,
+      borderBottomLeftRadius: 50
+
    },
    titleNama: {
      color: 'white',
      fontWeight: 'bold',
-     fontSize: 18,
+     fontSize: 14,
      margin: 8,
      flex: 1
    },
    titleHarga: {
      color: 'white',
-     fontSize: 28,
+     fontSize: 24,
      fontWeight: 'bold',
      paddingLeft: 9,
    },
    titleStatus: {
-     fontSize: 20,
+     fontSize: 14,
      color: 'white',
      fontWeight: 'bold',
      textAlign: 'center',
-     paddingRight: 20,
-     paddingLeft: 20
+     paddingRight: 5,
+     paddingLeft: 5
    },
    titleWaktu: {
     color: 'white',
     fontWeight: 'bold',
-    fontSize: 18,
+    fontSize: 14,
     margin: 8
-  }
+  },
  })
