@@ -1,13 +1,14 @@
 import React from 'react'
-import {View, TextInput, StyleSheet} from 'react-native'
+import {View, TextInput, StyleSheet, Dimensions} from 'react-native'
 
 const FromInput = ({labelValue, placeholderText,NumberOfLines,KeyboardType,MarginTop,MarginBottom, ...rest}) => {
    return (
          <View style={{
             backgroundColor: '#DAEAF9',
-            height: 60,
-            marginTop: MarginTop,//12
-            marginBottom: MarginBottom,//24
+            height: Dimensions.get('window').height / 13,
+            marginTop: MarginTop,
+            marginBottom: MarginBottom,
+
          }}>
             <TextInput
                value={labelValue}

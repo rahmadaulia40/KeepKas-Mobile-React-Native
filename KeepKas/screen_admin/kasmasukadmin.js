@@ -1,7 +1,6 @@
 import React from 'react';
-import { StyleSheet, View,FlatList, Alert, Text} from 'react-native'
+import { StyleSheet, View,FlatList, Text} from 'react-native'
 import firebase from '../database/firebase'
-import moment from 'moment'
 import ListKasMasukAdmin from '../screen_node/ListKasMasukAdmin'
 import FAB from 'react-native-fab'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -10,24 +9,31 @@ export default class KasmasukAdmin extends React.Component {
   constructor() {
     super()
     this.state = {
-      data: ''
+      data: []
     }
   }
   componentDidMount() {
     this.fetchData()
  }
- getDateWithMoment = () => {
-  return moment().format('DD');
-}
 
   fetchData = async () => {
     const { uid } = this.props.route.params
-    const db = firebase.database().ref('kas_masuk/'+uid+'/')
-    var onValueChange =(snap)=>{ 
-      const datai = snap.val() 
-      this.setState({data : datai})
-    }
-    db.on('value', onValueChange)
+    const db = firebase.database().ref('kas_masuk/'+uid+'/').orderByChild('sorting')
+    db.on('value', (snapshot)=>{
+      var li = []
+      snapshot.forEach((child)=>{
+        li.push({
+          id:child.val().id,
+          id_admin:child.val().id_admin,
+          nama:child.val().nama,
+          nominal:child.val().nominal,
+          keterangan:child.val().keterangan,
+          status:child.val().status,
+          date: child.val().date
+        })
+      })
+      this.setState({data:li})
+    })
   }
 
   Nilai(list) {
@@ -35,19 +41,8 @@ export default class KasmasukAdmin extends React.Component {
     data : this.setState.data = list
     })
   }
-  CekData(){
-    if (this.state.data == undefined)
-    {
-      Alert.alert('Data Kas Masuk', 'Data Kosong/Tidak ditemukan')
-    }
-    else
-    {
-      return Object.values(this.state.data)
-    }
-  }
- 
+
   render(){
-    const nilai = this.CekData()
     const NullData=()=>{
       return (
         <View style={{alignItems: 'center', paddingTop: 30}}>
@@ -55,14 +50,15 @@ export default class KasmasukAdmin extends React.Component {
         </View>
       )
     }
+
   return (
     <View style={styles.container}>
       <View style={styles.body}>
         <FlatList
-            data={nilai}
+            data={this.state.data}
             renderItem={({ item }) => <ListKasMasukAdmin Nilai={this.Nilai.bind(this)} data={item} />}
-            keyExtractor={item=>item.id}
             ListEmptyComponent={NullData()}
+            
         />
       </View>
       <FAB 

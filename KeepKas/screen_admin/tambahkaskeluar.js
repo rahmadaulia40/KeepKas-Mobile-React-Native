@@ -24,8 +24,14 @@ export default class TambahKasKeluar extends React.Component {
       state[prop] = val;
       this.setState(state);
     }
-    getDateWithMoment = () => {
-      return moment().format('DD-MM-YYYY');
+    thn = () => {
+      return moment().format('YYYY');
+    }
+    bln = () => {
+      return moment().format('MM');
+    }
+    tgl = () => {
+      return moment().format('DD');
     }
     input = () => {
       if(this.state.jumlah === '')
@@ -40,14 +46,15 @@ export default class TambahKasKeluar extends React.Component {
          var ref = db.push({
             id_admin : uid,
             nama : displayName,
-            nominal : this.state.nominal,
+            nominal : Number(this.state.nominal),
             keterangan : this.state.keterangan,
-            waktu : this.getDateWithMoment()
+            sorting : 99999999-Number(this.thn()+this.bln()+this.tgl()),
+            date : this.tgl()+'-'+this.bln()+'-'+this.thn()
          })
          var id = ref.key
          db.child(ref.key).update({id : id})
          .then(()=>{
-            firebase.database().ref().child('total_kas_keluar/'+uid+ '/').update({[ref.key] : this.state.nominal})
+            firebase.database().ref().child('total_kas_keluar/'+uid+ '/').update({[ref.key] : Number(this.state.nominal)})
             this.ButtonAlertSukses()
          })
          .catch((error) => {Alert.alert('Kas Keluar',String(error))})

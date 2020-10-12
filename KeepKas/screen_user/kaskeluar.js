@@ -1,5 +1,5 @@
 import React from 'react'
-import {View, StyleSheet, FlatList, Alert} from 'react-native'
+import {View, StyleSheet, FlatList, Alert, Text} from 'react-native'
 import firebase from '../database/firebase'
 import ListKasKeluarUser from '../screen_node/ListKasKeluarUser'
 
@@ -34,6 +34,13 @@ export default class KasKeluarUser extends React.Component {
     }
    render(){
       const nilai = this.CekData()
+      const NullData=()=>{
+        return (
+          <View style={{alignItems: 'center', paddingTop: 30}}>
+            <Text style={{color:'#a7a7a7', fontSize: 14}}>Data Kosong/Tidak Ditemukan</Text>
+          </View>
+        )
+      }
    return (
       <View style={styles.container}>
          <View style={styles.body}>
@@ -41,6 +48,7 @@ export default class KasKeluarUser extends React.Component {
                data={nilai}
                renderItem={({ item }) => <ListKasKeluarUser data={item} />}
                keyExtractor={item => item.id}
+               ListEmptyComponent={NullData()}
             />
          </View>
       </View>

@@ -1,12 +1,12 @@
 import React from 'react'
-import {StyleSheet,TouchableOpacity,Text} from 'react-native'
+import {TouchableOpacity,Text, Dimensions} from 'react-native'
 
 const ButtonInput = ({titleButton,Color,Txt,MarginTop, ...rest}) => {
    return (
          <TouchableOpacity 
             style={
                {
-                  height: 60,
+                  height: Dimensions.get('window').height /13,
                   borderRadius: 10,
                   backgroundColor: Color,//'#3C6AE1'
                   alignItems: 'center',

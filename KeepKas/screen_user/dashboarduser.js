@@ -1,5 +1,5 @@
 import React from 'react'
-import {View, Text, TouchableOpacity, StyleSheet, Alert} from 'react-native'
+import {View, Text, TouchableOpacity, StyleSheet, Alert, BackHandler} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import firebase from '../database/firebase'
 
@@ -19,9 +19,26 @@ export default class Home extends React.Component {
           isLoading : false
       }
     }
+
    currencyFormat(num) {
       return 'Rp ' + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-    };
+    }
+
+    ButtonAlertKonfirmasi = () =>
+    Alert.alert(
+      "KeepKas",
+      "Apakah anda yakin ingin keluar ?",
+      [
+        {
+          text: "Batal",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "Ya", onPress: () => {this.signOut()}}
+      ],
+      { cancelable: false }
+    )
+
     signOut = () => {
       firebase.auth().signOut().then(() => {this.props.navigation.navigate('Login')})
       .catch(error => this.setState({ errorMessage: error.message }))

@@ -1,7 +1,7 @@
 import React from 'react'
-import {View, Text, StyleSheet, Alert} from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
+import {View, Text, StyleSheet, Alert, ScrollView, Dimensions} from 'react-native'
 import moment from 'moment'
+import DatePicker from 'react-native-datepicker'
 import firebase from '../database/firebase'
 import ButtonInput from '../screen_components/ButtonInput'
 import FromInput from '../screen_components/FromInput'
@@ -13,7 +13,8 @@ export default class TambahKasAdmin extends React.Component {
       this.state = {
           jumlah : '',
           keterangan : '',
-          isLoading : false
+          isLoading : false,
+          date : moment().format('DD-MM-YYYY')
       }
     }
     
@@ -22,15 +23,7 @@ export default class TambahKasAdmin extends React.Component {
       state[prop] = val;
       this.setState(state);
     }
-    Date = () => {
-      return moment().format('YYYY');
-    }
-    Mounth = ()=>{
-       return moment().format('MM')
-    }
-    Day =()=>{
-       return moment().format('DD')
-    }
+
     input = () => {
       if(this.state.jumlah === '')
       {
@@ -39,17 +32,20 @@ export default class TambahKasAdmin extends React.Component {
       else 
       {
          this.setState({isLoading: true})
+         var dateItem = this.state.date.split('-')
+         var tgl = dateItem[0]
+         var bln = dateItem[1]
+         var thn = dateItem[2]
          const { uid,displayName } = this.props.route.params
          var db = firebase.database().ref('kas_masuk/'+uid+'/')
          var ref = db.push({
             id_admin : uid,
             nama : displayName,
-            jumlah : Number(this.state.jumlah),
+            nominal : Number(this.state.jumlah),
             status : 'Sukses',
             keterangan : this.state.keterangan,
-            tgl : Number(this.Day()),
-            bln : Number(this.Mounth()),
-            thn : Number(this.Date())
+            sorting : 99999999-Number(thn+bln+tgl),
+            date : this.state.date
          })
          var id = ref.key
          db.child(ref.key).update({id : id})
@@ -82,7 +78,6 @@ export default class TambahKasAdmin extends React.Component {
            <Loading/>
          )
        }
-
    return (
       <View style={{flex:1, justifyContent: 'space-between'}}>
          <ScrollView style={styles.body}>
@@ -95,17 +90,36 @@ export default class TambahKasAdmin extends React.Component {
                <Text style={styles.titleInfo}>Silahkan masukkan nominal uang kas yang ingin di input. Selanjutnya Admin akan mengkonfirmasi penginputan kas Anda dan akan tampil di halaman Rincian Kas.</Text>
             </View>
 
+            <DatePicker
+               style={{marginTop: 30, width: Dimensions.get('window').width / 1.1}}
+               date={this.state.date}
+               mode='date'
+               format='DD-MM-YYYY'
+               minDate='01-05-2016'
+               maxDate='29-12-2200'
+               showIcon={false}
+               customStyles={{
+                  dateInput:{
+                     backgroundColor: '#DAEAF9',
+                     borderWidth: 0,
+                     height: 50,
+                     alignItems:'baseline',
+                     paddingLeft: 20
+                  }
+               }}
+               onDateChange={(date)=>{this.setState({date: date})}}
+            />
             <FromInput onChangeText={(val) => this.updateInputVal(val, 'jumlah')}
                labelValue={this.state.jumlah}
                KeyboardType= 'numeric'
                placeholderText = 'Input Nominal'
-               MarginBottom={30}
-               MarginTop={14}
+               MarginTop={30}
             />
 
             <FromInput onChangeText={(val) => this.updateInputVal(val, 'keterangan')}
                labelValue={this.state.keterangan}
                placeholderText = 'Input Keterangan'
+               MarginTop={30}
             />
 
             <ButtonInput

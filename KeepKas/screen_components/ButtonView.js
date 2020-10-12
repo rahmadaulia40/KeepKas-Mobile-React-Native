@@ -1,11 +1,11 @@
 import React from 'react'
-import {StyleSheet,TouchableOpacity,Text, View} from 'react-native'
+import {StyleSheet,TouchableOpacity,Text, View, Dimensions} from 'react-native'
 
 const ButtonView = ({Txt1,Txt2,Txt3,Color, ...rest}) => {
    return (
       <TouchableOpacity 
          style={{
-            height: 120,
+            height: Dimensions.get('window').height / 7,
             backgroundColor: Color,
             justifyContent: 'space-between',
             flexDirection: 'row',
@@ -32,8 +32,8 @@ export default ButtonView
 
 const styles = StyleSheet.create({
    left: {
-      height: 120,
-      width: 170,
+      height: Dimensions.get('window').height,
+      width: Dimensions.get('window').width / 2.5,
       justifyContent: 'center',
       alignItems: 'center'
 
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
 
    },
    right: {
-      height: 120,
+      height: Dimensions.get('window').height,
       justifyContent: 'center',
       paddingRight: 20
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import {View, Text, TouchableOpacity, StyleSheet, Alert} from 'react-native'
+import {View, Text, TouchableOpacity, StyleSheet, Alert, Dimensions} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import firebase from '../database/firebase'
 
@@ -25,6 +25,7 @@ export default class HomeAdmin extends React.Component {
          uid : firebase.auth().currentUser.uid
       }
    }
+
    currencyFormat(num) {
       return 'Rp ' + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
     };
@@ -116,7 +117,7 @@ export default class HomeAdmin extends React.Component {
 
 const styles = StyleSheet.create({
    header:{
-      height: 60,
+      height: Dimensions.get('window').height / 13,
       flexDirection: 'row',
       alignItems: 'center',
       backgroundColor: '#3C6AE1',
@@ -144,15 +145,15 @@ const styles = StyleSheet.create({
       flex: 1
    },
    box4:{
-      height: 50,
+      height: Dimensions.get('window').height / 17,
       backgroundColor: '#D49900',
       justifyContent: 'space-between',
       flexDirection: 'row',
       alignItems: 'center',
    },
    left: {
-      height: 120,
-      width: 170,
+      height: Dimensions.get('window').height,
+      width: Dimensions.get('window').width / 3,
       justifyContent: 'center',
       alignItems: 'center'
 
@@ -164,8 +165,8 @@ const styles = StyleSheet.create({
 
    },
    right: {
-      height: 120,
-      width: 170,
+      height: Dimensions.get('window').height,
+      width: Dimensions.get('window').width / 3,
       justifyContent: 'center',
       alignItems: 'center'
 
@@ -177,7 +178,7 @@ const styles = StyleSheet.create({
 
    },
    right1: {
-      height: 120,
+      height: Dimensions.get('window').height,
       justifyContent: 'center',
       paddingRight: 20
 
@@ -191,11 +192,11 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
       backgroundColor: '#3C6AE1',
-      height: 60
+      height: Dimensions.get('window').height / 13
    },
    picture:{
-      height: 40,
-      width: 40,
+      height: Dimensions.get('window').height,
+      width: Dimensions.get('window').width / 3,
       marginRight: 24,
       borderRadius: 50
    }

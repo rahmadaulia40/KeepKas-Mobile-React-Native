@@ -9,7 +9,7 @@ export default class KasKeluarAdmin extends React.Component {
    constructor() {
       super()
       this.state = {
-        data: ''
+        data: []
       }
     }
     componentDidMount() {
@@ -17,31 +17,29 @@ export default class KasKeluarAdmin extends React.Component {
    }
     fetchData = async () => {
       const { uid } = this.props.route.params
-      const db = firebase.database().ref()
-      const twoRef = db.child('kas_keluar/'+uid+'/')
-      twoRef.on('value', snap => {
-           const datai = snap.val()
-           this.setState({data : datai})
+      const db = firebase.database().ref('kas_keluar/'+uid+'/').orderByChild('sorting')
+      db.on('value', (snapshot)=>{
+        var li = []
+        snapshot.forEach((child)=>{
+          li.push({
+            id:child.val().id,
+            id_admin:child.val().id_admin,
+            nama:child.val().nama,
+            nominal:child.val().nominal,
+            keterangan:child.val().keterangan,
+            date: child.val().date
+          })
         })
+        this.setState({data:li})
+      })
     }
     Nilai(list) {
       this.props.navigation.navigate('DetailKasKeluar', {
       data : this.setState.data = list
       })
     }
-    CekData(){
-      if (this.state.data == undefined)
-      {
-        Alert.alert('Data Kas Keluar', 'Data Kosong/Tidak ditemukan')
-      }
-      else
-      {
-        return Object.values(this.state.data)
-      }
-    }
-   render(){
-      const nilai = this.CekData()
 
+   render(){
       const NullData=()=>{
         return (
           <View style={{alignItems: 'center', paddingTop: 30}}>
@@ -53,7 +51,7 @@ export default class KasKeluarAdmin extends React.Component {
       <View style={styles.container}>
          <View style={styles.body}>
             <FlatList
-               data={nilai}
+               data={this.state.data}
                renderItem={({ item }) => <ListKasKeluarAdmin Nilai={this.Nilai.bind(this)} data={item} />}
                keyExtractor={item => item.id}
                ListEmptyComponent={NullData()}

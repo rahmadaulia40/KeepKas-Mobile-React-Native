@@ -20,7 +20,7 @@ export default class ListKasKeluarAdmin extends React.Component {
                   </View>
 
                   <View style={styles.boxWaktu}>
-                      <Text style={styles.titleStatus}>{data.waktu}</Text>
+                      <Text style={styles.titleStatus}>{data.date}</Text>
                   </View>
 
             </View>
