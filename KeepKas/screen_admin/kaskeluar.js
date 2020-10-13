@@ -62,7 +62,7 @@ export default class KasKeluarAdmin extends React.Component {
             iconTextColor="#FFFFFF" 
             onClickAction={() => {this.props.navigation.navigate('TambahKasKeluar', {uid: firebase.auth().currentUser.uid, displayName : firebase.auth().currentUser.displayName})}}
             visible={true} 
-            iconTextComponent={<Icon name="pencil-minus"/>} 
+            iconTextComponent={<Icon name="plus"/>} 
           />   
       </View>
    )}

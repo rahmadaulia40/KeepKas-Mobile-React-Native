@@ -1,6 +1,7 @@
 import * as React from 'react'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import {View, Text, TouchableOpacity, StyleSheet, Alert} from 'react-native'
+import {Ukuran} from '../screen_components/Dimentions'
 import * as ImagePicker from 'expo-image-picker'
 import Constants from 'expo-constants'
 import * as Permissions from 'expo-permissions'
@@ -76,12 +77,12 @@ export default class Profil extends React.Component {
          <View style={styles.header}>
             <View style={{alignItems: 'center', marginTop: 20}}>
 
-               <PictureProfile Size={230} UID={uid}/>
+               <PictureProfile Size={Ukuran/3} UID={uid}/>
 
                <TouchableOpacity
                style={{flexDirection: 'row', alignItems: 'center', marginTop: 10}}
                onPress={this._pickImage}>
-                  <Text style={{color: '#3C6AE1', fontSize: 14}}>Ubah Gambar</Text>
+                  <Text style={{color: '#3C6AE1', fontSize: Ukuran/55}}>Ubah Gambar</Text>
                   <Icon name='pencil-circle' color='#3C6AE1' size={35}/>
                </TouchableOpacity>
             
@@ -107,16 +108,11 @@ const styles = StyleSheet.create({
    header:{
       flexDirection: 'column',
    },
-   picture:{
-      width: 230,
-      height: 230,
-      borderRadius: 230,
-   },
    title2 :{
-      fontSize: 14,
+      fontSize: Ukuran/60,
       fontWeight: 'bold',
       color: 'white',
-      padding: 10,
+      padding: Ukuran/60,
    },
    box:{
       backgroundColor: '#3C6AE1',
@@ -124,7 +120,9 @@ const styles = StyleSheet.create({
       borderRadius: 20,
       flexDirection: 'row',
       elevation: 10,
-      margin: 10,
-      justifyContent: 'center'
+      margin: 20,
+      justifyContent: 'center',
+      paddingTop: 20,
+      paddingBottom: 20
    },
 })

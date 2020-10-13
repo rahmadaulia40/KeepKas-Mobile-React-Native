@@ -1,5 +1,6 @@
 import React from 'react'
-import {View, StyleSheet, Alert,Text } from 'react-native'
+import {View, StyleSheet, Alert,Text, ScrollView} from 'react-native'
+import {Ukuran} from '../screen_components/Dimentions'
 import firebase from '../database/firebase'
 
 import ButtonInput from '../screen_components/ButtonInput'
@@ -28,7 +29,7 @@ export default class DetailKasMasuk extends React.Component {
       {
          firebase.database().ref('kas_masuk/'+ data.id_admin + '/'+ data.id+'/').update({status : 'Sukses'})
          .then(()=>{
-            firebase.database().ref('total_kas_masuk/'+data.id_admin+ '/').update({[data.id] : data.jumlah})
+            firebase.database().ref('total_kas_masuk/'+data.id_admin + '/').update({[data.id] : Number(data.nominal)})
             Alert.alert('Sukses', 'Data berhasil di Konfirmasi')
             this.setState({isLoading: false})
             
@@ -101,7 +102,7 @@ export default class DetailKasMasuk extends React.Component {
          )
        }    
       return (
-         <View style={styles.container}>
+         <ScrollView style={styles.container}>
 
             <View style={{alignItems: 'center'}}>
                <Text style={styles.titleHeader}>Detail Kas Masuk</Text>
@@ -116,8 +117,8 @@ export default class DetailKasMasuk extends React.Component {
                </View>
                <View>
                   <Text style={styles.titleInfo}>: {data.nama}</Text>
-                  <Text style={styles.titleInfo}>: {this.currencyFormat(Number(data.jumlah))}</Text>
-                  <Text style={styles.titleInfo}>: {data.waktu}</Text>
+                  <Text style={styles.titleInfo}>: {this.currencyFormat(Number(data.nominal))}</Text>
+                  <Text style={styles.titleInfo}>: {data.date}</Text>
                   <Text style={styles.titleInfo}>: {data.status}</Text>
                </View>
             </View>
@@ -130,7 +131,7 @@ export default class DetailKasMasuk extends React.Component {
                onPress={() => this.konfirmasi()}
                titleButton = 'Konfirmasi'
                Txt = 'Konfirmasi'
-               Color = {this.state.color}//'#3C6AE1'//98a8d2
+               Color = {this.state.color}
                MarginTop = {20}
             />
 
@@ -141,7 +142,7 @@ export default class DetailKasMasuk extends React.Component {
                Color = '#B90303'
                MarginTop = {20}
             />
-         </View>
+         </ScrollView>
       )
    }
 }
@@ -149,17 +150,11 @@ export default class DetailKasMasuk extends React.Component {
 const styles = StyleSheet.create({
    container: {
       flex: 1,
-      margin: 20
-   },
-   kolomRincian:{
-      height: 100,
-      elevation: 5,
-      backgroundColor: 'white',
-      borderRadius : 5
+      margin: Ukuran/40
    },
    titleHeader :{
-      margin: 20,
-      fontSize: 20,
+      margin: Ukuran/40,
+      fontSize: Ukuran/35,
       fontWeight: 'bold',
       color: '#3C6AE1'
    },
@@ -167,29 +162,29 @@ const styles = StyleSheet.create({
       backgroundColor: '#3C6AE1',
       alignItems: 'center',
       borderRadius: 20,
-      padding: 20,
+      padding: Ukuran/40,
       flexDirection: 'row',
       elevation: 10
    },
    titleInfo: {
       color: 'white',
-      fontSize: 15,
+      fontSize: Ukuran/40,
       fontWeight: 'bold',
       paddingRight: 5,
-      marginTop: 10,
-      marginRight: 10
+      marginTop: Ukuran/60,
+      marginRight: Ukuran/60
    },
    box1 :{
       backgroundColor: '#3C6AE1',
       justifyContent: 'center',
       borderRadius: 20,
-      padding: 20,
+      padding: Ukuran/40,
       elevation: 10,
-      marginTop: 20
+      marginTop: 10
    },
    titleInfo1 : {
       color: 'white',
-      fontSize: 15,
+      fontSize: Ukuran/40,
       fontWeight: 'bold',
       paddingLeft: 20,
       marginTop: 10,

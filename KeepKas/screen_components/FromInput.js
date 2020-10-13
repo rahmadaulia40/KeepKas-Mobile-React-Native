@@ -1,11 +1,11 @@
 import React from 'react'
-import {View, TextInput, StyleSheet, Dimensions} from 'react-native'
-
+import {View, TextInput, StyleSheet} from 'react-native'
+import {Panjang, Ukuran} from '../screen_components/Dimentions'
 const FromInput = ({labelValue, placeholderText,NumberOfLines,KeyboardType,MarginTop,MarginBottom, ...rest}) => {
    return (
          <View style={{
             backgroundColor: '#DAEAF9',
-            height: Dimensions.get('window').height / 13,
+            height: Panjang / 13,
             marginTop: MarginTop,
             marginBottom: MarginBottom,
 
@@ -27,7 +27,7 @@ export default FromInput
 const styles = StyleSheet.create ({
    textInput:{
       color : 'black',
-      padding: 15,
-      fontSize: 15
+      padding: Ukuran/40,
+      fontSize: Ukuran/55
     }
 })

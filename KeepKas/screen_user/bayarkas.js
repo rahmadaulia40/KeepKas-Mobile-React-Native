@@ -1,10 +1,12 @@
 import React from 'react'
-import {View, Text, TouchableOpacity, StyleSheet, Alert} from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
+import {View, Text, StyleSheet, Alert, ScrollView} from 'react-native'
+import {Panjang, Lebar, Ukuran} from '../screen_components/Dimentions'
+import DatePicker from 'react-native-datepicker'
 import moment from 'moment'
 import firebase from '../database/firebase'
 import FromInput from '../screen_components/FromInput'
 import Loading from '../screen_components/Loading'
+import ButtonInput from '../screen_components/ButtonInput'
 
 export default class BayarKas extends React.Component {
    constructor() {
@@ -12,7 +14,8 @@ export default class BayarKas extends React.Component {
       this.state = {
           jumlah : '',
           keterangan : '',
-          isLoading : false
+          isLoading : false,
+          date : moment().format('DD-MM-YYYY')
       }
     }
     
@@ -21,15 +24,7 @@ export default class BayarKas extends React.Component {
       state[prop] = val;
       this.setState(state);
     }
-    Date = () => {
-      return moment().format('YYYY');
-    }
-    Mounth = ()=>{
-       return moment().format('MM')
-    }
-    Day =()=>{
-       return moment().format('DD')
-    }
+
     input = () => {
       if(this.state.jumlah === '')
       {
@@ -38,18 +33,21 @@ export default class BayarKas extends React.Component {
       else 
       {
          this.setState({isLoading: true})
+         var dateItem = this.state.date.split('-')
+         var tgl = dateItem[0]
+         var bln = dateItem[1]
+         var thn = dateItem[2]
          const { uid,photoURL,displayName } = this.props.route.params
          var db = firebase.database().ref('kas_masuk/'+photoURL+'/')
          var ref = db.push({
             id_admin : photoURL,
             id_user : uid,
             nama : displayName,
-            jumlah : this.state.jumlah,
+            nominal : this.state.jumlah,
             status : 'Di Proses',
             keterangan : this.state.keterangan,
-            tgl : Number(this.Day()),
-            bln : Number(this.Mounth()),
-            thn : Number(this.Date())
+            sorting : 99999999-Number(thn+bln+tgl),
+            date : this.state.date
          })
          var id = ref.key
          db.child(ref.key).update({id : id})
@@ -83,23 +81,47 @@ export default class BayarKas extends React.Component {
                <Text style={styles.titleInfo}>Silahkan masukkan nominal uang kas yang ingin di input. Selanjutnya Admin akan mengkonfirmasi penginputan kas Anda dan akan tampil di halaman Rincian Kas.</Text>
             </View>
 
+            
+            <DatePicker
+               style={{marginTop: Ukuran/20, width: Lebar / 1.1}}
+               date={this.state.date}
+               mode='date'
+               format='DD-MM-YYYY'
+               minDate='01-05-2016'
+               maxDate='29-12-2200'
+               showIcon={false}
+               customStyles={{
+                  dateInput:{
+                     backgroundColor: '#DAEAF9',
+                     borderWidth: 0,
+                     height: Panjang/13,
+                     alignItems:'baseline',
+                     paddingLeft: Ukuran/40
+                  }
+               }}
+               onDateChange={(date)=>{this.setState({date: date})}}
+            />
+
             <FromInput onChangeText={(val) => this.updateInputVal(val, 'jumlah')}
                labelValue={this.state.jumlah}
                KeyboardType= 'numeric'
                placeholderText = 'Input Nominal'
-               MarginBottom={30}
-               MarginTop={30}
+               MarginTop={Ukuran/25}
             />
 
             <FromInput onChangeText={(val) => this.updateInputVal(val, 'keterangan')}
                labelValue={this.state.keterangan}
                placeholderText = 'Input Keterangan'
+               MarginTop={Ukuran/35}
             />
 
-
-            <TouchableOpacity style={styles.button} onPress={() => this.input()}>
-               <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20}}>Tambah</Text>
-            </TouchableOpacity>
+            <ButtonInput
+               onPress={() => this.input()}
+               titleButton = 'Tambah'
+               Txt = 'Tambah'
+               Color = '#3C6AE1'
+               MarginTop = {Ukuran/30}
+            />
 
          </ScrollView>
 
@@ -109,63 +131,30 @@ export default class BayarKas extends React.Component {
 }
 
 const styles = StyleSheet.create({
-   text:{
-      fontSize: 14,
-      color: 'white',
-      fontWeight: 'bold',
-      padding: 10
-   },
    body:{
       flex: 1,
-      marginLeft: 20,
-      marginRight: 20
+      marginLeft: Ukuran/40,
+      marginRight: Ukuran/40
    },
    box1:{
-      height: 250,
+      height: Panjang/3.5,
       backgroundColor: '#00DCEA',
       justifyContent: 'center',
       alignItems: 'center',
       borderColor: '#3C6AE1',
       borderWidth: 2,
       borderRadius: 5,
-      padding: 20
+      padding: Ukuran/40
    },
    title1 :{
-      margin: 20,
-      fontSize: 24,
+      margin: Ukuran/40,
+      fontSize: Ukuran/32,
       fontWeight: 'bold'
-   },
-   title2 :{
-      margin: 20,
-      fontSize: 22,
-      fontWeight: 'bold',
-      alignItems: 'center',
-
    },
    titleInfo: {
       color: 'white',
-      fontSize: 24,
+      fontSize: Ukuran/35,
       textAlign: 'center',
       fontWeight: 'bold'
-   },
-   boxInput: {
-      height: 70,
-      backgroundColor: '#DAEAF9',
-      margin: 20
-   },
-   button:{
-      height: 60,
-      marginTop: 20,
-      marginLeft: 100,
-      marginRight: 100,
-      borderRadius: 10,
-      backgroundColor: '#3C6AE1',
-      alignItems: 'center',
-      justifyContent: 'center'
-   },
-   buttonLeft:{
-      color: 'white',
-      fontSize: 30,
-      paddingLeft: 20
    }
 })

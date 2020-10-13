@@ -1,12 +1,10 @@
 import React from 'react'
-import {StyleSheet,View,Image,ActivityIndicator, Text} from 'react-native'
-
-import AwesomeAlert from 'react-native-awesome-alerts'
+import {StyleSheet,View,Image,ActivityIndicator, Dimensions} from 'react-native'
 
 const Loading = () => {
    return (
    <View style={styles.preloader}>
-      <Image source={require('../assets/icon.png')} style={{height: 90, width: 90}} />
+      <Image source={require('../assets/icon.png')} style={{height: Dimensions.get('window').height/8, width: Dimensions.get('window').width/5}} />
       <ActivityIndicator size={50} color="#3C6AE1"/>
   </View>
    )

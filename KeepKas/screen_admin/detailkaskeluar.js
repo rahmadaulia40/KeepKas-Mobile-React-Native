@@ -1,5 +1,6 @@
 import React from 'react'
 import {View, StyleSheet, Alert,Text } from 'react-native'
+import {Panjang, Lebar, Ukuran} from '../screen_components/Dimentions'
 import firebase from '../database/firebase'
 
 import ButtonInput from '../screen_components/ButtonInput'
@@ -106,17 +107,11 @@ export default class DetailKasKeluar extends React.Component {
 const styles = StyleSheet.create({
    container: {
       flex: 1,
-      margin: 20
-   },
-   kolomRincian:{
-      height: 100,
-      elevation: 5,
-      backgroundColor: 'white',
-      borderRadius : 5
+      margin: Ukuran/40
    },
    titleHeader :{
-      margin: 20,
-      fontSize: 24,
+      margin: Ukuran/40,
+      fontSize: Ukuran/35,
       fontWeight: 'bold',
       color: '#B90303'
    },
@@ -124,29 +119,29 @@ const styles = StyleSheet.create({
       backgroundColor: '#B90303',
       alignItems: 'center',
       borderRadius: 20,
-      padding: 20,
+      padding: Ukuran/40,
       flexDirection: 'row',
       elevation: 10
    },
    titleInfo: {
       color: 'white',
-      fontSize: 20,
+      fontSize: Ukuran/40,
       fontWeight: 'bold',
       paddingRight: 5,
-      marginTop: 10,
-      marginRight: 10
+      marginTop: Ukuran/60,
+      marginRight: Ukuran/60
    },
    box1 :{
       backgroundColor: '#B90303',
       justifyContent: 'center',
       borderRadius: 20,
-      padding: 20,
+      padding: Ukuran/40,
       elevation: 10,
-      marginTop: 20
+      marginTop: 10
    },
    titleInfo1 : {
       color: 'white',
-      fontSize: 20,
+      fontSize: Ukuran/40,
       fontWeight: 'bold',
       paddingLeft: 20,
       marginTop: 10,

@@ -1,5 +1,6 @@
 import React from 'react'
-import {View, Text, TouchableOpacity, StyleSheet, Alert, Dimensions} from 'react-native'
+import {View, Text, TouchableOpacity, StyleSheet, Alert} from 'react-native'
+import {Panjang, Lebar, Ukuran} from '../screen_components/Dimentions'
 import { ScrollView } from 'react-native-gesture-handler'
 import firebase from '../database/firebase'
 
@@ -62,7 +63,7 @@ export default class HomeAdmin extends React.Component {
                <TouchableOpacity  style={styles.rightH} 
                   onPress={() => {this.props.navigation.navigate('Profil',{uid : this.state.uid, displayName : this.state.displayName, email : this.state.email})}}>
                   <Text numberOfLines={1} style={styles.text}>Hai, {this.state.displayName}</Text>
-                  <PictureProfile Size={50} MarginRight={20} UID={this.state.uid}/>
+                  <PictureProfile Size={Ukuran/15} MarginRight={Ukuran/40} UID={this.state.uid}/>
                </TouchableOpacity>
          </View>
 
@@ -72,10 +73,10 @@ export default class HomeAdmin extends React.Component {
                      <Text style={styles.titleLeft1}>Saldo Kas</Text>
                   </View>
                   <View style={styles.right1}>
-                     <Text style={{color: 'white', fontSize: 18, fontWeight: 'bold', paddingRight: 24}}>{<SaldoKas/>}</Text>
+                     <Text style={{color: 'white', fontSize: Ukuran/45, fontWeight: 'bold', paddingRight: 24}}>{<SaldoKas/>}</Text>
                   </View>
                </View>
-               <ScrollView style={{paddingLeft: 10,paddingRight: 10}}>
+               <ScrollView style={{paddingLeft: Ukuran/70,paddingRight: Ukuran/70}}>
                   
                   <ButtonView 
                      onPress={() => {this.props.navigation.navigate('KasMasukAdmin',{uid: this.state.uid})} }
@@ -95,17 +96,17 @@ export default class HomeAdmin extends React.Component {
                      titleButton = 'Keluar'
                      Txt = 'Keluar'
                      Color = '#B90303'
-                     MarginTop = {20}
+                     MarginTop = {Ukuran/40}
                   />   
                <TouchableOpacity style={styles.button2} onPress={() => {
                   Alert.alert('Tentang Aplikasi','KeepKas ini berguna untuk melakukan penyimpanan data kas, terutama untuk para siswa/mahasiswa yang memiliki kegiatan iuran kas kelas. Aplikasi ini masih dalam tahap prototype')
                   }}>
-                     <Text style={{color: '#7a7676', fontWeight: 'bold', fontSize: 18}}>Tentang Aplikasi</Text>
+                     <Text style={{color: '#7a7676', fontWeight: 'bold', fontSize: Ukuran/45}}>Tentang Aplikasi</Text>
                   </TouchableOpacity>    
                </ScrollView>
 
                <View style={styles.keepKas}>
-                     <Text style={styles.titleHeader}>@Keep<Text style={{fontWeight: 'normal'}}>Kas</Text></Text>
+                     <Text style={styles.titleFooter}>@Keep<Text style={{fontWeight: 'normal'}}>Kas</Text></Text>
                </View>
             
          </View>
@@ -117,7 +118,7 @@ export default class HomeAdmin extends React.Component {
 
 const styles = StyleSheet.create({
    header:{
-      height: Dimensions.get('window').height / 13,
+      height: Panjang / 13,
       flexDirection: 'row',
       alignItems: 'center',
       backgroundColor: '#3C6AE1',
@@ -125,9 +126,14 @@ const styles = StyleSheet.create({
    },
    titleHeader:{
       color: 'white',
-      fontSize: 22,
+      fontSize: Ukuran/30,
       fontWeight: 'bold',
-      paddingLeft: 20
+      paddingLeft: Ukuran/40
+   },
+   titleFooter:{
+      color: 'white',
+      fontSize: Ukuran/30,
+      fontWeight: 'bold'
    },
    rightH:{
       flexDirection: 'row',
@@ -136,7 +142,7 @@ const styles = StyleSheet.create({
       
    },
    text:{
-      fontSize: 16,
+      fontSize: Ukuran/50,
       color: 'white',
       fontWeight: 'bold',
       padding: 10
@@ -145,15 +151,15 @@ const styles = StyleSheet.create({
       flex: 1
    },
    box4:{
-      height: Dimensions.get('window').height / 17,
+      height: Panjang / 17,
       backgroundColor: '#D49900',
       justifyContent: 'space-between',
       flexDirection: 'row',
       alignItems: 'center',
    },
    left: {
-      height: Dimensions.get('window').height,
-      width: Dimensions.get('window').width / 3,
+      height: Panjang,
+      width: Lebar / 3,
       justifyContent: 'center',
       alignItems: 'center'
 
@@ -165,20 +171,20 @@ const styles = StyleSheet.create({
 
    },
    right: {
-      height: Dimensions.get('window').height,
-      width: Dimensions.get('window').width / 3,
+      height: Panjang,
+      width: Lebar / 3,
       justifyContent: 'center',
       alignItems: 'center'
 
    },
    titleLeft1: {
-      fontSize: 18,
+      fontSize: Ukuran/45,
       color: 'white',
       fontWeight: 'bold'
 
    },
    right1: {
-      height: Dimensions.get('window').height,
+      height: Panjang,
       justifyContent: 'center',
       paddingRight: 20
 
@@ -186,17 +192,17 @@ const styles = StyleSheet.create({
    button2:{
       alignItems: 'center',
       justifyContent: 'center',
-      margin: 20
+      margin: Ukuran/40
    },
    keepKas:{
       alignItems: 'center',
       justifyContent: 'center',
       backgroundColor: '#3C6AE1',
-      height: Dimensions.get('window').height / 13
+      height: Panjang / 13
    },
    picture:{
-      height: Dimensions.get('window').height,
-      width: Dimensions.get('window').width / 3,
+      height: Panjang,
+      width: Lebar / 3,
       marginRight: 24,
       borderRadius: 50
    }

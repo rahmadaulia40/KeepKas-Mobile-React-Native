@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import {Panjang, Lebar,Ukuran} from '../screen_components/Dimentions'
 
 export default class ScannerSignup extends React.Component {
   constructor() {
@@ -21,7 +22,7 @@ export default class ScannerSignup extends React.Component {
         style={[StyleSheet.absoluteFill]}
       >
         <View style={styles.layerTop}>
-          <Image source={require('../assets/splash.png')} style={{width: 250, height: 100}}/>
+          <Image source={require('../assets/splash.png')} style={{width: Lebar/1.3, height: Panjang/10}}/>
           <Text style={styles.titleHeader}>Scan Untuk Mendaftar</Text>
         </View>
         
@@ -77,13 +78,13 @@ const styles = StyleSheet.create({
   },
   titleHeader:{
     color: 'white',
-    fontSize: 18
+    fontSize: Ukuran/55
   },
   titleFooter:{
     color: '#3740FE',
     textAlign: 'center',
     marginTop: 70,
-    fontSize: 15,
+    fontSize: Ukuran/55,
     fontWeight: 'bold'
   }
 });

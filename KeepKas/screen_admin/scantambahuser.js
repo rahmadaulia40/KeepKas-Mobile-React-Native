@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import {Panjang, Lebar, Ukuran} from '../screen_components/Dimentions'
 import firebase from '../database/firebase'
 import QRCode from 'react-native-qrcode-svg'
 
@@ -24,8 +25,8 @@ export default class ScanTambahUser extends React.Component {
           <QRCode 
             value={this.state.uid} 
             logo={require('../assets/barcodeLogo.png')}
-            size= {250}
-            logoSize={80}
+            size= {Ukuran/2}
+            logoSize={Ukuran/7}
           />
         </View>
       </ScrollView>
@@ -39,35 +40,29 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   body:{
-      marginLeft: 20,
-      marginRight: 20
+      marginLeft: Ukuran/40,
+      marginRight: Ukuran/40
   },
   title1 :{
-    margin: 20,
-    fontSize: 24,
+    margin: Ukuran/40,
+    fontSize: Ukuran/35,
     fontWeight: 'bold'
  },
  titleInfo: {
   color: 'white',
-  fontSize: 18,
+  fontSize: Ukuran/45,
   textAlign: 'center',
   fontWeight: 'bold'
  },
  box1:{
-  height: 150,
+  height: Panjang/6,
   backgroundColor: '#00DCEA',
   justifyContent: 'center',
   alignItems: 'center',
   borderColor: '#3C6AE1',
   borderWidth: 2,
   borderRadius: 10,
-  padding: 20,
+  padding: Ukuran/40,
   marginBottom: 20
-},
-InputManualText: {
-   color: '#3740FE',
-   textAlign: 'center',
-   fontSize: 14,
- },
-
+  },
 });

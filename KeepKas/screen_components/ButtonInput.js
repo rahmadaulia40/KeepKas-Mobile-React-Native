@@ -16,7 +16,7 @@ const ButtonInput = ({titleButton,Color,Txt,MarginTop, ...rest}) => {
             title={titleButton}
             {...rest}
          >
-            <Text style={{color: 'white', fontWeight: 'bold', fontSize: 15}}>{Txt}</Text>
+            <Text style={{color: 'white', fontWeight: 'bold', fontSize: Dimensions.get('window').width/27}}>{Txt}</Text>
          </TouchableOpacity>
    )
 }

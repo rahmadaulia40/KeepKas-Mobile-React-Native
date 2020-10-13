@@ -1,5 +1,6 @@
 import React from 'react'
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native'
+import {View, Text, StyleSheet} from 'react-native'
+import {Panjang, Lebar, Ukuran} from '../screen_components/Dimentions'
 
 export default class ListKasKeluarAdmin extends React.Component {
    currencyFormat(num) {
@@ -20,7 +21,7 @@ export default class ListKasKeluarAdmin extends React.Component {
                   </View>
 
                   <View style={styles.boxWaktu}>
-                      <Text style={styles.titleStatus}>{data.waktu}</Text>
+                      <Text style={styles.titleStatus}>{data.date}</Text>
                   </View>
 
             </View>
@@ -39,53 +40,43 @@ export default class ListKasKeluarAdmin extends React.Component {
  };
 
  const styles = StyleSheet.create({
-   box:{
-      height: 80,
-      backgroundColor: '#B90303',
-      paddingLeft: 20,
-      flexDirection: 'row',
-      margin: 5,
-      borderTopRightRadius: 35,
-      borderBottomLeftRadius: 30,
-      borderBottomRightRadius: 30,
-      borderTopLeftRadius: 30
+  box:{
+     height: Panjang/10,
+     backgroundColor: '#B90303',
+     paddingLeft: Ukuran/40,
+     flexDirection: 'row',
+     margin: 5,
+     borderRadius: Ukuran/27
 
-   },
-   titleNama: {
-     color: 'white',
-     fontWeight: 'bold',
-     fontSize: 14,
-     flex: 1,
-     paddingLeft: 10,
-     paddingRight: 10
-   },
-   titleHarga: {
-     color: 'white',
-     fontSize: 24,
-     fontWeight: 'bold',
-     paddingLeft: 9,
-     paddingTop: 10
-   },
-   titleStatus: {
-     fontSize: 14,
-     color: 'white',
-     fontWeight: 'bold',
-     textAlign: 'center',
-     paddingRight: 20,
-     paddingLeft: 20
-   },
-   titleWaktu: {
+  },
+  titleNama: {
+    color: 'white',
+    fontSize: Ukuran/50,
+    flex: 1,
+    paddingLeft: 10,
+    paddingRight: 10
+  },
+  titleHarga: {
+    color: 'white',
+    fontSize: Ukuran/35,
+    fontWeight: 'bold',
+    paddingLeft: 9,
+    paddingTop: Ukuran/70
+  },
+  titleStatus: {
+    fontSize: Ukuran/60,
     color: 'white',
     fontWeight: 'bold',
-    fontSize: 18,
-    margin: 8
+    textAlign: 'center',
+    paddingRight: 20,
+    paddingLeft: 20
   },
-  boxWaktu : {
-    justifyContent: 'center',
-    backgroundColor: '#3C6AE1', 
-    width: 120,
-    height:30,
-    borderTopRightRadius: 40,
-    borderBottomLeftRadius: 40,
-    }
- })
+ boxWaktu : {
+   justifyContent: 'center',
+   backgroundColor: '#3C6AE1', 
+   width: Lebar/3.5,
+   height: Panjang/27,
+   borderTopRightRadius: Ukuran/20,
+   borderBottomLeftRadius: Ukuran/20,
+   }
+})

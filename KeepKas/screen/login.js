@@ -2,10 +2,10 @@ import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import firebase from '../database/firebase'
-
 import FromInput from '../screen_components/FromInput'
 import ButtonInput from '../screen_components/ButtonInput'
 import Loading from '../screen_components/Loading'
+import {Panjang, Lebar, Ukuran} from '../screen_components/Dimentions'
 
 export default class Login extends React.Component {
    constructor() {
@@ -82,7 +82,7 @@ export default class Login extends React.Component {
                <FromInput onChangeText={(val) => this.updateInputVal(val, 'email')}
                   labelValue={this.state.email}
                   placeholderText= 'Email Address'
-                  MarginBottom={30}
+                  MarginBottom={Ukuran/30}
                />
 
                <FromInput onChangeText={(val) => this.updateInputVal(val, 'password')}
@@ -108,7 +108,7 @@ export default class Login extends React.Component {
                </TouchableOpacity>
             </View>
             <View style={{alignItems: 'center', paddingTop: 30, justifyContent: 'center', flexDirection:'row'}}>
-               <Text style={{fontSize: 14, color: '#a7a7a7'}}>Dirancang dengan penuh</Text>
+               <Text style={{fontSize: Ukuran/55, color: '#a7a7a7'}}>Dirancang dengan penuh</Text>
                <Icon name='heart' style={{fontSize: 14, color: '#a7a7a7'}}/> 
             </View>
          </View>
@@ -120,20 +120,20 @@ export default class Login extends React.Component {
 const styles = StyleSheet.create({
    judul:{
       fontWeight: 'bold',
-      fontSize: 50,
+      fontSize: Ukuran/15,
       textAlign: 'center',
       color:'#3C6AE1',
-      paddingBottom: 20
+      paddingBottom: Ukuran/40
    },
    header:{
       alignItems: 'center',
       
    },
    siginTitle:{
-      fontSize: 30,
+      fontSize: Ukuran/30,
       fontWeight: 'bold',
       color: 'black',
-      paddingBottom: 30
+      paddingBottom: Ukuran/40
    },
    body:{
       marginLeft: 30,
@@ -142,11 +142,13 @@ const styles = StyleSheet.create({
     loginText: {
       color: '#3740FE',
       marginTop: 25,
-      textAlign: 'center'
+      textAlign: 'center',
+      fontSize: Ukuran/55
     },
     ShowPassword: {
       color: '#3740FE',
       textAlign: 'right',
-      marginBottom: 25
+      marginBottom: 25,
+      fontSize: Ukuran/55
     },
 })

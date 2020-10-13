@@ -1,5 +1,6 @@
 import React from 'react'
 import {View, Text, StyleSheet} from 'react-native'
+import {Panjang, Lebar, Ukuran} from '../screen_components/Dimentions'
 
 export default class ListKasMasukAdmin extends React.Component {
   constructor(){
@@ -25,17 +26,17 @@ export default class ListKasMasukAdmin extends React.Component {
      return (
         <View style={styles.box}>
         <View style={{flex: 1,justifyContent: 'center'}}>
-          <Text numberOfLines={1} style={styles.titleHarga}>{this.currencyFormat(Number(data.jumlah))}</Text>
+          <Text numberOfLines={1} style={styles.titleHarga}>{this.currencyFormat(Number(data.nominal))}</Text>
           <View style={{flexDirection: 'row'}}>
                <Text style={styles.titleNama}>{data.nama}</Text>
-               <Text style={styles.titleWaktu}>{data.tgl}-{data.bln}-{data.thn}</Text>
+               <Text style={styles.titleWaktu}>{data.date}</Text>
             </View>
           </View>
         <View style={{
-              justifyContent: 'center',
-              backgroundColor: this.state.warna, 
-              width: 80,
-              borderRadius: 80
+          justifyContent: 'center',
+          backgroundColor: this.state.warna, 
+          width: Lebar/6,
+          borderRadius: 80
         }}>
           <Text style={styles.titleStatus}>{data.status}</Text>
         </View>
@@ -46,44 +47,42 @@ export default class ListKasMasukAdmin extends React.Component {
  };
 
  const styles = StyleSheet.create({
-   box:{
-      height: 80,
-      backgroundColor: '#3C6AE1',
-      //elevation: 5,
-      paddingLeft: 20,
-      flexDirection: 'row-reverse',
-      margin: 5,
-      borderTopLeftRadius: 50,
-      borderTopRightRadius: 30,
-      borderBottomRightRadius: 30,
-      borderBottomLeftRadius: 50
+  box:{
+     height: Panjang/10,
+     backgroundColor: '#3C6AE1',
+     paddingLeft: Ukuran/40,
+     flexDirection: 'row-reverse',
+     margin: 5,
+     borderTopLeftRadius: 50,
+     borderTopRightRadius: Ukuran/30,
+     borderBottomRightRadius: Ukuran/30,
+     borderBottomLeftRadius: 50
 
-   },
-   titleNama: {
-     color: 'white',
-     fontWeight: 'bold',
-     fontSize: 14,
-     margin: 8,
-     flex: 1
-   },
-   titleHarga: {
-     color: 'white',
-     fontSize: 24,
-     fontWeight: 'bold',
-     paddingLeft: 9,
-   },
-   titleStatus: {
-     fontSize: 14,
-     color: 'white',
-     fontWeight: 'bold',
-     textAlign: 'center',
-     paddingRight: 5,
-     paddingLeft: 5
-   },
-   titleWaktu: {
+  },
+  titleNama: {
+    color: 'white',
+    fontSize: Ukuran/55,
+    margin: 8,
+    flex: 1
+  },
+  titleHarga: {
+    color: 'white',
+    fontSize: Ukuran/33,
+    fontWeight: 'bold',
+    paddingLeft: 9,
+  },
+  titleStatus: {
+    fontSize: Ukuran/55,
     color: 'white',
     fontWeight: 'bold',
-    fontSize: 14,
-    margin: 8
+    textAlign: 'center',
+    paddingRight: 5,
+    paddingLeft: 5
   },
- })
+  titleWaktu: {
+   color: 'white',
+   fontWeight: 'bold',
+   fontSize: Ukuran/55,
+   margin: 8
+ }
+})

@@ -1,17 +1,18 @@
 import React from 'react'
-import {StyleSheet,TouchableOpacity,Text, View, Dimensions} from 'react-native'
+import {StyleSheet,TouchableOpacity,Text, View} from 'react-native'
+import {Panjang, Lebar, Ukuran} from '../screen_components/Dimentions'
 
 const ButtonView = ({Txt1,Txt2,Txt3,Txt4,Color, ...rest}) => {
    return (
       <TouchableOpacity
          style={{
-            height: Dimensions.get('window').height / 7,
+            height: Panjang / 7,
             backgroundColor: Color,
             justifyContent: 'space-between',
             flexDirection: 'row',
             alignItems: 'center',
-            marginTop: 20,
-            marginBottom: 20,
+            marginTop: Ukuran/40,
+            marginBottom: Ukuran/40,
             elevation: 10
          }}
          {...rest}
@@ -21,8 +22,8 @@ const ButtonView = ({Txt1,Txt2,Txt3,Txt4,Color, ...rest}) => {
             <Text style={styles.titleLeft}>{Txt2}</Text>
          </View>
          <View style={styles.right}>
-            <Text style={{color: 'white', fontSize: 40, fontWeight: 'bold'}}>{Txt3}</Text>
-            <Text style={{color: 'white', fontSize: 20, fontWeight: 'bold'}}>{Txt4}</Text>
+            <Text style={{color: 'white', fontSize: Ukuran/20, fontWeight: 'bold'}}>{Txt3}</Text>
+            <Text style={{color: 'white', fontSize: Ukuran/40, fontWeight: 'bold'}}>{Txt4}</Text>
          </View>
       </TouchableOpacity>
    )
@@ -32,21 +33,21 @@ export default ButtonView
 
 const styles = StyleSheet.create({
    left: {
-      height: Dimensions.get('window').height,
-      width: Dimensions.get('window').width / 2.5,
+      height: Panjang,
+      width: Lebar / 2.5,
       justifyContent: 'center',
       alignItems: 'center'
 
    },
    titleLeft: {
-      fontSize: 22,
+      fontSize: Ukuran/35,
       color: 'white',
       fontWeight: 'bold'
 
    },
    right: {
-      height: Dimensions.get('window').height,
-      width: Dimensions.get('window').width / 3,
+      height: Panjang,
+      width: Lebar / 3,
       justifyContent: 'center',
       alignItems: 'center'
 

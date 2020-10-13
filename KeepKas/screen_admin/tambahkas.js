@@ -1,5 +1,6 @@
 import React from 'react'
-import {View, Text, StyleSheet, Alert, ScrollView, Dimensions} from 'react-native'
+import {View, Text, StyleSheet, Alert, ScrollView} from 'react-native'
+import {Panjang, Lebar, Ukuran} from '../screen_components/Dimentions'
 import moment from 'moment'
 import DatePicker from 'react-native-datepicker'
 import firebase from '../database/firebase'
@@ -91,7 +92,7 @@ export default class TambahKasAdmin extends React.Component {
             </View>
 
             <DatePicker
-               style={{marginTop: 30, width: Dimensions.get('window').width / 1.1}}
+               style={{marginTop: Ukuran/20, width: Lebar / 1.1}}
                date={this.state.date}
                mode='date'
                format='DD-MM-YYYY'
@@ -102,9 +103,9 @@ export default class TambahKasAdmin extends React.Component {
                   dateInput:{
                      backgroundColor: '#DAEAF9',
                      borderWidth: 0,
-                     height: 50,
+                     height: Panjang/13,
                      alignItems:'baseline',
-                     paddingLeft: 20
+                     paddingLeft: Ukuran/40
                   }
                }}
                onDateChange={(date)=>{this.setState({date: date})}}
@@ -113,13 +114,13 @@ export default class TambahKasAdmin extends React.Component {
                labelValue={this.state.jumlah}
                KeyboardType= 'numeric'
                placeholderText = 'Input Nominal'
-               MarginTop={30}
+               MarginTop={Ukuran/30}
             />
 
             <FromInput onChangeText={(val) => this.updateInputVal(val, 'keterangan')}
                labelValue={this.state.keterangan}
                placeholderText = 'Input Keterangan'
-               MarginTop={30}
+               MarginTop={Ukuran/40}
             />
 
             <ButtonInput
@@ -138,53 +139,30 @@ export default class TambahKasAdmin extends React.Component {
 }
 
 const styles = StyleSheet.create({
-   text:{
-      fontSize: 14,
-      color: 'white',
-      fontWeight: 'bold',
-      padding: 10
-   },
    body:{
       flex: 1,
-      marginLeft: 20,
-      marginRight: 20
+      marginLeft: Ukuran/40,
+      marginRight: Ukuran/40
    },
    box1:{
-      height: 250,
+      height: Panjang/4,
       backgroundColor: '#00DCEA',
       justifyContent: 'center',
       alignItems: 'center',
       borderColor: '#3C6AE1',
       borderWidth: 2,
       borderRadius: 5,
-      padding: 20
+      padding: Ukuran/40
    },
    title1 :{
-      margin: 20,
-      fontSize: 24,
+      margin: Ukuran/40,
+      fontSize: Ukuran/35,
       fontWeight: 'bold'
-   },
-   title2 :{
-      margin: 20,
-      fontSize: 22,
-      fontWeight: 'bold',
-      alignItems: 'center',
-
    },
    titleInfo: {
       color: 'white',
-      fontSize: 20,
+      fontSize: Ukuran/40,
       textAlign: 'center',
       fontWeight: 'bold'
    },
-   boxInput: {
-      height: 70,
-      backgroundColor: '#DAEAF9',
-      margin: 20
-   },
-   buttonLeft:{
-      color: 'white',
-      fontSize: 30,
-      paddingLeft: 20
-   }
 })

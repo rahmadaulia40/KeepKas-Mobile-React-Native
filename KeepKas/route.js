@@ -3,6 +3,7 @@ import {View, StyleSheet} from 'react-native'
 import { NavigationContainer } from "@react-navigation/native"
 import { createStackNavigator } from "@react-navigation/stack"
 import Constants from 'expo-constants'
+import {Panjang, Ukuran} from './screen_components/Dimentions'
 
 import Login from './screen/login'
 import SignupUser from './screen/signupuser'
@@ -34,7 +35,7 @@ export default class App extends React.Component {
     return (
       <NavigationContainer>
         <View style = {styles.bar}/>
-        <Stack.Navigator initialRouteName="Login" screenOptions={{ headerStyle:{backgroundColor:'#3C6AE1'}, headerTintColor: 'white', headerTitleStyle :{fontWeight: 'bold', fontSize: 22} }}>
+        <Stack.Navigator initialRouteName="Login" screenOptions={{ headerStyle:{backgroundColor:'#3C6AE1'}, headerTintColor: 'white', headerTitleStyle :{fontWeight: 'bold', fontSize: Ukuran/35} }}>
           <Stack.Screen name='Login' component={Login} options={{headerShown: false}} />
           <Stack.Screen name='SignUpUser' component={SignupUser} options={{headerShown: false}} />
           <Stack.Screen name='SignUp' component={Signup} options={{headerShown: false}} />
@@ -70,13 +71,9 @@ const styles=StyleSheet.create({
   bar:{
     marginTop: statusBarHeight,
   },
-  boxDrawer: {
-    backgroundColor: 'white',
-    borderRadius: 2,
-    marginTop: 60
-  },
-  HeaderNav: {
-     color: 'black'
+  TitleHeader: {
+    fontSize: Ukuran/35,
+    fontWeight: 'bold'
   }
 })
 
