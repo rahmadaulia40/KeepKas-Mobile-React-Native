@@ -110,18 +110,16 @@ export default class SignUp extends React.Component {
                maxLength={15}
                secureTextEntry={this.state.passwordhide}
                />
-               <TouchableOpacity>
-                  <Text style={styles.ShowPassword}
-                     onPress={() => this.PasswordOption()}>
+               <TouchableOpacity onPress={() => this.PasswordOption()}>
+                  <Text style={styles.ShowPassword}>
                      {this.state.txtpassword}
                   </Text>
                </TouchableOpacity>
 
                <ButtonInput onPress={() => this.registerUser()} title='SignUp' Color='#3C6AE1' Txt='SignUp'/>
                
-               <TouchableOpacity>
-                  <Text style={styles.loginText}
-                     onPress={() => this.props.navigation.navigate('Login')}>
+               <TouchableOpacity onPress={() => this.props.navigation.navigate('Login')}>
+                  <Text style={styles.loginText}>
                      Sudah memiliki akun? klik disini untuk login
                   </Text>
                </TouchableOpacity>

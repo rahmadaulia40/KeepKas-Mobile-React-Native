@@ -1,7 +1,7 @@
 import React from 'react'
-import {View, Text, TouchableOpacity, StyleSheet, Alert} from 'react-native'
+import {View, Text, TouchableOpacity, StyleSheet, Alert, ScrollView} from 'react-native'
 import {Panjang, Lebar, Ukuran} from '../screen_components/Dimentions'
-import { ScrollView } from 'react-native-gesture-handler'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import firebase from '../database/firebase'
 
 import ButtonView from '../screen_components/ButtonView'
@@ -23,7 +23,7 @@ export default class HomeAdmin extends React.Component {
          gambar: 'user',
          displayName : firebase.auth().currentUser.displayName,
          email : firebase.auth().currentUser.email,
-         uid : firebase.auth().currentUser.uid
+         uid : firebase.auth().currentUser.uid,
       }
    }
 
@@ -56,12 +56,14 @@ export default class HomeAdmin extends React.Component {
            <Loading/>
          )
        }
+
    return (
       <View style={{flex:1, justifyContent: 'space-between'}}>
          <View style={styles.header}>
                <Text style={styles.titleHeader}>Keep<Text style={{fontWeight: 'normal'}}>Kas</Text></Text>
                <TouchableOpacity  style={styles.rightH} 
                   onPress={() => {this.props.navigation.navigate('Profil',{uid : this.state.uid, displayName : this.state.displayName, email : this.state.email})}}>
+                  <Icon name='bell' style={styles.bell}/>
                   <Text numberOfLines={1} style={styles.text}>Hai, {this.state.displayName}</Text>
                   <PictureProfile Size={Ukuran/15} MarginRight={Ukuran/40} UID={this.state.uid}/>
                </TouchableOpacity>
@@ -82,6 +84,7 @@ export default class HomeAdmin extends React.Component {
                      onPress={() => {this.props.navigation.navigate('KasMasukAdmin',{uid: this.state.uid})} }
                      Txt1 = 'Kas' Txt2 = 'Masuk' Txt3 = {<TotalKasMasuk/>} Color= '#088506'
                   />
+                  
                   <ButtonView 
                      onPress={() => {this.props.navigation.navigate('KasKeluarAdmin',{uid: this.state.uid})}}
                      Txt1 = 'Kas' Txt2 = 'Keluar' Txt3 = {<TotalKasKeluar/>} Color= '#B90303'
@@ -113,7 +116,9 @@ export default class HomeAdmin extends React.Component {
 
          
       </View>
-   )}
+   )
+
+}
 }
 
 const styles = StyleSheet.create({
@@ -205,5 +210,8 @@ const styles = StyleSheet.create({
       width: Lebar / 3,
       marginRight: 24,
       borderRadius: 50
+   },
+   bell: {
+      color: 'white'
    }
 })

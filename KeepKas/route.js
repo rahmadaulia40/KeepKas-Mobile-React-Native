@@ -4,6 +4,7 @@ import { NavigationContainer } from "@react-navigation/native"
 import { createStackNavigator } from "@react-navigation/stack"
 import Constants from 'expo-constants'
 import {Panjang, Ukuran} from './screen_components/Dimentions'
+import firebase from './database/firebase'
 
 import Login from './screen/login'
 import SignupUser from './screen/signupuser'
@@ -32,10 +33,27 @@ const statusBarHeight = Constants.statusBarHeight
 
 export default class App extends React.Component {
   render() {
+    var ref = firebase.auth().currentUser
+
+    const OptionLogin=()=>{
+    if (ref === null)
+        {return "Login"}
+    else
+    {
+      if (firebase.auth().currentUser.photoURL === null || firebase.auth().currentUser.photoURL === firebase.auth().currentUser.uid)
+      {
+        return "HomeAdmin"
+      }
+      else
+      {
+        return "HomeUser"
+      }
+    }
+  }
     return (
       <NavigationContainer>
         <View style = {styles.bar}/>
-        <Stack.Navigator initialRouteName="Login" screenOptions={{ headerStyle:{backgroundColor:'#3C6AE1'}, headerTintColor: 'white', headerTitleStyle :{fontWeight: 'bold', fontSize: Ukuran/35} }}>
+        <Stack.Navigator initialRouteName={OptionLogin()} screenOptions={{ headerStyle:{backgroundColor:'#3C6AE1'}, headerTintColor: 'white', headerTitleStyle :{fontWeight: 'bold', fontSize: Ukuran/35} }}>
           <Stack.Screen name='Login' component={Login} options={{headerShown: false}} />
           <Stack.Screen name='SignUpUser' component={SignupUser} options={{headerShown: false}} />
           <Stack.Screen name='SignUp' component={Signup} options={{headerShown: false}} />

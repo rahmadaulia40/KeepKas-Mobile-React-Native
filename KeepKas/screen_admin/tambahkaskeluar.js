@@ -44,7 +44,7 @@ export default class TambahKasKeluar extends React.Component {
          var ref = db.push({
             id_admin : uid,
             nama : displayName,
-            nominal : Number(this.state.nominal),
+            nominal : Number(-this.state.nominal),
             keterangan : this.state.keterangan,
             sorting : 99999999-Number(thn+bln+tgl),
             date : this.state.date
@@ -52,7 +52,7 @@ export default class TambahKasKeluar extends React.Component {
          var id = ref.key
          db.child(ref.key).update({id : id})
          .then(()=>{
-            firebase.database().ref().child('total_kas_keluar/'+uid+ '/').update({[ref.key] : Number(this.state.nominal)})
+            firebase.database().ref().child('total_kas_keluar/'+uid+ '/').update({[ref.key] : Number(-this.state.nominal)})
             this.ButtonAlertSukses()
          })
          .catch((error) => {Alert.alert('Kas Keluar',String(error))})

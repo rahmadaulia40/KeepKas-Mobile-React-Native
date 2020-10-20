@@ -41,6 +41,7 @@ export default class TambahKasAdmin extends React.Component {
          var db = firebase.database().ref('kas_masuk/'+uid+'/')
          var ref = db.push({
             id_admin : uid,
+            id_user : uid,
             nama : displayName,
             nominal : Number(this.state.jumlah),
             status : 'Sukses',

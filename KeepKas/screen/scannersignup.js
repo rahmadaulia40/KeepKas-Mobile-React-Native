@@ -1,5 +1,5 @@
-import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
+import * as React from 'react'
+import {StyleSheet, Text, TouchableOpacity, View, Image, Alert } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import {Panjang, Lebar,Ukuran} from '../screen_components/Dimentions'
 
@@ -11,9 +11,19 @@ export default class ScannerSignup extends React.Component {
     }
   }
 
-  handleBarCodeScanned = ({data}) => {
-    this.setState({scanned : true})
-    this.props.navigation.navigate('SignUpUser', {uidadmin : data})
+  handleBarCodeScanned = ({data, type}) => {
+    var a = Array(data)
+    var b = a.length
+    if( b >= 2){
+      this.setState({scanned : true})
+      // this.props.navigation.navigate('SignUpUser', {uidadmin : data})
+      alert(type)
+    }
+    else
+    {
+      this.setState({scanned : false})
+      alert('scan ulang')
+    }
   };
   render() {
     return (
@@ -37,7 +47,7 @@ export default class ScannerSignup extends React.Component {
           </TouchableOpacity>
         </View>
       </BarCodeScanner>
-    );
+    )
   }
 }
 

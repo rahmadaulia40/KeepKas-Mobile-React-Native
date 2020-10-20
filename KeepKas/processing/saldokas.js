@@ -26,7 +26,7 @@ export default class TotalKasMasuk extends React.Component {
          if(data == null || data == undefined || data == NaN)
          {
             var i = 0
-            this.setState({data : i})
+            this.setState({datamasuk : i})
          }
          else
          {
@@ -48,7 +48,7 @@ export default class TotalKasMasuk extends React.Component {
     if(data == null || data == undefined || data == NaN)
      {
         var i = 0
-        this.setState({data : i})
+        this.setState({datakeluar : i})
      }
      else
      {
@@ -61,12 +61,11 @@ export default class TotalKasMasuk extends React.Component {
    }
    const twoRef = db.child('total_kas_keluar/'+this.state.uid +'/')
    twoRef.on('value', onValueChange)
-   console.log('Saldo Kas : '+this.state.datamasuk - this.state.datakeluar)
+   console.log('Saldo Kas : '+this.state.datamasuk+this.state.datakeluar)
  }
   render(){
-    var Total = this.state.datamasuk - this.state.datakeluar
   return (
-  <Text>{this.currencyFormat(Number(Total))}</Text>
+  <Text>{this.currencyFormat(Number(this.state.datamasuk+this.state.datakeluar))}</Text>
   )
 
   }

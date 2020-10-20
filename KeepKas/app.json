@@ -2,6 +2,11 @@
   "expo": {
     "name": "KeepKas",
     "slug": "KeepKas",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -17,10 +22,17 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false,
+      "bundleIdentifier": "com.dbweb.keepkas",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "com.sanbercode.sanberapp",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": ""
   }
 }

@@ -5,7 +5,7 @@ import firebase from '../database/firebase'
 import FromInput from '../screen_components/FromInput'
 import ButtonInput from '../screen_components/ButtonInput'
 import Loading from '../screen_components/Loading'
-import {Panjang, Lebar, Ukuran} from '../screen_components/Dimentions'
+import {Ukuran} from '../screen_components/Dimentions'
 
 export default class Login extends React.Component {
    constructor() {
@@ -91,18 +91,16 @@ export default class Login extends React.Component {
                   maxLength={15}
                   secureTextEntry={this.state.passwordhide}
                />
-               <TouchableOpacity>
-                  <Text style={styles.ShowPassword}
-                     onPress={() => this.PasswordOption()}>
+               <TouchableOpacity onPress={() => this.PasswordOption()}>
+                  <Text style={styles.ShowPassword}>
                      {this.state.txtpassword}
                   </Text>
                </TouchableOpacity>
 
                <ButtonInput onPress={() => this.userLogin()} title='Login' Color='#3C6AE1' Txt='Login'/>
 
-               <TouchableOpacity>
-                  <Text style={styles.loginText}
-                     onPress={() => this.props.navigation.navigate('ScannerSignUp')}>
+               <TouchableOpacity onPress={() => this.props.navigation.navigate('ScannerSignUp')}>
+                  <Text style={styles.loginText}>
                      Belum memiliki akun? Klik disini untuk mendaftar
                   </Text>
                </TouchableOpacity>

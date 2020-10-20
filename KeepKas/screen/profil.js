@@ -3,8 +3,6 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import {View, Text, TouchableOpacity, StyleSheet, Alert} from 'react-native'
 import {Ukuran} from '../screen_components/Dimentions'
 import * as ImagePicker from 'expo-image-picker'
-import Constants from 'expo-constants'
-import * as Permissions from 'expo-permissions'
 import firebase from '../database/firebase'
 import Loading from '../screen_components/Loading'
 import PictureProfile from '../processing/PictureProfile'
@@ -18,19 +16,6 @@ export default class Profil extends React.Component {
         isLoading : false
       }
     }
-
-    componentDidMount() {
-      this.getPermissionAsync();
-    }
-
-    getPermissionAsync = async () => {
-      if (Constants.platform.ios) {
-        const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-        if (status !== 'granted') {
-          alert('Sorry, we need camera roll permissions to make this work!');
-        }
-      }
-    };
   
     _pickImage = async () => {
        

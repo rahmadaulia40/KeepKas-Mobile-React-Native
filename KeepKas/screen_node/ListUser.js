@@ -1,9 +1,11 @@
 import React from 'react'
-import {View, Text, StyleSheet} from 'react-native'
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native'
 import {Panjang, Lebar, Ukuran} from '../screen_components/Dimentions'
 import PictureProfile from '../processing/PictureProfile'
 
 export default class ListUser extends React.Component {
+
+
    render() {
      const data = this.props.data
      return (

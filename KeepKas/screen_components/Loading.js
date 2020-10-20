@@ -4,7 +4,7 @@ import {StyleSheet,View,Image,ActivityIndicator, Dimensions} from 'react-native'
 const Loading = () => {
    return (
    <View style={styles.preloader}>
-      <Image source={require('../assets/icon.png')} style={{height: Dimensions.get('window').height/8, width: Dimensions.get('window').width/5}} />
+      <Image source={require('../assets/icon.png')} style={{height: Dimensions.get('window').height/8, width: Dimensions.get('window').width/4}} />
       <ActivityIndicator size={50} color="#3C6AE1"/>
   </View>
    )
