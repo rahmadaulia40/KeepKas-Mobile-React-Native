@@ -30,7 +30,6 @@ export default class TotalKasMasuk extends React.Component {
          {
          const count_array = Object.values(data)
          var i = count_array.length
-         console.log('Jumlah Anggota : '+ i)
          this.setState({data : i})
          }
     }

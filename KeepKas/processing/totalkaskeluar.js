@@ -35,7 +35,6 @@ export default class TotalKasMasuk extends React.Component {
          count_array[i] = +count_array[i];
          var total = count_array.reduce(function(a, b){return a + b;});
          this.setState({data : total})
-         console.log('Kas Keluar : '+total)
          }
     }
     const twoRef = db.child('total_kas_keluar/'+this.state.uid +'/')

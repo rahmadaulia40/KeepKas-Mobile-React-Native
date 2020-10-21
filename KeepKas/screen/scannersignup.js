@@ -12,17 +12,13 @@ export default class ScannerSignup extends React.Component {
   }
 
   handleBarCodeScanned = ({data, type}) => {
-    var a = Array(data)
-    var b = a.length
-    if( b >= 2){
+    if( type === 256){
       this.setState({scanned : true})
-      // this.props.navigation.navigate('SignUpUser', {uidadmin : data})
-      alert(type)
+      this.props.navigation.navigate('SignUpUser', {uidadmin : data})
     }
     else
     {
       this.setState({scanned : false})
-      alert('scan ulang')
     }
   };
   render() {

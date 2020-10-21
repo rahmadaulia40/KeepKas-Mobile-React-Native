@@ -3,6 +3,7 @@ import {View, Text, TouchableOpacity, StyleSheet, Alert, ScrollView} from 'react
 import {Panjang, Lebar, Ukuran} from '../screen_components/Dimentions'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import firebase from '../database/firebase'
+import FAB from 'react-native-fab'
 
 import ButtonView from '../screen_components/ButtonView'
 import ButtonView_2 from '../screen_components/ButtonView_2'
@@ -20,6 +21,7 @@ export default class HomeAdmin extends React.Component {
       super()
       this.state ={
          isLoading : false,
+         notifikasi : true,
          gambar: 'user',
          displayName : firebase.auth().currentUser.displayName,
          email : firebase.auth().currentUser.email,
@@ -29,25 +31,42 @@ export default class HomeAdmin extends React.Component {
 
    currencyFormat(num) {
       return 'Rp ' + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-    };
+    }
+
     ButtonAlertKonfirmasi = () =>
     Alert.alert(
       "KeepKas",
       "Apakah anda yakin ingin keluar ?",
-      [
-        {
+      [{
           text: "Batal",
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel"
         },
-        { text: "Ya", onPress: () => {this.signOut()}}
-      ],
-      { cancelable: false }
-    )
+        { text: "Ya", onPress: () => {this.signOut()}
+      }],
+      { cancelable: false })
+
     signOut = () => {
       firebase.auth().signOut()
       .then(() => {this.props.navigation.navigate('Login')})
       .catch(error => alert(error))
+    }
+
+    componentDidMount(){
+       this.fetchdata()
+    }
+
+    fetchdata = async()=>{
+      var ref = firebase.database().ref('proses/'+this.state.uid+'/')
+      ref.on('value',(snap)=>{
+         var data = snap.val()
+         if(data === null){
+            this.setState({notifikasi : false})
+         }
+         else{
+            this.setState({notifikasi : true})
+         }
+      })
     }
 
    render(){
@@ -63,14 +82,14 @@ export default class HomeAdmin extends React.Component {
                <Text style={styles.titleHeader}>Keep<Text style={{fontWeight: 'normal'}}>Kas</Text></Text>
                <TouchableOpacity  style={styles.rightH} 
                   onPress={() => {this.props.navigation.navigate('Profil',{uid : this.state.uid, displayName : this.state.displayName, email : this.state.email})}}>
-                  <Icon name='bell' style={styles.bell}/>
                   <Text numberOfLines={1} style={styles.text}>Hai, {this.state.displayName}</Text>
                   <PictureProfile Size={Ukuran/15} MarginRight={Ukuran/40} UID={this.state.uid}/>
                </TouchableOpacity>
          </View>
 
          <View style={styles.body}>
-            <View style={styles.box4}>
+
+               <View style={styles.box4}>
                   <View style={styles.left}>
                      <Text style={styles.titleLeft1}>Saldo Kas</Text>
                   </View>
@@ -78,6 +97,7 @@ export default class HomeAdmin extends React.Component {
                      <Text style={{color: 'white', fontSize: Ukuran/45, fontWeight: 'bold', paddingRight: 24}}>{<SaldoKas/>}</Text>
                   </View>
                </View>
+
                <ScrollView style={{paddingLeft: Ukuran/70,paddingRight: Ukuran/70}}>
                   
                   <ButtonView 
@@ -111,6 +131,19 @@ export default class HomeAdmin extends React.Component {
                <View style={styles.keepKas}>
                      <Text style={styles.titleFooter}>@Keep<Text style={{fontWeight: 'normal'}}>Kas</Text></Text>
                </View>
+
+               <FAB 
+                  visible={this.state.notifikasi}
+                  buttonColor='#dd880f' 
+                  iconTextColor="#FFFFFF" 
+                  onClickAction={() => {this.props.navigation.navigate('NotifikasiAdmin', {uid : this.state.uid})}}
+                  iconTextComponent={
+                     <View>
+                        <Icon name="bell-ring" size={Ukuran/30} color='#ffffff'/>
+                       
+                     </View>
+                  }
+               />
             
          </View>
 
@@ -137,7 +170,7 @@ const styles = StyleSheet.create({
    },
    titleFooter:{
       color: 'white',
-      fontSize: Ukuran/30,
+      fontSize: Ukuran/40,
       fontWeight: 'bold'
    },
    rightH:{

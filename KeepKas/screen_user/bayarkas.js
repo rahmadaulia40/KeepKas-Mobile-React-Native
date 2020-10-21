@@ -38,7 +38,7 @@ export default class BayarKas extends React.Component {
          var bln = dateItem[1]
          var thn = dateItem[2]
          const { uid,photoURL,displayName } = this.props.route.params
-         var db = firebase.database().ref('kas_masuk/'+photoURL+'/')
+         var db = firebase.database().ref('proses/'+photoURL+'/')
          var ref = db.push({
             id_admin : photoURL,
             id_user : uid,

@@ -15,25 +15,26 @@ export default class KasKeluarUser extends React.Component {
    }
     fetchData = async () => {
       const { photoURL } = this.props.route.params
-      const db = firebase.database().ref()
-      const twoRef = db.child('kas_keluar/'+photoURL+'/')
-      twoRef.on('value', snap => {
-           const datai = snap.val()
-           this.setState({data : datai})
+      const db = firebase.database().ref('kas_keluar/'+photoURL+'/').orderByChild('sorting')
+      db.on('value', (snapshot)=>{
+        var li = []
+        snapshot.forEach((child)=>{
+          li.push({
+            id:child.val().id,
+            id_admin:child.val().id_admin,
+            nama:child.val().nama,
+            nominal:child.val().nominal,
+            keterangan:child.val().keterangan,
+            status:child.val().status,
+            date: child.val().date
+          })
         })
-    }
-    CekData(){
-      if (this.state.data == undefined)
-      {
-        Alert.alert('Data Kas Keluar', 'Data Kosong/Tidak ditemukan')
+        this.setState({data:li})
+      })
       }
-      else
-      {
-        return Object.values(this.state.data)
-      }
-    }
+
    render(){
-      const nilai = this.CekData()
+      const nilai = Object.values(this.state.data)
       const NullData=()=>{
         return (
           <View style={{alignItems: 'center', paddingTop: 30}}>

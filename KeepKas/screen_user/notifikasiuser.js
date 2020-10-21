@@ -1,28 +1,21 @@
 import React from 'react';
-import { StyleSheet, View,FlatList, Alert, Text} from 'react-native'
+import { StyleSheet, View,FlatList, Text} from 'react-native'
 import firebase from '../database/firebase'
-import moment from 'moment'
-import ListKasMasukUser from '../screen_node/ListKasMasukUser'
-import FAB from 'react-native-fab'
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-
-export default class Kasmasuk extends React.Component {
+import ListNotifikasiUser from '../screen_node//ListNotifikasiUser'
+export default class NotifikasiUser extends React.Component {
   constructor() {
     super()
     this.state = {
-      data: ''
+      data: []
     }
   }
   componentDidMount() {
     this.fetchData()
  }
- getDateWithMoment = () => {
-  return moment().format('DD');
-}
 
   fetchData = async () => {
-    const { photoURL } = this.props.route.params
-    const db = firebase.database().ref('kas_masuk/'+photoURL+'/').orderByChild('sorting')
+    const { id_admin, uid } = this.props.route.params
+    const db = firebase.database().ref('proses/'+id_admin+'/').orderByChild('id_user').equalTo(uid)
     db.on('value', (snapshot)=>{
       var li = []
       snapshot.forEach((child)=>{
@@ -33,15 +26,22 @@ export default class Kasmasuk extends React.Component {
           nominal:child.val().nominal,
           keterangan:child.val().keterangan,
           status:child.val().status,
-          date: child.val().date
+          date: child.val().date,
+          id_user: child.val().id_user,
+          sorting: child.val().sorting
         })
       })
       this.setState({data:li})
     })
   }
 
+  Nilai(list) {
+    this.props.navigation.navigate('DetailNotifikasiUser', {
+    data : this.setState.data = list
+    })
+  }
+
   render(){
-    const nilai = Object.values(this.state.data)
     const NullData=()=>{
       return (
         <View style={{alignItems: 'center', paddingTop: 30}}>
@@ -49,23 +49,17 @@ export default class Kasmasuk extends React.Component {
         </View>
       )
     }
+
   return (
     <View style={styles.container}>
       <View style={styles.body}>
         <FlatList
-            data={nilai}
-            renderItem={({ item }) => <ListKasMasukUser data={item} />}
-            keyExtractor={item=>item.id}
+            data={this.state.data}
+            renderItem={({ item }) => <ListNotifikasiUser Nilai={this.Nilai.bind(this)} data={item} />}
             ListEmptyComponent={NullData()}
+            
         />
       </View>
-      <FAB 
-        buttonColor='#20c720' 
-        iconTextColor="#FFFFFF" 
-        onClickAction={() => {this.props.navigation.navigate('BayarKasUser',{uid : firebase.auth().currentUser.uid, displayName: firebase.auth().currentUser.displayName, photoURL: firebase.auth().currentUser.photoURL})}}
-        visible={true} 
-        iconTextComponent={<Icon name="plus"/>} 
-      />   
     </View>
   )
 

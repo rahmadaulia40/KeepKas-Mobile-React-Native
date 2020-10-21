@@ -17,13 +17,17 @@ import BayarKasUser from './screen_user/bayarkas'
 import KasMasukUser from './screen_user/kasmasuk'
 import KasKeluarUser from './screen_user/kaskeluar'
 import Jumlahanggotauser from './screen_user/jumlahanggotauser'
+import NotifikasiUser from './screen_user/notifikasiuser'
+import DetailNotifikasiUser from './screen_user/detailnotifikasi'
 
 import ScanTambahUser from './screen_admin/scantambahuser'
 import TambahKasAdmin from './screen_admin/tambahkas'
 import DashboardAdmin from './screen_admin/dashboardadmin'
 import KasMasukAdmin from './screen_admin/kasmasukadmin'
+import NotifikasiAdmin from './screen_admin/notifikasi'
 import KasKeluarAdmin from './screen_admin/kaskeluar'
 import DetailKasMasuk from './screen_admin/detailkasmasuk'
+import DetailNotifikasi from './screen_admin/detailnotifikasi'
 import TambahKasKeluar from './screen_admin/tambahkaskeluar'
 import DetailKasKeluar from './screen_admin/detailkaskeluar'
 import Jumlahanggotaadmin from './screen_admin/jumlahanggota'
@@ -31,29 +35,12 @@ import Jumlahanggotaadmin from './screen_admin/jumlahanggota'
 const Stack = createStackNavigator();
 const statusBarHeight = Constants.statusBarHeight
 
-export default class App extends React.Component {
+export default class Route extends React.Component {
   render() {
-    var ref = firebase.auth().currentUser
-
-    const OptionLogin=()=>{
-    if (ref === null)
-        {return "Login"}
-    else
-    {
-      if (firebase.auth().currentUser.photoURL === null || firebase.auth().currentUser.photoURL === firebase.auth().currentUser.uid)
-      {
-        return "HomeAdmin"
-      }
-      else
-      {
-        return "HomeUser"
-      }
-    }
-  }
     return (
       <NavigationContainer>
         <View style = {styles.bar}/>
-        <Stack.Navigator initialRouteName={OptionLogin()} screenOptions={{ headerStyle:{backgroundColor:'#3C6AE1'}, headerTintColor: 'white', headerTitleStyle :{fontWeight: 'bold', fontSize: Ukuran/35} }}>
+        <Stack.Navigator initialRouteName={'Login'} screenOptions={{ headerStyle:{backgroundColor:'#3C6AE1'}, headerTintColor: 'white', headerTitleStyle :{fontWeight: 'bold', fontSize: Ukuran/35} }}>
           <Stack.Screen name='Login' component={Login} options={{headerShown: false}} />
           <Stack.Screen name='SignUpUser' component={SignupUser} options={{headerShown: false}} />
           <Stack.Screen name='SignUp' component={Signup} options={{headerShown: false}} />
@@ -65,11 +52,15 @@ export default class App extends React.Component {
           <Stack.Screen name='KasKeluarUser' component={KasKeluarUser} options={{ headerTitle: 'Kas Keluar'}} />
           <Stack.Screen name='BayarKasUser' component={BayarKasUser} options={{ headerTitle: 'Tambah Kas'}} />
           <Stack.Screen name='Jumlahanggotauser' component={Jumlahanggotauser} options={{ headerTitle: 'Data Angota'}} />
+          <Stack.Screen name='NotifikasiUser' component={NotifikasiUser} options={{ headerTitle: 'Notifikasi'}} />
+          <Stack.Screen name='DetailNotifikasiUser' component={DetailNotifikasiUser} options={{ headerTitle: 'Konfirmasi Kas Masuk'}} />
 
           <Stack.Screen name='HomeAdmin' component={DashboardAdmin} options={{ headerShown: false}} />
           <Stack.Screen name='KasMasukAdmin' component={KasMasukAdmin} options={{ headerTitle: 'Kas Masuk'}} />
           <Stack.Screen name='KasKeluarAdmin' component={KasKeluarAdmin} options={{ headerTitle: 'Kas Keluar'}} />
+          <Stack.Screen name='NotifikasiAdmin' component={NotifikasiAdmin} options={{ headerTitle: 'Notifikasi'}} />
           <Stack.Screen name='DetailKasMasuk' component={DetailKasMasuk} options={{ headerTitle: 'Detail Kas Masuk'}} />
+          <Stack.Screen name='DetailNotifikasi' component={DetailNotifikasi} options={{ headerTitle: 'Konfirmasi Kas Masuk'}} />
           <Stack.Screen name='DetailKasKeluar' component={DetailKasKeluar} options={{ headerTitle: 'Detail Kas Keluar'}} />
           <Stack.Screen name='TambahKasKeluar' component={TambahKasKeluar} options={{ headerTitle: 'Tambah Pengeluaran'}} />
           <Stack.Screen name='ScanTambahUser' component={ScanTambahUser} options={{ headerTitle: 'Tambah Anggota'}} />

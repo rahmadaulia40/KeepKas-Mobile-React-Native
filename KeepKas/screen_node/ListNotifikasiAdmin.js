@@ -2,28 +2,13 @@ import React from 'react'
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native'
 import {Panjang, Lebar, Ukuran} from '../screen_components/Dimentions'
 
-export default class ListKasMasukAdmin extends React.Component {
-  constructor(){
-    super()
-    this.state = {
-      warna : ''
-    }
-  }
-
+export default class ListNotifikasiAdmin extends React.Component {
    currencyFormat(num) {
      return 'Rp ' + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
    };
    render() {
 
      const data = this.props.data
-     if (data.status === 'Di Proses')
-     {
-       this.state.warna='#B90303'
-     }
-     else
-     {
-       this.state.warna='#44BAFD'
-     }
      return (
         <TouchableOpacity style={styles.box} onPress={() => this.state.action = this.props.Nilai(data)}>
         <View style={{flex: 1,justifyContent: 'center', paddingTop: 5}}>
@@ -35,7 +20,7 @@ export default class ListKasMasukAdmin extends React.Component {
           </View>
         <View style={{
           justifyContent: 'center',
-          backgroundColor: this.state.warna, 
+          backgroundColor: '#B90303', 
           width: Lebar/6,
           borderRadius: 80
           }}

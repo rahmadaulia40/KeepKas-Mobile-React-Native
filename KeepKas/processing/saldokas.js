@@ -61,7 +61,6 @@ export default class TotalKasMasuk extends React.Component {
    }
    const twoRef = db.child('total_kas_keluar/'+this.state.uid +'/')
    twoRef.on('value', onValueChange)
-   console.log('Saldo Kas : '+this.state.datamasuk+this.state.datakeluar)
  }
   render(){
   return (

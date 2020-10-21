@@ -1,12 +1,12 @@
 import React from 'react'
-import {View, StyleSheet, Alert,Text } from 'react-native'
-import {Panjang, Lebar, Ukuran} from '../screen_components/Dimentions'
+import {View, StyleSheet, Alert,Text, ScrollView} from 'react-native'
+import {Ukuran} from '../screen_components/Dimentions'
 import firebase from '../database/firebase'
 
 import ButtonInput from '../screen_components/ButtonInput'
 import Loading from '../screen_components/Loading'
 
-export default class DetailKasKeluar extends React.Component {
+export default class DetailNotifikasi extends React.Component {
    constructor() {
       super()
       this.state = {
@@ -16,6 +16,7 @@ export default class DetailKasKeluar extends React.Component {
    currencyFormat(num) {
       return 'Rp ' + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
     };
+
 
    ButtonAlertKonfirmasi = () =>
     Alert.alert(
@@ -35,10 +36,9 @@ export default class DetailKasKeluar extends React.Component {
     delete = () => {
       this.setState({isLoading: true})
       const { data } = this.props.route.params
-      firebase.database().ref('kas_keluar/'+ data.id_admin + '/' + data.id + '/').remove()
+      firebase.database().ref('proses/'+data.id_admin+ '/' + data.id + '/').remove()
       
       .then(()=>{
-         firebase.database().ref('total_kas_keluar/'+data.id_admin+ '/' + data.id + '/').remove()
          this.ButtonAlertSukses()
       })
       
@@ -54,7 +54,7 @@ export default class DetailKasKeluar extends React.Component {
       "Data Berhasil Di Hapus !",
       [
         { text: "OK", onPress: () => {
-           this.props.navigation.navigate('HomeAdmin') 
+           this.props.navigation.navigate('HomeUser') 
             this.setState({isLoading: false})
          }}
       ],
@@ -62,17 +62,25 @@ export default class DetailKasKeluar extends React.Component {
     )
 
    render() {
-      const { data } = this.props.route.params   
+      const { data } = this.props.route.params
+      if (data.status == 'Sukses')
+      {
+         this.state.color = '#98a8d2'
+      }
+      else
+      {
+         this.state.color = '#3C6AE1'
+      }
       if(this.state.isLoading){
          return(
            <Loading/>
          )
-       }  
+       }    
       return (
-         <View style={styles.container}>
+         <ScrollView style={styles.container}>
 
             <View style={{alignItems: 'center'}}>
-               <Text style={styles.titleHeader}>Detail Kas Keluar</Text>
+               <Text style={styles.titleHeader}>Konfirmasi Kas Masuk</Text>
             </View>
 
             <View style={styles.box}>
@@ -80,11 +88,13 @@ export default class DetailKasKeluar extends React.Component {
                   <Text style={styles.titleInfo}>Nama</Text>
                   <Text style={styles.titleInfo}>Nominal</Text>
                   <Text style={styles.titleInfo}>Tanggal</Text>
+                  <Text style={styles.titleInfo}>Status</Text>
                </View>
                <View>
                   <Text style={styles.titleInfo}>: {data.nama}</Text>
                   <Text style={styles.titleInfo}>: {this.currencyFormat(Number(data.nominal))}</Text>
-                  <Text style={styles.titleInfo}>: {data.waktu}</Text>
+                  <Text style={styles.titleInfo}>: {data.date}</Text>
+                  <Text style={styles.titleInfo}>: {data.status}</Text>
                </View>
             </View>
             <View style={styles.box1}>
@@ -99,7 +109,7 @@ export default class DetailKasKeluar extends React.Component {
                Color = '#B90303'
                MarginTop = {20}
             />
-         </View>
+         </ScrollView>
       )
    }
 }
@@ -113,10 +123,10 @@ const styles = StyleSheet.create({
       margin: Ukuran/40,
       fontSize: Ukuran/35,
       fontWeight: 'bold',
-      color: '#B90303'
+      color: '#3C6AE1'
    },
    box:{
-      backgroundColor: '#B90303',
+      backgroundColor: '#3C6AE1',
       alignItems: 'center',
       borderRadius: 20,
       padding: Ukuran/40,
@@ -132,7 +142,7 @@ const styles = StyleSheet.create({
       marginRight: Ukuran/60
    },
    box1 :{
-      backgroundColor: '#B90303',
+      backgroundColor: '#3C6AE1',
       justifyContent: 'center',
       borderRadius: 20,
       padding: Ukuran/40,

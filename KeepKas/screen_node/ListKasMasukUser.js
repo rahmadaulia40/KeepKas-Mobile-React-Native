@@ -72,7 +72,7 @@ export default class ListKasMasukAdmin extends React.Component {
     paddingLeft: 9,
   },
   titleStatus: {
-    fontSize: Ukuran/55,
+    fontSize: Ukuran/65,
     color: 'white',
     fontWeight: 'bold',
     textAlign: 'center',

@@ -2,6 +2,8 @@ import React from 'react'
 import {View, Text, TouchableOpacity, StyleSheet, Alert, ScrollView} from 'react-native'
 import {Panjang, Lebar, Ukuran} from '../screen_components/Dimentions'
 import firebase from '../database/firebase'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import FAB from 'react-native-fab'
 
 import ButtonView from '../screen_components/ButtonView'
 import ButtonView_2 from '../screen_components/ButtonView_2'
@@ -16,7 +18,12 @@ export default class Home extends React.Component {
    constructor() {
       super()
       this.state = {
-          isLoading : false
+          isLoading : false,
+          notifikasi : true,
+          displayName: firebase.auth().currentUser.displayName,
+          uid: firebase.auth().currentUser.uid,
+          photoURL: firebase.auth().currentUser.photoURL,
+          email : firebase.auth().currentUser.email
       }
     }
 
@@ -43,13 +50,26 @@ export default class Home extends React.Component {
       firebase.auth().signOut().then(() => {this.props.navigation.navigate('Login')})
       .catch(error => this.setState({ errorMessage: error.message }))
     }
+
+    componentDidMount(){
+      this.fetchdata()
+   }
+
+   fetchdata = async()=>{
+     var ref = firebase.database().ref('proses/'+this.state.photoURL+'/').orderByChild('id_user').equalTo(this.state.uid)
+     ref.on('value',(snap)=>{
+        var data = snap.val()
+        if(data === null){
+           this.setState({notifikasi : false})
+        }
+        else{
+           this.setState({notifikasi : true})
+        }
+     })
+   }
+
+
    render(){
-      this.state = { 
-         displayName: firebase.auth().currentUser.displayName,
-         uid: firebase.auth().currentUser.uid,
-         photoURL: firebase.auth().currentUser.photoURL,
-         email : firebase.auth().currentUser.email
-       }
    return (
       <View style={{flex:1, justifyContent: 'space-between'}}>
          <View style={styles.header}>
@@ -100,6 +120,19 @@ export default class Home extends React.Component {
                <View style={styles.keepKas}>
                      <Text style={styles.titleFooter}>@Keep<Text style={{fontWeight: 'normal'}}>Kas</Text></Text>
                </View>
+
+               <FAB 
+                  visible={this.state.notifikasi}
+                  buttonColor='#dd880f' 
+                  iconTextColor="#FFFFFF" 
+                  onClickAction={() => {this.props.navigation.navigate('NotifikasiUser', {id_admin : this.state.photoURL, uid: this.state.uid})}}
+                  iconTextComponent={
+                     <View>
+                        <Icon name="bell-ring" size={Ukuran/30} color='#ffffff'/>
+                       
+                     </View>
+                  }
+               />
          
          </View>
 
@@ -124,7 +157,7 @@ const styles = StyleSheet.create({
    },
    titleFooter:{
       color: 'white',
-      fontSize: Ukuran/30,
+      fontSize: Ukuran/40,
       fontWeight: 'bold'
    },
    rightH:{
