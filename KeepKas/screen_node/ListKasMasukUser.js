@@ -36,7 +36,7 @@ export default class ListKasMasukAdmin extends React.Component {
           justifyContent: 'center',
           backgroundColor: this.state.warna, 
           width: Lebar/6,
-          borderRadius: 80
+          borderRadius: Ukuran/50
         }}>
           <Text style={styles.titleStatus}>{data.status}</Text>
         </View>

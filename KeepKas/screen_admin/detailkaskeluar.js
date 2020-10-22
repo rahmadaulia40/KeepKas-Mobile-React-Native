@@ -1,6 +1,7 @@
 import React from 'react'
-import {View, StyleSheet, Alert,Text } from 'react-native'
-import {Panjang, Lebar, Ukuran} from '../screen_components/Dimentions'
+import {View, StyleSheet,Text } from 'react-native'
+import AwesomeAlert from 'react-native-awesome-alerts'
+import {Ukuran} from '../screen_components/Dimentions'
 import firebase from '../database/firebase'
 
 import ButtonInput from '../screen_components/ButtonInput'
@@ -10,27 +11,30 @@ export default class DetailKasKeluar extends React.Component {
    constructor() {
       super()
       this.state = {
-        isLoading: false
+        isLoading: false,
+        showAlert : false,
+        confirmAlert : false,
+        pressAlert : '',
+        titleAlert : '',
+        messageAlert : '',
       }
     }
    currencyFormat(num) {
       return 'Rp ' + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-    };
+    }
 
-   ButtonAlertKonfirmasi = () =>
-    Alert.alert(
-      "Hapus Data !",
-      "Apakah anda yakin ingin menghapus data ?",
-      [
-        {
-          text: "Batal",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-        { text: "Ya", onPress: () => {this.delete()}}
-      ],
-      { cancelable: false }
-    )
+    KonfirmasiAlert=()=>{
+      this.setState({pressAlert: this.delete()})
+   }
+
+   ButtonAlertKonfirmasi = () => {
+      this.setState({
+         showAlert : true,
+         confirmAlert : true,
+         titleAlert: "Hapus Data !",
+         messageAlert : "Apakah anda yakin ingin menghapus data ?"
+      })
+   }
 
     delete = () => {
       this.setState({isLoading: true})
@@ -39,35 +43,22 @@ export default class DetailKasKeluar extends React.Component {
       
       .then(()=>{
          firebase.database().ref('total_kas_keluar/'+data.id_admin+ '/' + data.id + '/').remove()
-         this.ButtonAlertSukses()
+         this.props.navigation.navigate('KasKeluarAdmin')
       })
       
       .catch((error) => {
-         this.setState({isLoading: false})
-         console.log(error)
-         alert(error)
+         this.setState({
+            isLoading : false,
+            showAlert : true,
+            confirmAlert : false,
+            titleAlert: 'Hapus Data Gagal !',
+            messageAlert : String(error)
+         })
       })
     }
-    ButtonAlertSukses = () =>
-    Alert.alert(
-      "Hapus Data !",
-      "Data Berhasil Di Hapus !",
-      [
-        { text: "OK", onPress: () => {
-           this.props.navigation.navigate('HomeAdmin') 
-            this.setState({isLoading: false})
-         }}
-      ],
-      { cancelable: false }
-    )
 
    render() {
       const { data } = this.props.route.params   
-      if(this.state.isLoading){
-         return(
-           <Loading/>
-         )
-       }  
       return (
          <View style={styles.container}>
 
@@ -99,6 +90,23 @@ export default class DetailKasKeluar extends React.Component {
                Color = '#B90303'
                MarginTop = {20}
             />
+
+         <AwesomeAlert
+          show={this.state.showAlert}
+          title={this.state.titleAlert}
+          message={this.state.messageAlert}
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showCancelButton={true}
+          showConfirmButton={this.state.confirmAlert}
+          cancelText='Kembali'
+          confirmText='Konfirmasi'
+          confirmButtonColor="#DD6B55"
+          onConfirmPressed={() => {this.KonfirmasiAlert()}}
+          onCancelPressed={() => {this.setState({showAlert : false})}}
+        />
+
+            <Loading Proses = {this.state.isLoading}/>
          </View>
       )
    }

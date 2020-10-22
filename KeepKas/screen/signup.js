@@ -1,8 +1,9 @@
 import React from 'react';
-import {View, Text, StyleSheet, Alert,TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet,TouchableOpacity} from 'react-native';
+import AwesomeAlert from 'react-native-awesome-alerts'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import firebase from '../database/firebase'
-import {Panjang, Lebar, Ukuran} from '../screen_components/Dimentions'
+import {Ukuran} from '../screen_components/Dimentions'
 import FromInput from '../screen_components/FromInput'
 import ButtonInput from '../screen_components/ButtonInput'
 import Loading from '../screen_components/Loading'
@@ -11,6 +12,11 @@ export default class SignUp extends React.Component {
    constructor() {
       super()
       this.state = {
+         showAlert : false,
+         confirmAlert : false,
+         pressAlert : '',
+         titleAlert : '',
+         messageAlert : '',
         displayName: '',
         email: '',
         password: '',
@@ -36,9 +42,15 @@ export default class SignUp extends React.Component {
     }
 
     registerUser = () => {
-      if(this.state.email === '' && this.state.password === '')
+      if(this.state.email === '' || this.state.password === '' || this.state.displayName === '')
       {
-         Alert.alert('Login Error !','Data Tidak Boleh Kosong')
+         this.setState({
+            isLoading: false,
+            showAlert : true,
+            confirmAlert : false,
+            titleAlert: 'Daftar Akun Gagal !',
+            messageAlert : 'Data tidak boleh kosong'
+         })
       }
       else 
       {
@@ -57,32 +69,36 @@ export default class SignUp extends React.Component {
         })
         var id = ref.key
         db.child(ref.key).update({id : id})
+        this.setState({isLoading: false,displayName: '', email: '', password: ''})
+
           this.ButtonAlertKonfirmasi()
-          this.setState({isLoading: false,displayName: '', email: '', password: ''})
+          
         })
         .catch((error) => {
-         this.setState({isLoading : false})
-         Alert.alert('Login Error !','E-mail Sudah Tersedia')
-         console.log(error)
+         this.setState({
+            showAlert : true,
+            confirmAlert : false,
+            titleAlert: 'Daftar Akun Gagal !',
+            messageAlert : String(error),
+            isLoading: false
+         })
       })
       }
     }
 
     ButtonAlertKonfirmasi = () =>
-    Alert.alert(
-      "Daftar Akun Admin",
-      "Data telah ditambah",
-      [
-        { text: "Ya", onPress: () => {this.props.navigation.navigate('Login')}}
-      ],
-      { cancelable: false }
-    )
+    {
+       this.setState({isLoading: false})
+      this.setState({
+         showAlert : true,
+         confirmAlert : false,
+         titleAlert: "Daftar Akun Admin",
+         messageAlert : "Data telah ditambah, Silahkan lakukan Login",
+         
+      })
+    }
+
     render() {
-      if(this.state.isLoading){
-         return(
-           <Loading/>
-         )
-       }
       return (
          <View style={{justifyContent: 'center', flex: 1}}>
 
@@ -127,7 +143,25 @@ export default class SignUp extends React.Component {
             <View style={{alignItems: 'center', paddingTop: 30, justifyContent: 'center', flexDirection:'row'}}>
                <Text style={{fontSize: Ukuran/55, color: '#a7a7a7'}}>Dirancang dengan penuh</Text>
                <Icon name='heart' style={{fontSize: 14, color: '#a7a7a7'}}/> 
+
+               <Loading Proses = {this.state.isLoading}/>
             </View>
+
+            <AwesomeAlert
+               show={this.state.showAlert}
+               title={this.state.titleAlert}
+               message={this.state.messageAlert}
+               closeOnTouchOutside={true}
+               closeOnHardwareBackPress={false}
+               showCancelButton={true}
+               showConfirmButton={this.state.confirmAlert}
+               cancelText='Kembali'
+               confirmText='Konfirmasi'
+               confirmButtonColor="#DD6B55"
+               onCancelPressed={() => {this.setState({showAlert : false})}}
+               
+            />
+            
 
          </View>
       )}

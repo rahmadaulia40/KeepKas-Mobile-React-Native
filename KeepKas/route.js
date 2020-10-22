@@ -40,7 +40,7 @@ export default class Route extends React.Component {
     return (
       <NavigationContainer>
         <View style = {styles.bar}/>
-        <Stack.Navigator initialRouteName={'Login'} screenOptions={{ headerStyle:{backgroundColor:'#3C6AE1'}, headerTintColor: 'white', headerTitleStyle :{fontWeight: 'bold', fontSize: Ukuran/35} }}>
+        <Stack.Navigator initialRouteName={'Login'} screenOptions={{ headerStyle:{backgroundColor:'#3C6AE1'}, headerTintColor: 'white', headerTitleStyle :{fontWeight: 'bold', fontSize: Ukuran/40} }}>
           <Stack.Screen name='Login' component={Login} options={{headerShown: false}} />
           <Stack.Screen name='SignUpUser' component={SignupUser} options={{headerShown: false}} />
           <Stack.Screen name='SignUp' component={Signup} options={{headerShown: false}} />

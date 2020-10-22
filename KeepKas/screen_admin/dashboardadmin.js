@@ -1,9 +1,10 @@
 import React from 'react'
-import {View, Text, TouchableOpacity, StyleSheet, Alert, ScrollView} from 'react-native'
+import {View, Text, TouchableOpacity, StyleSheet, ScrollView} from 'react-native'
 import {Panjang, Lebar, Ukuran} from '../screen_components/Dimentions'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import firebase from '../database/firebase'
 import FAB from 'react-native-fab'
+import AwesomeAlert from 'react-native-awesome-alerts'
 
 import ButtonView from '../screen_components/ButtonView'
 import ButtonView_2 from '../screen_components/ButtonView_2'
@@ -22,34 +23,41 @@ export default class HomeAdmin extends React.Component {
       this.state ={
          isLoading : false,
          notifikasi : true,
-         gambar: 'user',
+         showAlert : false,
+         confirmAlert : false,
+         pressAlert : '',
+         titleAlert : '',
+         messageAlert : '',
          displayName : firebase.auth().currentUser.displayName,
          email : firebase.auth().currentUser.email,
          uid : firebase.auth().currentUser.uid,
       }
    }
 
-   currencyFormat(num) {
-      return 'Rp ' + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+    ButtonAlertKonfirmasi = () =>{
+      this.setState({
+         showAlert : true,
+         confirmAlert : true,
+         titleAlert: "KeepKas",
+         messageAlert : "Apakah anda yakin ingin keluar ?"
+      })
     }
 
-    ButtonAlertKonfirmasi = () =>
-    Alert.alert(
-      "KeepKas",
-      "Apakah anda yakin ingin keluar ?",
-      [{
-          text: "Batal",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-        { text: "Ya", onPress: () => {this.signOut()}
-      }],
-      { cancelable: false })
+    KonfirmasiAlert=()=>{
+       this.setState({pressAlert: this.signOut()})
+    }
 
     signOut = () => {
       firebase.auth().signOut()
       .then(() => {this.props.navigation.navigate('Login')})
-      .catch(error => alert(error))
+      .catch((error) => {
+         this.setState({
+            showAlert : true,
+            confirmAlert : false,
+            titleAlert: 'LogOut Error !',
+            messageAlert : String(error)
+         })
+      })
     }
 
     componentDidMount(){
@@ -70,12 +78,6 @@ export default class HomeAdmin extends React.Component {
     }
 
    render(){
-      if(this.state.isLoading){
-         return(
-           <Loading/>
-         )
-       }
-
    return (
       <View style={{flex:1, justifyContent: 'space-between'}}>
          <View style={styles.header}>
@@ -122,7 +124,12 @@ export default class HomeAdmin extends React.Component {
                      MarginTop = {Ukuran/40}
                   />   
                <TouchableOpacity style={styles.button2} onPress={() => {
-                  Alert.alert('Tentang Aplikasi','KeepKas ini berguna untuk melakukan penyimpanan data kas, terutama untuk para siswa/mahasiswa yang memiliki kegiatan iuran kas kelas. Aplikasi ini masih dalam tahap prototype')
+                  this.setState({
+                     showAlert : true,
+                     confirmAlert : false,
+                     titleAlert: 'Tentang Aplikasi',
+                     messageAlert : 'KeepKas ini berguna untuk melakukan penyimpanan data kas, terutama untuk para siswa/mahasiswa yang memiliki kegiatan iuran kas kelas. Aplikasi ini masih dalam tahap prototype'
+                  })
                   }}>
                      <Text style={{color: '#7a7676', fontWeight: 'bold', fontSize: Ukuran/45}}>Tentang Aplikasi</Text>
                   </TouchableOpacity>    
@@ -140,13 +147,28 @@ export default class HomeAdmin extends React.Component {
                   iconTextComponent={
                      <View>
                         <Icon name="bell-ring" size={Ukuran/30} color='#ffffff'/>
-                       
                      </View>
                   }
                />
             
          </View>
 
+         <AwesomeAlert
+          show={this.state.showAlert}
+          title={this.state.titleAlert}
+          message={this.state.messageAlert}
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showCancelButton={true}
+          showConfirmButton={this.state.confirmAlert}
+          cancelText='Kembali'
+          confirmText='Konfirmasi'
+          confirmButtonColor="#DD6B55"
+          onConfirmPressed={() => {this.KonfirmasiAlert()}}
+          onCancelPressed={() => {this.setState({showAlert : false})}}
+        />
+
+         <Loading Proses = {this.state.isLoading}/>
          
       </View>
    )

@@ -1,13 +1,15 @@
 import React from 'react'
-import {View, Text, TouchableOpacity, StyleSheet, Alert, ScrollView} from 'react-native'
+import {View, Text, TouchableOpacity, StyleSheet, ScrollView} from 'react-native'
 import {Panjang, Lebar, Ukuran} from '../screen_components/Dimentions'
 import firebase from '../database/firebase'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import FAB from 'react-native-fab'
+import AwesomeAlert from 'react-native-awesome-alerts'
 
 import ButtonView from '../screen_components/ButtonView'
 import ButtonView_2 from '../screen_components/ButtonView_2'
 import ButtonInput from '../screen_components/ButtonInput'
+import Loading from '../screen_components/Loading'
 import SaldoKas from '../processing/saldokas'
 import KasMasuk from '../processing/totalkasmasuk'
 import KasKeluar from '../processing/totalkaskeluar'
@@ -20,6 +22,11 @@ export default class Home extends React.Component {
       this.state = {
           isLoading : false,
           notifikasi : true,
+          showAlert : false,
+          confirmAlert : false,
+          pressAlert : '',
+          titleAlert : '',
+          messageAlert : '',
           displayName: firebase.auth().currentUser.displayName,
           uid: firebase.auth().currentUser.uid,
           photoURL: firebase.auth().currentUser.photoURL,
@@ -31,24 +38,29 @@ export default class Home extends React.Component {
       return 'Rp ' + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
     }
 
-    ButtonAlertKonfirmasi = () =>
-    Alert.alert(
-      "KeepKas",
-      "Apakah anda yakin ingin keluar ?",
-      [
-        {
-          text: "Batal",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-        { text: "Ya", onPress: () => {this.signOut()}}
-      ],
-      { cancelable: false }
-    )
+    ButtonAlertKonfirmasi = () =>{
+      this.setState({
+         showAlert : true,
+         confirmAlert : true,
+         titleAlert: "KeepKas",
+         messageAlert : "Apakah anda yakin ingin keluar ?"
+      })
+    }
+
+    KonfirmasiAlert=()=>{
+      this.setState({pressAlert: this.signOut()})
+   }
 
     signOut = () => {
       firebase.auth().signOut().then(() => {this.props.navigation.navigate('Login')})
-      .catch(error => this.setState({ errorMessage: error.message }))
+      .catch((error) => {
+         this.setState({
+            showAlert : true,
+            confirmAlert : false,
+            titleAlert: 'LogOut Error !',
+            messageAlert : String(error)
+         })
+      })
     }
 
     componentDidMount(){
@@ -111,7 +123,12 @@ export default class Home extends React.Component {
                      MarginTop = {Ukuran/40}
                   />
                   <TouchableOpacity style={styles.button2} onPress={() => {
-                  Alert.alert('Tentang Aplikasi','KeepKas ini berguna untuk melakukan penyimpanan data kas, terutama untuk para siswa/mahasiswa yang memiliki kegiatan iuran kas kelas. Aplikasi ini masih dalam tahap prototype')
+                     this.setState({
+                        showAlert : true,
+                        confirmAlert : false,
+                        titleAlert: 'Tentang Aplikasi',
+                        messageAlert : 'KeepKas ini berguna untuk melakukan penyimpanan data kas, terutama untuk para siswa/mahasiswa yang memiliki kegiatan iuran kas kelas. Aplikasi ini masih dalam tahap prototype'
+                     })
                   }}>
                      <Text style={{color: '#7a7676', fontWeight: 'bold', fontSize: Ukuran/45}}>Tentang Aplikasi</Text>
                   </TouchableOpacity>    
@@ -136,6 +153,22 @@ export default class Home extends React.Component {
          
          </View>
 
+         <AwesomeAlert
+          show={this.state.showAlert}
+          title={this.state.titleAlert}
+          message={this.state.messageAlert}
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showCancelButton={true}
+          showConfirmButton={this.state.confirmAlert}
+          cancelText='Kembali'
+          confirmText='Konfirmasi'
+          confirmButtonColor="#DD6B55"
+          onConfirmPressed={() => {this.KonfirmasiAlert()}}
+          onCancelPressed={() => {this.setState({showAlert : false})}}
+        />
+
+         <Loading Proses = {this.state.isLoading}/>
          
       </View>
    )}

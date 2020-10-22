@@ -23,7 +23,7 @@ export default class ListNotifikasiUser extends React.Component {
           justifyContent: 'center',
           backgroundColor: '#B90303', 
           width: Lebar/6,
-          borderRadius: 80
+          borderRadius: Ukuran/50
           }}
         >
           <Text style={styles.titleStatus}>{data.status}</Text>
@@ -60,7 +60,7 @@ export default class ListNotifikasiUser extends React.Component {
      paddingLeft: 9,
    },
    titleStatus: {
-     fontSize: Ukuran/65,
+     fontSize: Ukuran/75,
      color: 'white',
      fontWeight: 'bold',
      textAlign: 'center',

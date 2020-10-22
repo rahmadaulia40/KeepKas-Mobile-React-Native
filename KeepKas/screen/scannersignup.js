@@ -47,7 +47,7 @@ export default class ScannerSignup extends React.Component {
   }
 }
 
-const opacity = 'rgba(0, 0, 0, 1)';
+const opacity = 'rgba(0, 0, 0, 0.7)';
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'column'

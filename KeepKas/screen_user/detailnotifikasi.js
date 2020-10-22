@@ -1,5 +1,6 @@
 import React from 'react'
-import {View, StyleSheet, Alert,Text, ScrollView} from 'react-native'
+import {View, StyleSheet,Text, ScrollView} from 'react-native'
+import AwesomeAlert from 'react-native-awesome-alerts'
 import {Ukuran} from '../screen_components/Dimentions'
 import firebase from '../database/firebase'
 
@@ -10,28 +11,30 @@ export default class DetailNotifikasi extends React.Component {
    constructor() {
       super()
       this.state = {
-        isLoading: false
+        isLoading: false,
+        showAlert : false,
+        confirmAlert : false,
+        pressAlert : '',
+        titleAlert : '',
+        messageAlert : '',
       }
     }
    currencyFormat(num) {
       return 'Rp ' + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-    };
+    }
 
+    KonfirmasiAlert=()=>{
+      this.setState({pressAlert: this.delete()})
+   }
 
-   ButtonAlertKonfirmasi = () =>
-    Alert.alert(
-      "Hapus Data !",
-      "Apakah anda yakin ingin menghapus data ?",
-      [
-        {
-          text: "Batal",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-        { text: "Ya", onPress: () => {this.delete()}}
-      ],
-      { cancelable: false }
-    )
+   ButtonAlertKonfirmasi = () =>{
+      this.setState({
+         showAlert : true,
+         confirmAlert : true,
+         titleAlert: "Hapus Data !",
+         messageAlert : "Apakah anda yakin ingin menghapus data ?"
+      })
+   }
 
     delete = () => {
       this.setState({isLoading: true})
@@ -39,27 +42,19 @@ export default class DetailNotifikasi extends React.Component {
       firebase.database().ref('proses/'+data.id_admin+ '/' + data.id + '/').remove()
       
       .then(()=>{
-         this.ButtonAlertSukses()
+         this.props.navigation.navigate('NotifikasiUser')
       })
       
       .catch((error) => {
-         this.setState({isLoading: false})
-         console.log(error)
-         alert(error)
+         this.setState({
+            isLoading : false,
+            showAlert : true,
+            confirmAlert : false,
+            titleAlert: 'Konfirmasi Data Gagal !',
+            messageAlert : String(error)
+         })
       })
     }
-    ButtonAlertSukses = () =>
-    Alert.alert(
-      "Hapus Data !",
-      "Data Berhasil Di Hapus !",
-      [
-        { text: "OK", onPress: () => {
-           this.props.navigation.navigate('HomeUser') 
-            this.setState({isLoading: false})
-         }}
-      ],
-      { cancelable: false }
-    )
 
    render() {
       const { data } = this.props.route.params
@@ -70,12 +65,7 @@ export default class DetailNotifikasi extends React.Component {
       else
       {
          this.state.color = '#3C6AE1'
-      }
-      if(this.state.isLoading){
-         return(
-           <Loading/>
-         )
-       }    
+      }   
       return (
          <ScrollView style={styles.container}>
 
@@ -109,6 +99,24 @@ export default class DetailNotifikasi extends React.Component {
                Color = '#B90303'
                MarginTop = {20}
             />
+
+         <AwesomeAlert
+          show={this.state.showAlert}
+          title={this.state.titleAlert}
+          message={this.state.messageAlert}
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showCancelButton={true}
+          showConfirmButton={this.state.confirmAlert}
+          cancelText='Kembali'
+          confirmText='Konfirmasi'
+          confirmButtonColor="#DD6B55"
+          onConfirmPressed={() => {this.KonfirmasiAlert()}}
+          onCancelPressed={() => {this.setState({showAlert : false})}}
+        />
+
+         <Loading Proses = {this.state.isLoading}/>
+
          </ScrollView>
       )
    }

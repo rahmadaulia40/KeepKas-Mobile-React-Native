@@ -1,26 +1,20 @@
 import React from 'react'
-import {StyleSheet,View,Image,ActivityIndicator, Dimensions} from 'react-native'
+import {Ukuran} from '../screen_components/Dimentions'
+import AwesomeAlert from 'react-native-awesome-alerts'
 
-const Loading = () => {
+const Loading = ({Proses}) => {
    return (
-   <View style={styles.preloader}>
-      <Image source={require('../assets/icon.png')} style={{height: Dimensions.get('window').height/8, width: Dimensions.get('window').width/4}} />
-      <ActivityIndicator size={50} color="#3C6AE1"/>
-  </View>
+      <AwesomeAlert
+          show= {Proses}
+          showProgress={true}
+          closeOnTouchOutside={false}
+          closeOnHardwareBackPress={false}
+          progressSize={Ukuran/12}
+          progressColor='blue'
+          message="Sedang Proses..."
+          confirmButtonColor="#DD6B55"
+        />
    )
 }
-
-const styles = StyleSheet.create({
-   preloader: {
-      left: 0,
-      right: 0,
-      top: 0,
-      bottom: 0,
-      position: 'absolute',
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: '#fff'
-    }
-})
 
 export default Loading

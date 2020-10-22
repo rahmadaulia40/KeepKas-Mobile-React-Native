@@ -1,5 +1,6 @@
 import React from 'react'
-import {View, Text, StyleSheet, Alert, ScrollView} from 'react-native'
+import {View, Text, StyleSheet, ScrollView} from 'react-native'
+import AwesomeAlert from 'react-native-awesome-alerts'
 import {Panjang, Lebar, Ukuran} from '../screen_components/Dimentions'
 import moment from 'moment'
 import DatePicker from 'react-native-datepicker'
@@ -12,6 +13,11 @@ export default class TambahKasKeluar extends React.Component {
    constructor() {
       super()
       this.state = {
+         showAlert : false,
+         confirmAlert : false,
+         pressAlert : '',
+         titleAlert : '',
+         messageAlert : '',
           uid: '',
           displayName: '',
           nominal : '',
@@ -28,9 +34,14 @@ export default class TambahKasKeluar extends React.Component {
     }
 
     input = () => {
-      if(this.state.jumlah === '')
+      if(this.state.nominal === '')
       {
-         Alert.alert('Login Error !','Data Tidak Boleh Kosong')
+         this.setState({
+            showAlert : true,
+            confirmAlert : false,
+            titleAlert: 'Tambah Pengeluaran !',
+            messageAlert : 'Data tidak boleh kosong'
+         })
       }
       else 
       {
@@ -55,28 +66,30 @@ export default class TambahKasKeluar extends React.Component {
             firebase.database().ref().child('total_kas_keluar/'+uid+ '/').update({[ref.key] : Number(-this.state.nominal)})
             this.ButtonAlertSukses()
          })
-         .catch((error) => {Alert.alert('Kas Keluar',String(error))})
+         .catch((error) => {
+            this.setState({
+               isLoading : false,
+               showAlert : true,
+               confirmAlert : false,
+               titleAlert: 'Input Gagal !',
+               messageAlert : String(error)
+            })
+         })
       }
     }
 
-    ButtonAlertSukses = () =>
-    Alert.alert(
-      "Tambah Pengeluaran",
-      "Data pengeluaran berhasil di input, silahkan cek Kas Keluar",
-      [
-        { text: "OK", onPress: () => { 
-           this.setState({isLoading: false,nominal: '', keterangan: ''})
-         }}
-      ],
-      { cancelable: false }
-    )
+    ButtonAlertSukses = () =>{
+      this.setState({
+         isLoading : false,
+         nominal: '',
+         keterangan: '',
+         showAlert : true,
+         confirmAlert : false,
+         titleAlert: "Tambah Pengeluaran",
+         messageAlert : "Data pengeluaran berhasil di input, silahkan cek Kas Keluar"
+      })
+    }
    render(){
-      if(this.state.isLoading){
-         return(
-           <Loading/>
-         )
-       }
-
    return (
       <View style={{flex:1, justifyContent: 'space-between'}}>
          <ScrollView style={styles.body}>
@@ -124,10 +137,26 @@ export default class TambahKasKeluar extends React.Component {
             />
 
             <ButtonInput onPress={() => this.input()} title='Tambah' Color='#B90303' Txt='Tambah'/>
-
+            <Loading Proses = {this.state.isLoading}/>
          </ScrollView>
 
-         
+         <AwesomeAlert
+          show={this.state.showAlert}
+          title={this.state.titleAlert}
+          message={this.state.messageAlert}
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showCancelButton={true}
+          showConfirmButton={this.state.confirmAlert}
+          cancelText='Kembali'
+          confirmText='Konfirmasi'
+          confirmButtonColor="#DD6B55"
+          onConfirmPressed={() => {this.KonfirmasiAlert()}}
+          onCancelPressed={() => {this.setState({showAlert : false})}}
+        />
+
+         <Loading Proses = {this.state.isLoading}/>
+
       </View>
    )}
 }

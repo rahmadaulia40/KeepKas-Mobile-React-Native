@@ -32,16 +32,13 @@ export default class App extends React.Component {
   return (
     <View style={styles.container}>
       <StatusBar style='light' backgroundColor='#3C6AE1'/>
-      <Index />
+      <Index/>
     </View>
   )}
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
-  },
-  bar: {
-    backgroundColor: 'green'
+    flex: 1,
   }
 });

@@ -1,5 +1,6 @@
-import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Alert} from 'react-native';
+import React from 'react'
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native'
+import AwesomeAlert from 'react-native-awesome-alerts'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import firebase from '../database/firebase'
 import FromInput from '../screen_components/FromInput'
@@ -11,6 +12,11 @@ export default class Login extends React.Component {
    constructor() {
       super()
       this.state = {
+         showAlert : false,
+         confirmAlert : false,
+         pressAlert : '',
+         titleAlert : '',
+         messageAlert : '',
         email: '',
         password: '',
         passwordhide : true, 
@@ -35,16 +41,20 @@ export default class Login extends React.Component {
     }
 
     userLogin = () => {
-      if(this.state.email === '' && this.state.password === '')
+      if(this.state.email === '' || this.state.password === '')
       {
-         Alert.alert('Login Gagal !','Data tidak boleh kosong')
+         this.setState({
+            showAlert : true,
+            confirmAlert : false,
+            titleAlert: 'Login Gagal !',
+            messageAlert : 'Data tidak boleh kosong'
+         })
       }
       else 
       {
          this.setState({isLoading: true})
         firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
         .then(() => {
-          console.log('User logged-in successfully!')
           this.setState({isLoading: true,email: '', password: ''})
           if (firebase.auth().currentUser.photoURL === null || firebase.auth().currentUser.photoURL === firebase.auth().currentUser.uid)
           {
@@ -58,19 +68,18 @@ export default class Login extends React.Component {
           }
         })
          .catch((error) => {
-            this.setState({isLoading : false})
-            Alert.alert('Login Gagal !',String(error))
-            console.log(error)
+            this.setState({
+               isLoading : false,
+               showAlert : true,
+               confirmAlert : false,
+               titleAlert: 'Login Gagal !',
+               messageAlert : String(error)
+            })
          })
       
       }
     }
     render() {
-      if(this.state.isLoading){
-         return(
-           <Loading/>
-         )
-       }
       return (
          <View style={{justifyContent: 'center', flex: 1}}>
             <Text style={styles.judul}>KeepKas</Text>
@@ -109,6 +118,22 @@ export default class Login extends React.Component {
                <Text style={{fontSize: Ukuran/55, color: '#a7a7a7'}}>Dirancang dengan penuh</Text>
                <Icon name='heart' style={{fontSize: 14, color: '#a7a7a7'}}/> 
             </View>
+
+            <AwesomeAlert
+          show={this.state.showAlert}
+          title={this.state.titleAlert}
+          message={this.state.messageAlert}
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showCancelButton={true}
+          showConfirmButton={this.state.confirmAlert}
+          cancelText='Kembali'
+          confirmText='Konfirmasi'
+          confirmButtonColor="#DD6B55"
+          onConfirmPressed={() => {this.KonfirmasiAlert()}}
+          onCancelPressed={() => {this.setState({showAlert : false})}}
+        />
+            <Loading Proses = {this.state.isLoading}/>
          </View>
       )}
 }

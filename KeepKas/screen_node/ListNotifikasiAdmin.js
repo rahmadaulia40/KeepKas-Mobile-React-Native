@@ -10,7 +10,7 @@ export default class ListNotifikasiAdmin extends React.Component {
 
      const data = this.props.data
      return (
-        <TouchableOpacity style={styles.box} onPress={() => this.state.action = this.props.Nilai(data)}>
+        <TouchableOpacity style={styles.box} onPress={() =>this.props.Nilai(data)}>
         <View style={{flex: 1,justifyContent: 'center', paddingTop: 5}}>
           <Text numberOfLines={1} style={styles.titleHarga}>{this.currencyFormat(Number(data.nominal))}</Text>
           <View style={{flexDirection: 'row'}}>
@@ -22,7 +22,7 @@ export default class ListNotifikasiAdmin extends React.Component {
           justifyContent: 'center',
           backgroundColor: '#B90303', 
           width: Lebar/6,
-          borderRadius: 80
+          borderRadius: Ukuran/50
           }}
         >
           <Text style={styles.titleStatus}>{data.status}</Text>
@@ -59,7 +59,7 @@ export default class ListNotifikasiAdmin extends React.Component {
      paddingLeft: 9,
    },
    titleStatus: {
-     fontSize: Ukuran/65,
+     fontSize: Ukuran/75,
      color: 'white',
      fontWeight: 'bold',
      textAlign: 'center',

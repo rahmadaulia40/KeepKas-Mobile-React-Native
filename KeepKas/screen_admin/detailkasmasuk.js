@@ -1,5 +1,6 @@
 import React from 'react'
-import {View, StyleSheet, Alert,Text, ScrollView} from 'react-native'
+import {View, StyleSheet,Text, ScrollView} from 'react-native'
+import AwesomeAlert from 'react-native-awesome-alerts'
 import {Ukuran} from '../screen_components/Dimentions'
 import firebase from '../database/firebase'
 
@@ -10,52 +11,30 @@ export default class DetailKasMasuk extends React.Component {
    constructor() {
       super()
       this.state = {
-        isLoading: false
+        isLoading: false,
+        showAlert : false,
+        confirmAlert : false,
+        pressAlert : '',
+        titleAlert : '',
+        messageAlert : '',
       }
     }
    currencyFormat(num) {
       return 'Rp ' + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
     };
 
-    konfirmasi = () => {
-      this.setState({isLoading: true})
-      const { data } = this.props.route.params
-      if (data.status == 'Sukses')
-      {
-         this.setState({isLoading: false})
-         Alert.alert('Gagal Konfirmasi Data !', 'Data telah dikonfirmasi sebelumnya')
-      }
-      else
-      {
-         firebase.database().ref('kas_masuk/'+ data.id_admin + '/'+ data.id+'/').update({status : 'Sukses'})
-         .then(()=>{
-            firebase.database().ref('total_kas_masuk/'+data.id_admin + '/').update({[data.id] : Number(data.nominal)})
-            Alert.alert('Sukses', 'Data berhasil di Konfirmasi')
-            this.setState({isLoading: false})
-            
-         })
-         .catch((error) => {
-            this.setState({isLoading: false})
-            console.log(error)
-            alert(error)
-         })
-      }
-    }
+    KonfirmasiAlert=()=>{
+      this.setState({pressAlert: this.delete()})
+   }
 
-   ButtonAlertKonfirmasi = () =>
-    Alert.alert(
-      "Hapus Data !",
-      "Apakah anda yakin ingin menghapus data ?",
-      [
-        {
-          text: "Batal",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-        { text: "Ya", onPress: () => {this.delete()}}
-      ],
-      { cancelable: false }
-    )
+   ButtonAlertKonfirmasi = () =>{
+      this.setState({
+         showAlert : true,
+         confirmAlert : true,
+         titleAlert: "Hapus Data !",
+         messageAlert : "Apakah anda yakin ingin menghapus data ?"
+      })
+   }
 
     delete = () => {
       this.setState({isLoading: true})
@@ -64,43 +43,22 @@ export default class DetailKasMasuk extends React.Component {
       
       .then(()=>{
          firebase.database().ref('kas_masuk/'+ data.id_admin + '/'+ data.id+'/').remove()
-         this.ButtonAlertSukses()
+         this.props.navigation.navigate('KasMasukAdmin')
       })
       
       .catch((error) => {
-         this.setState({isLoading: false})
-         console.log(error)
-         alert(error)
+         this.setState({
+            isLoading : false,
+            showAlert : true,
+            confirmAlert : false,
+            titleAlert: 'Hapus Data Gagal !',
+            messageAlert : String(error)
+         })
       })
     }
-    ButtonAlertSukses = () =>
-    Alert.alert(
-      "Hapus Data !",
-      "Data Berhasil Di Hapus !",
-      [
-        { text: "OK", onPress: () => {
-           this.props.navigation.navigate('HomeAdmin') 
-            this.setState({isLoading: false})
-         }}
-      ],
-      { cancelable: false }
-    )
 
    render() {
       const { data } = this.props.route.params
-      if (data.status == 'Sukses')
-      {
-         this.state.color = '#98a8d2'
-      }
-      else
-      {
-         this.state.color = '#3C6AE1'
-      }
-      if(this.state.isLoading){
-         return(
-           <Loading/>
-         )
-       }    
       return (
          <ScrollView style={styles.container}>
 
@@ -128,21 +86,32 @@ export default class DetailKasMasuk extends React.Component {
             </View>
 
             <ButtonInput
-               onPress={() => this.konfirmasi()}
-               titleButton = 'Konfirmasi'
-               Txt = 'Konfirmasi'
-               Color = {this.state.color}
-               MarginTop = {20}
-            />
-
-            <ButtonInput
                onPress={() => this.ButtonAlertKonfirmasi()}
                titleButton = 'Hapus Data'
                Txt = 'Hapus Data'
                Color = '#B90303'
                MarginTop = {20}
             />
+
+<AwesomeAlert
+          show={this.state.showAlert}
+          title={this.state.titleAlert}
+          message={this.state.messageAlert}
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showCancelButton={true}
+          showConfirmButton={this.state.confirmAlert}
+          cancelText='Kembali'
+          confirmText='Konfirmasi'
+          confirmButtonColor="#DD6B55"
+          onConfirmPressed={() => {this.KonfirmasiAlert()}}
+          onCancelPressed={() => {this.setState({showAlert : false})}}
+        />
+
+            <Loading Proses = {this.state.isLoading}/>
+            
          </ScrollView>
+         
       )
    }
 }

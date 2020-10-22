@@ -1,6 +1,7 @@
 import * as React from 'react'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import {View, Text, TouchableOpacity, StyleSheet, Alert} from 'react-native'
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native'
+import AwesomeAlert from 'react-native-awesome-alerts'
 import {Ukuran} from '../screen_components/Dimentions'
 import * as ImagePicker from 'expo-image-picker'
 import firebase from '../database/firebase'
@@ -11,9 +12,13 @@ export default class Profil extends React.Component {
    constructor(){
       super()
       this.state = {
-        warna : '',
-        gambar : 'user.png',
-        isLoading : false
+         isLoading : false,
+         showAlert : false,
+         confirmAlert : false,
+         pressAlert : '',
+         titleAlert : '',
+         messageAlert : '',
+        
       }
     }
   
@@ -31,17 +36,36 @@ export default class Profil extends React.Component {
          const { uid } = this.props.route.params;
           this.uploadeImage(result.uri, uid)
           .then(()=>{
-            this.setState({isLoading : false})
-            Alert.alert('Uploade Image','Sukses !')
+            this.alertSukses()
           })
           .catch((error)=>{
-            alert(error)
-            this.setState({isLoading : false})
+            this.alertError(error)  
+            
           })
         }
-  
        
     }
+    alertError=(error)=>{
+      this.setState({
+         jumlah: '',
+         keterangan: '',
+         showAlert : true,
+         confirmAlert : false,
+         titleAlert: "Gambar",
+         messageAlert : String(error)
+      })
+    }
+
+    alertSukses=()=>{
+      this.setState({
+         isLoading: false,
+         showAlert : true,
+         confirmAlert : false,
+         titleAlert: "Gambar",
+         messageAlert : "Gambar berhasil di uploade"
+      })
+   }
+
     uploadeImage = async (uri,ImageName) =>{
       const response = await fetch(uri)
       const blob = await response.blob()
@@ -50,13 +74,7 @@ export default class Profil extends React.Component {
     }
 
    render(){
-      if(this.state.isLoading){
-         return(
-           <Loading/>
-         )
-       }
        const { uid,displayName, email } = this.props.route.params;
-      
    return (
       <View style={{flex:1, margin: 20}}>
          <View style={styles.header}>
@@ -82,8 +100,24 @@ export default class Profil extends React.Component {
                   <Text style={styles.title2}>: {displayName}</Text>
                </View>
             </View>
+            <Loading Proses = {this.state.isLoading}/>
          </View>
+         
 
+         <AwesomeAlert
+          show={this.state.showAlert}
+          title={this.state.titleAlert}
+          message={this.state.messageAlert}
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showCancelButton={true}
+          showConfirmButton={this.state.confirmAlert}
+          cancelText='Kembali'
+          confirmText='Konfirmasi'
+          confirmButtonColor="#DD6B55"
+          onCancelPressed={() => {this.setState({showAlert : false})}}
+        />
+         
          
       </View>
    )}
